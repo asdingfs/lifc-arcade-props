@@ -25,13 +25,20 @@ h1_font_size = 32
 h2_font_size = 32
 h3_font_size = 16
 
+# colours
+arcade_background = color(11, 11, 53)
+arcade_white = color(255, 228, 250)
+arcade_red = color(229,35,53)
+arcade_cyan = color(93,235,255)
+arcade_orange = color(255,152,4)
+arcade_magenta = color(255,97,199)
 
 # pixellation parameters
 pixel_pitch = 1.05
 pixellation_size = 1 # whole numbers, img_container_size must match
 
 def reset():
-    background(0)
+    background(arcade_background)
 
 
 def fill_dimension(w, h, box_size):
@@ -97,7 +104,7 @@ def setup():
     row = 1.5
     textFont(h1_font)
     fill(255)
-    draw_text("LIFC 2025: RETRO ARCADE", row)
+    draw_text("LIFC 2025: RETRO ARCADE", row, colour=arcade_magenta)
     
     # player row
     middle_offset_x = -4
@@ -105,22 +112,22 @@ def setup():
     center_x = (64 * 2 + 32) * img_dp_size
     right_x = (64 * 3 + 32 + middle_offset_x) * img_dp_size
     row += 1.5
-    fill(color(255, 64, 64))
+    fill(arcade_red)
     rect((64 * 2 + 32) * img_dp_size, (row - 0.35) * row_size, 128, row_size, 32)
     
     textFont(h2_font)
     draw_text("TOP", row, center_x)
     row += 1
-    draw_text("1UP", row, left_x, color(100, 255, 255))
-    draw_text(str(top_score).rjust(7, '0'), row, center_x)
+    draw_text("1UP", row, left_x, arcade_cyan)
+    draw_text(str(top_score).rjust(7, '0'), row, center_x, colour=arcade_orange)
     draw_text("2UP", row, right_x, color(100, 255, 255))
     row += 1
     draw_text(str(p1_score).rjust(7, '0'), row, left_x)
     draw_text(str(p2_score).rjust(7, '0'), row, right_x)
     row += 1
-    draw_text(p1_name, row, left_x)
+    draw_text(p1_name, row, left_x, arcade_orange)
     # draw_text("@@@", row, center_x)
-    draw_text(p2_name, row, right_x)
+    draw_text(p2_name, row, right_x, arcade_orange)
 
     # final row
     row += 1.5
