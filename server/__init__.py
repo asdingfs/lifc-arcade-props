@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from . import db
 
 
@@ -26,6 +26,10 @@ def create_app(test_config=None):
 
     # setup database
     db.init_app(app)
+
+    @app.route("/")
+    def index():
+        return render_template("index.html")
 
     # a simple page that says hello
     @app.route('/hello')
