@@ -19,10 +19,12 @@ class TestObserver implements Observer {
 
 DeviceRegistry registry;
 TestObserver testObserver;
+PrintWriter output;
 
 void setup() {
   registry = new DeviceRegistry();
   testObserver = new TestObserver();
+  output = createWriter("stdout.txt");
   registry.addObserver(testObserver);
   
   if (testObserver.hasStrips) {
@@ -31,7 +33,8 @@ void setup() {
     // iterate through each available strips
     int i = 0;
     for (Strip strip: strips) {
-      println("Strip #" + i++ + ", length: " + strip.getLength());
+      output.println("Strip #" + i++ + ", length: " + strip.getLength());
+      output.flush();
     }
   }
 }
