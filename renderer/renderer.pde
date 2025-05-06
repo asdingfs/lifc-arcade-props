@@ -27,5 +27,11 @@ void setup() {
   
   if (testObserver.hasStrips) {
     registry.startPushing();
+    List<Strip> strips = registry.getStrips();
+    // iterate through each available strips
+    int i = 0;
+    for (Strip strip: strips) {
+      println("Strip #" + i++ + ", length: " + strip.getLength());
+    }
   }
 }
