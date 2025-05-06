@@ -19,22 +19,23 @@ class TestObserver implements Observer {
 
 DeviceRegistry registry;
 TestObserver testObserver;
-PrintWriter output;
 
 void setup() {
   registry = new DeviceRegistry();
   testObserver = new TestObserver();
-  output = createWriter("stdout.txt");
   registry.addObserver(testObserver);
-  
+}
+
+void draw() {
   if (testObserver.hasStrips) {
     registry.startPushing();
     List<Strip> strips = registry.getStrips();
     // iterate through each available strips
     int i = 0;
     for (Strip strip: strips) {
-      output.println("Strip #" + i++ + ", length: " + strip.getLength());
-      output.flush();
+      println("Strip #" + i++ + ", length: " + strip.getLength());
     }
+  } else {
+    println("Still waiting for strips!");
   }
 }
