@@ -4,6 +4,7 @@ import com.heroicrobot.dropbit.common.*;
 import com.heroicrobot.dropbit.registry.*;
 import com.heroicrobot.dropbit.devices.*;
 import com.heroicrobot.dropbit.devices.pixelpusher.*;
+import FrameData;
 import java.util.*;
 
 class TestObserver implements Observer {
@@ -19,11 +20,14 @@ class TestObserver implements Observer {
 
 DeviceRegistry registry;
 TestObserver testObserver;
+FrameData frameData;
 
 void setup() {
+  // registry
   registry = new DeviceRegistry();
   testObserver = new TestObserver();
   registry.addObserver(testObserver);
+  frameData = (new FrameData.Builder()).build();
 }
 
 void draw() {
@@ -31,11 +35,8 @@ void draw() {
     registry.startPushing();
     List<Strip> strips = registry.getStrips();
     // iterate through each available strips
-    int i = 0;
     for (Strip strip: strips) {
-      println("Strip #" + i++ + ", length: " + strip.getLength());
+      // draw on each strip here
     }
-  } else {
-    println("Still waiting for strips!");
   }
 }
