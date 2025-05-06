@@ -1,4 +1,4 @@
-class FrameData {   
+class FrameData {
   // VARIABLES
   private String p1Name;
   private String p1ImgSrc;
@@ -32,75 +32,23 @@ class FrameData {
   // pixellation parameters (this is only for display)
   private float pixelPitch = 1.05;
   private int pixellationSize = 1;
+
   // CONSTRUCTORS
   FrameData(
     String p1Name,
     String p1ImgSrc,
-    int p1Score, 
+    int p1Score,
     String p2Name,
     String p2ImgSrc,
     int p2Score,
     int topScore
-  ) { 
+  ) {
     this.p1Name = p1Name;
     this.p1ImgSrc = p1ImgSrc;
-    this.p1Score = p1Score;    
+    this.p1Score = p1Score;
     this.p2Name = p2Name;
     this.p2ImgSrc = p2ImgSrc;
     this.p2Score = p2Score;
     this.topScore = topScore;
-  }
-  
-  class Builder {
-    // VARIABLES
-    private String p1Name = "ABCDEFGH";
-    private String p1ImgSrc = "imgs/skaev-px.jpg";
-    private int p1Score = 1415;
-    private String p2Name = "IJKLMOPQ";
-    private String p2ImgSrc = "imgs/klyx-px.jpg";
-    private int p2Score = 625;
-    private int topScore = 0;
-
-    // physical hardware props 
-    Builder() { }
-  
-    Builder p1Name(String name) {
-      this.p1Name = name;
-      return this;
-    }
-  
-    Builder p1ImgSrc(String src) {
-      this.p1ImgSrc = src;
-      return this;
-    }
-  
-    Builder p1Score(int score) {
-      this.p1Score = score;
-      return this;
-    }
-  
-    Builder p2Name(String name) {
-      this.p2Name = name;
-      return this;
-    }
-    
-    Builder p2ImgSrc(String src) {
-      this.p2ImgSrc = src;
-      return this;
-    }
-    
-    Builder p2Score(int score) {
-      this.p2Score = score;
-      return this;
-    }  
-    
-    Builder topScore(int score) {
-      this.topScore = score;
-      return this;
-    }
-    
-    FrameData build() {
-      return new FrameData(p1Name, p1ImgSrc, p1Score, p2Name, p2ImgSrc, p2Score, topScore);
-    }
   }
 }

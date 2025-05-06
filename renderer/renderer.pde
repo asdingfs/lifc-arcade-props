@@ -4,8 +4,6 @@ import com.heroicrobot.dropbit.common.*;
 import com.heroicrobot.dropbit.registry.*;
 import com.heroicrobot.dropbit.devices.*;
 import com.heroicrobot.dropbit.devices.pixelpusher.*;
-import FrameData;
-import Animation;
 import java.util.*;
 
 class TestObserver implements Observer {
@@ -21,7 +19,7 @@ class TestObserver implements Observer {
 
 DeviceRegistry registry;
 TestObserver testObserver;
-FrameData.Builder frameDataBuilder;
+FrameDataBuilder frameDataBuilder;
 FrameData frameData;
 
 // TEST START: ANIMATION
@@ -36,8 +34,8 @@ void setup() {
   registry = new DeviceRegistry();
   testObserver = new TestObserver();
   registry.addObserver(testObserver);
-  frameDataBuilder = new FrameData.Builder();
-  frameData = frameDataBuilder.build();
+  FrameDataBuilder builder = new FrameDataBuilder();
+  frameData = builder.build();
   // TEST START: ANIMATION
   size(320, 320);
   background(255, 204, 0);
