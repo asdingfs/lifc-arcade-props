@@ -17,48 +17,42 @@ class TestObserver implements Observer {
   }
 }
 
+// load devices
 DeviceRegistry registry;
 TestObserver testObserver;
-FrameDataBuilder frameDataBuilder;
-FrameData frameData;
+// load data (defaults);
+FrameDataBuilder builder = new FrameDataBuilder();
+FrameData frameData = builder.build();
+// load fonts
+PFont h1Font;
+PFont h2Font;
+PFont h3Font;
 
-// TEST START: ANIMATION
-Animation animation1, animation2;
-float xpos;
-float ypos;
-// TEST END: ANIMATION
-
+// START: helper methods for rendering
+void resetBackground() {
+  background(frameData.arcadeBackground);
+}
+// END: of helper methods
 
 void setup() {
-  // registry
+  size(frameData.widthTotal, frameData.heightTotal);
+  resetBackground();
+  // initialize registry
   registry = new DeviceRegistry();
   testObserver = new TestObserver();
   registry.addObserver(testObserver);
-  FrameDataBuilder builder = new FrameDataBuilder();
-  frameData = builder.build();
-  // TEST START: ANIMATION
-  size(320, 320);
-  background(255, 204, 0);
-  frameRate(24);
-  animation1 = new Animation("PT_Shifty_", 38);
-  animation2 = new Animation("PT_Teddy_", 60);
-  xpos = width * 0.75;
-  ypos = height * 0.5;
-  // TEST END: ANIMATION
+  // initialize fonts
+  h1Font = createFont(frameData.fontName, frameData.h1FontSizePx);
+  h2Font = createFont(frameData.fontName, frameData.h2FontSizePx);
+  h3Font = createFont(frameData.fontName, frameData.h3FontSizePx);
+  // initialize modes
+  rectMode(CENTER);
+  imageMode(CENTER);
+  renderFrameData(frameData);
 }
 
 void draw() {
-  // TEST START: ANIMATION
-  // Display the sprite at the position xpos, ypos
-  if (mousePressed) {
-    background(153, 153, 0);
-    animation1.display(xpos-animation1.getWidth()/2, ypos);
-  } else {
-    background(255, 204, 0);
-    animation2.display(xpos-animation1.getWidth()/2, ypos);
-  }
   loadPixels();
-  // TEST END: ANIMATION
   if (testObserver.hasStrips) {
     registry.startPushing();
     List<Strip> strips = registry.getStrips();
@@ -75,4 +69,35 @@ void draw() {
       y++;
     }
   }
+}
+
+void renderStringRow(String str, int x, int y, color colour) {
+  textAlign(CENTER);
+  rectMode(CENTER);
+  fill(colour);
+  text(str, x, y);
+}
+
+void renderFrameData(FrameData dt) {
+  // load images
+  PImage p1Img = loadImage(dt.p1ImgSrc);
+  PImage p2Img = loadImage(dt.p2ImgSrc);
+  // resize & fill image to container
+  int imgSize = (int) Math.floor(dt.imgContainerSizePx * dt.imgDpSize * dt.imgScale);
+  SquareFill p1ImgDim = new SquareFill(p1Img.width, p1Img.height, imgSize);
+  SquareCrop p1ImgCrop = new SquareCrop(p1Img.width, p1Img.height, imgSize);
+  p1Img.resize(p1ImgDim.w, p1ImgDim.h);
+  p1Img = p1Img.get(p1ImgCrop.x, p1ImgCrop.y, p1ImgCrop.w, p1ImgCrop.h);
+  SquareFill p2ImgDim = new SquareFill(p2Img.width, p2Img.height, imgSize);
+  SquareCrop p2ImgCrop = new SquareCrop(p2Img.width, p2Img.height, imgSize);
+  p2Img.resize(p2ImgDim.w, p2ImgDim.h);
+  p2Img = p2Img.get(p2ImgCrop.x, p2ImgCrop.y, p2ImgCrop.w, p2ImgCrop.h);
+  // render title row
+  float row = 1.5;
+  textFont(h1Font);
+  fill(255);
+  renderStringRow(
+    "LIFC 2025: RETRO ARCADE",
+    dt.widthCenter, 60, dt.arcadeMagenta
+  );
 }
