@@ -1,5 +1,5 @@
 class FrameDataBuilder {
-  // VARIABLES
+  //VARIABLES
   private String p1Name = "ABCDEFGH";
   private String p1ImgSrc = "imgs/skaev-px.jpg";
   private int p1Score = 1415;
@@ -8,11 +8,11 @@ class FrameDataBuilder {
   private int p2Score = 625;
   private int topScore = 0;
 
-  // physical hardware props
+  //physical hardware props
   FrameDataBuilder() { }
 
   FrameDataBuilder p1Name(String name) {
-    this.p1Name = name;
+    this.p1Name = formatArcadeStr(name);
     return this;
   }
 
@@ -27,7 +27,7 @@ class FrameDataBuilder {
   }
 
   FrameDataBuilder p2Name(String name) {
-    this.p2Name = name;
+    this.p2Name = formatArcadeStr(name);
     return this;
   }
 
@@ -44,6 +44,11 @@ class FrameDataBuilder {
   FrameDataBuilder topScore(int score) {
     this.topScore = score;
     return this;
+  }
+
+  String formatArcadeStr(String name) {
+    int maxLength = 8;
+    return name.trim().toUpperCase().substring(0, Math.min(name.length(), maxLength));
   }
 
   FrameData build() {
