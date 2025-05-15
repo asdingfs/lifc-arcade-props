@@ -2,12 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LIFC 2025 - Arcade Machine Props</title>
+  <title>Entries List</title>
   <link rel="stylesheet" href="{{url_for('static', filename='dist/output.css')}}">
 </head>
 <body>
-<h1 class="text-blue-600">Hewwo!</h1>
+  <h1>Entries List</h1>
+  <a href="{{ url_for('create') }}">Create New Entry</a>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>P1 Name</th>
+        <th>P1 Score</th>
+        <th>P1 Image</th>
+        <th>P2 Name</th>
+        <th>P2 Score</th>
+        <th>P2 Image</th>
+        <th>Code</th>
+        <th>Feedback</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in entries %}
+      <tr>
+        <td>{{ entry.id }}</td>
+        <td>{{ entry.p1_name }}</td>
+        <td>{{ entry.p1_score }}</td>
+        <td>{% if entry.p1ImgSrc %}<img src="{{ url_for('static', filename=entry.p1ImgSrc) }}" width="64">{% endif %}</td>
+        <td>{{ entry.p2_name }}</td>
+        <td>{{ entry.p2_score }}</td>
+        <td>{% if entry.p2ImgSrc %}<img src="{{ url_for('static', filename=entry.p2ImgSrc) }}" width="64">{% endif %}</td>
+        <td>{{ entry.code }}</td>
+        <td>{{ entry.feedback }}</td>
+        <td>{{ entry.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </body>
-</html>
+</html> 
