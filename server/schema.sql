@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS media;
 
 CREATE TABLE media
 (
-    id         SERIAL PRIMARY KEY,
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
     url        VARCHAR(255) NOT NULL,
     -- timestamps
     created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -14,14 +14,14 @@ CREATE TABLE media
 CREATE TABLE display
 (
     -- id database
-    id          SERIAL PRIMARY KEY,
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
     -- player 1
     p1_name     VARCHAR(10),
-    p1_media_id SERIAL      REFERENCES media (id) ON DELETE SET NULL,
+    p1_media_id INTEGER      REFERENCES media (id) ON DELETE SET NULL,
     p1_score    INT,
     -- player 2
     p2_name     VARCHAR(10),
-    p2_media_id SERIAL      REFERENCES media (id) ON DELETE SET NULL,
+    p2_media_id INTEGER      REFERENCES media (id) ON DELETE SET NULL,
     p2_score    INT,
     -- feedback
     code        VARCHAR(36) NOT NULL UNIQUE,
@@ -48,3 +48,5 @@ CREATE TRIGGER touch_display_updated_at
 BEGIN
     UPDATE media SET updated_at=CURRENT_TIMESTAMP WHERE id = OLD.id;
 END;
+
+CREATE UNIQUE INDEX display_code_key ON display(code);
