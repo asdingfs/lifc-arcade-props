@@ -1,3 +1,8 @@
+<button hx-get="{{ url_for('displays.new') }}"
+        hx-target="#app"
+        hx-swap="innerHTML">
+  Create New Display
+</button>
 <table>
   <thead>
   <tr>
@@ -23,7 +28,6 @@
               src="{{ url_for('static', filename=entry.p1ImgSrc) }}"
               width="64"
               alt="player 1 image">
-          >
         {% endif %}
       </td>
       <td>{{ entry.p2_name }}</td>
