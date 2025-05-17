@@ -25,7 +25,7 @@
       <td>
         {% if entry.p1_img_src %}
           <img
-              src="{{ url_for('static', filename=entry.p1_img_src) }}"
+              src="{{ entry.p1_img_src }}"
               width="64"
               alt="player 1 image">
         {% endif %}
@@ -35,7 +35,7 @@
       <td>
         {% if entry.p2_img_src %}
           <img
-              src="{{ url_for('static', filename=entry.p2_img_src) }}"
+              src="{{ entry.p2_img_src }}"
               width="64"
               alt="player 2 image">
         {% endif %}
