@@ -23,9 +23,9 @@
       <td>{{ entry.p1_name }}</td>
       <td>{{ entry.p1_score }}</td>
       <td>
-        {% if entry.p1ImgSrc %}
+        {% if entry.p1_img_src %}
           <img
-              src="{{ url_for('static', filename=entry.p1ImgSrc) }}"
+              src="{{ url_for('static', filename=entry.p1_img_src) }}"
               width="64"
               alt="player 1 image">
         {% endif %}
@@ -33,14 +33,16 @@
       <td>{{ entry.p2_name }}</td>
       <td>{{ entry.p2_score }}</td>
       <td>
-        {% if entry.p2ImgSrc %}
+        {% if entry.p2_img_src %}
           <img
-              src="{{ url_for('static', filename=entry.p2ImgSrc) }}"
+              src="{{ url_for('static', filename=entry.p2_img_src) }}"
               width="64"
               alt="player 2 image">
         {% endif %}
       </td>
       <td>{{ entry.created_at }}</td>
+      <td>Edit</td>
+      <td>Delete</td>
     </tr>
   {% endfor %}
   </tbody>

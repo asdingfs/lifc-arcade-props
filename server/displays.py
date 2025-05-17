@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, abort,
   flash, current_app
 from server.db import get_db
 from server.utils import allowed_file
+from server.models.display import Display
 from uuid import uuid4
 from werkzeug.utils import secure_filename
 import os
@@ -13,22 +14,9 @@ app = current_app
 
 @bp.route("/", methods=["GET"])
 def index():
-  db = get_db()
-  cursor = db.cursor()
-  cursor.execute(
-      '''
-                  SELECT d.*, m1.url as p1ImgSrc, m2.url as p2ImgSrc 
-                  FROM display d
-                  LEFT JOIN media m1 ON d.p1_media_id = m1.id
-                  LEFT JOIN media m2 ON d.p2_media_id = m2.id
-                  ORDER BY d.created_at DESC
-              '''
-  )
-  entries = cursor.fetchall()
-  db.close()
   return render_template(
       "partials/displays/_index.html.j2",
-      entries=entries
+      entries=find_all(),
   )
 
 
@@ -77,4 +65,26 @@ def create():
 
 @bp.route("/create", methods=["GET"])
 def new():
-  return render_template("partials/displays/_create.html.j2")
+  return render_template("partials/displays/_new.html.j2")
+
+
+def find_all():
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+          SELECT d.*,
+            m1.url as p1_img_src,
+            m2.url as p2_img_src,
+            MAX(d.p1_score, d.p2_score) as top_score
+          FROM display d
+          LEFT JOIN media m1 ON d.p1_media_id = m1.id
+          LEFT JOIN media m2 ON d.p2_media_id = m2.id
+          ORDER BY d.created_at DESC
+      '''
+  )
+  entries = cursor.fetchall()
+  db.close()
+  return [Display.from_row(row) for row in entries]
+
+
