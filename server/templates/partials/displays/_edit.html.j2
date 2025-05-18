@@ -1,4 +1,5 @@
-<form hx-put="{{ url_for('displays.update', pkey=display.pkey) }}" hx-encoding="multipart/form-data">
+<form hx-put="{{ url_for('displays.update', pkey=display.pkey) }}"
+      hx-encoding="multipart/form-data">
   <label>Player 1 Name:
     <input type="text" name="p1_name" value="{{ display.p1_name }}" required>
   </label><br>
@@ -15,13 +16,18 @@
         hx-vals='{"inputFile": "p1_file", "outputName": "p1_media_id"}'
     >
   </label><br>
-  <div
-      id="p1_media_id"
-      hx-get="{{ url_for('media.get', media_id=display.p1_media_id) }}"
-      hx-target="#p1_media_id"
-      hx-swap="innerHTML"
-      hx-vals='{"outputName": "p1_media_id"}'
-  >
+  <div id="p1_media_id">
+    <div
+        type="hidden"
+        hx-get='{{ url_for(
+            "media.show",
+            pkey=display.p1_media_id,
+            outputName="p1_media_id"
+        ) }}'
+        hx-trigger="load"
+        hx-target="#p1_media_id"
+        hx-swap="innerHTML"
+    ></div>
   </div>
   <label>Player 2 Name:
     <input type="text" name="p2_name" value="{{ display.p2_name }}" required>
@@ -35,14 +41,21 @@
         hx-post="/media/upload"
         hx-trigger="change"
         hx-swap="#p2_media_id"
-        hx-vals='{"inputName": "p2_file", "outputId": "p2_media_id","outputName": "p2_media_id"}'
+        hx-vals='{"inputName": "p2_file", "outputName": "p2_media_id"}'
     >
-    <input
-        type="hidden"
-        id="p2_media_id"
-        name="p2_media_id"
-        value="{{ display.p2_media_id }}">
   </label><br>
+  <div id="p2_media_id">
+    <div
+        hx-get='{{ url_for(
+            "media.show",
+            pkey=display.p2_media_id,
+            outputName="p2_media_id"
+        ) }}'
+        hx-trigger="load"
+        hx-target="#p2_media_id"
+        hx-swap="innerHTML"
+    ></div>
+  </div>
   <input
       type="hidden"
       name="code"

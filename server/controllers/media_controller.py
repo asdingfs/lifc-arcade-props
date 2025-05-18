@@ -23,7 +23,7 @@ def show(pkey):
   record = validate_pkey(pkey)
   return render_template(
       "partials/media/_input_preview.html.j2",
-      name=request.form.get("outputName"),
+      name=request.args.get("outputName"),
       record=record,
   )
 
