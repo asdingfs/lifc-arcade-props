@@ -2,7 +2,7 @@ from flask import Request
 from server.utils import random_uuid
 
 
-class DisplayRow:
+class DisplayRecord:
   def __init__(
       self,
       p1_name: str, p1_media_id: int | None, p1_score: int,

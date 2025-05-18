@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort, \
   flash, current_app
-from server.data.display_row import DisplayRow
+from server.data.display_record import DisplayRecord
 from server.services import display_service
 from server.utils import random_uuid
 
@@ -23,7 +23,7 @@ def new():
 
 @bp.route("/", methods=["POST"])
 def create():
-  display_service.create_one(DisplayRow.from_request(request, random_uuid()))
+  display_service.create_one(DisplayRecord.from_request(request, random_uuid()))
   flash("Entry created successfully!", "success")
   return redirect(url_for("displays.index"), 303)
 
@@ -40,7 +40,7 @@ def edit(pkey):
 @bp.route("/<int:pkey>", methods=["PUT"])
 def update(pkey):
   validate_pkey(pkey)
-  display_service.update_one(pkey, DisplayRow.from_request(request))
+  display_service.update_one(pkey, DisplayRecord.from_request(request))
   flash("Entry updated successfully!", "success")
   return redirect(url_for("displays.index"), 303)
 

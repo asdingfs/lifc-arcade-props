@@ -23,8 +23,10 @@ class DisplayView:
 
   def __repr__(self):
     return (f"<Display {self.pkey} (code: {self.code}): "
-            f"{self.p1_name} (score: {self.p1_score}) vs "
-            f"{self.p2_name} (score: {self.p2_score})"
+            f"{self.p1_name} (score: {self.p1_score}, "
+            f"img_src: {self.p1_img_src}, media_id: {self.p1_media_id}) vs "
+            f"{self.p2_name} (score: {self.p2_score}"
+            f"img_src: {self.p2_img_src}, media_id: {self.p2_media_id})"
             f", top score: {self.top_score} "
             f">")
 
