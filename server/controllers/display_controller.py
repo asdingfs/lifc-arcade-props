@@ -22,7 +22,7 @@ def show(pkey):
   display = display_service.find_one(pkey)
   if pixel_service.push(display):
     flash("Display pushed successfully!", "success")
-    return make_response(None, 204)
+    return make_response("", 204)
   else:
     abort(
         500,
