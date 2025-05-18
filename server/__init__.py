@@ -1,7 +1,8 @@
 import os
 from flask import Flask, render_template
 from . import db, constants
-from server.controllers import display_controller, media_controller
+from server.controllers import display_controller, media_controller, \
+  score_controller
 from server.constants import DATABASE_NAME, UPLOAD_FOLDER
 
 
@@ -45,5 +46,6 @@ def create_app(test_config=None):
   # register blueprints
   app.register_blueprint(display_controller.bp)
   app.register_blueprint(media_controller.bp)
+  app.register_blueprint(score_controller.bp)
 
   return app

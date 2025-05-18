@@ -44,6 +44,7 @@ def update(pkey):
   flash("Entry updated successfully!", "success")
   return redirect(url_for("displays.index"), 303)
 
+
 @bp.route("/<int:pkey>", methods=["DELETE"])
 def delete(pkey):
   validate_pkey(pkey)

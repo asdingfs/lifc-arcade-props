@@ -107,3 +107,27 @@ def delete_one(pkey):
   )
   db.commit()
   return None
+
+def top_score():
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+        SELECT MAX(p1_score, p2_score) as top_score
+        FROM display;
+      '''
+  )
+  record = cursor.fetchone()
+  return None if record is None else record["top_score"]
+
+def reset_scores():
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+        UPDATE display
+        SET p1_score = 0, p2_score = 0;
+      '''
+  )
+  db.commit()
+  return None

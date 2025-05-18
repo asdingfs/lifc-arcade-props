@@ -3,6 +3,21 @@
         hx-swap="innerHTML">
   Create New Display
 </button>
+<div>
+  <div>Top Score: </div>
+  <div id="top_score"
+        hx-get="{{ url_for('scores.top') }}"
+        hx-trigger="load"
+        hx-target="#top_score"
+        hx-swap="innerHTML">
+  </div>
+  <button
+      hx-delete="{{ url_for('scores.reset') }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
+    Reset
+  </button>
+</div>
 <table>
   <thead>
   <tr>
