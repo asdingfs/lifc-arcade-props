@@ -1,4 +1,4 @@
-<form hx-patch="/displays/{{ pkey }}" hx-encoding="multipart/form-data">
+<form hx-put="{{ url_for('displays.update', pkey=display.pkey) }}" hx-encoding="multipart/form-data">
   <label>Player 1 Name:
     <input type="text" name="p1_name" value="{{ display.p1_name }}" required>
   </label><br>
@@ -39,6 +39,10 @@
         name="p2_media_id"
         value="{{ display.p2_media_id }}">
   </label><br>
+  <input
+      type="hidden"
+      name="code"
+      value="{{ display.code }}">
   <label>Feedback:
     <textarea name="feedback">
       {{ display.feedback }}

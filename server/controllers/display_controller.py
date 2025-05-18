@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, abort,
   flash, current_app
 from server.data.display_row import DisplayRow
 from server.services import display
+from server.utils import random_uuid
 
 bp = Blueprint("displays", __name__, url_prefix="/displays")
 app = current_app
@@ -22,20 +23,26 @@ def new():
 
 @bp.route("/", methods=["POST"])
 def create():
-  p1_media_id = request.form.get("p1_media_id", type=int)
-  p2_media_id = request.form.get("p2_media_id", type=int)
-  display_row = DisplayRow.from_request(request, p1_media_id, p2_media_id)
-  display.create_one(display_row)
+  display.create_one(DisplayRow.from_request(request, random_uuid()))
   flash("Entry created successfully!", "success")
-  return redirect(url_for("displays.index"))
+  return redirect(url_for("displays.index"), 303)
 
 
 @bp.route("/edit/<int:pkey>", methods=["GET"])
 def edit(pkey):
+  validate_pkey(pkey)
   return render_template(
       "partials/displays/_edit.html.j2",
       display=display.find_one(pkey)
   )
+
+
+@bp.route("/<int:pkey>", methods=["PUT"])
+def update(pkey):
+  validate_pkey(pkey)
+  display.update_one(pkey, DisplayRow.from_request(request))
+  flash("Entry updated successfully!", "success")
+  return redirect(url_for("displays.index"), 303)
 
 
 def validate_pkey(pkey):

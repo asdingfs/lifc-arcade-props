@@ -68,3 +68,30 @@ def create_one(display):
   db.commit()
 
   return created_id
+
+
+def update_one(pkey, display):
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+        UPDATE display
+        SET p1_name = ?, p1_media_id = ?, p1_score = ?,
+            p2_name = ?, p2_media_id = ?, p2_score = ?,
+            code = ?, feedback = ?
+        WHERE id = ?;
+      ''',
+      (
+        display.p1_name,
+        display.p1_media_id,
+        display.p1_score,
+        display.p2_name,
+        display.p2_media_id,
+        display.p2_score,
+        display.code,
+        display.feedback,
+        pkey,
+      )
+  )
+  db.commit()
+  return

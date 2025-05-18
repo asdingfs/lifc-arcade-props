@@ -1,5 +1,6 @@
 from flask import current_app, url_for
 from server.constants import ALLOWED_EXTENSIONS
+from uuid import uuid4
 import os
 
 
@@ -24,3 +25,7 @@ def uploaded_file_path(filename):
       'static',
       filename=os.path.join(relative_folder, filename)
   )
+
+
+def random_uuid():
+  return str(uuid4())
