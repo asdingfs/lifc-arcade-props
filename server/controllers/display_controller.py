@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort, \
-  flash, current_app
+  flash, current_app, make_response
 from server.data.display_record import DisplayRecord
-from server.services import display_service
+from server.services import display_service, pixel_service
 from server.utils import random_uuid
 
 bp = Blueprint("displays", __name__, url_prefix="/displays")
@@ -14,6 +14,20 @@ def index():
       "partials/displays/_index.html.j2",
       records=display_service.find_all(),
   )
+
+
+@bp.route("/<int:pkey>", methods=["GET"])
+def show(pkey):
+  validate_pkey(pkey)
+  display = display_service.find_one(pkey)
+  if pixel_service.push(display):
+    flash("Display pushed successfully!", "success")
+    return make_response(None, 204)
+  else:
+    abort(
+        500,
+        "Pushing pixels failed! Please check logs for more information."
+    )
 
 
 @bp.route("/create", methods=["GET"])

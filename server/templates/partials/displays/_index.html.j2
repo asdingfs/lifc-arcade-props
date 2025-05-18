@@ -4,12 +4,12 @@
   Create New Display
 </button>
 <div>
-  <div>Top Score: </div>
+  <div>Top Score:</div>
   <div id="top_score"
-        hx-get="{{ url_for('scores.top') }}"
-        hx-trigger="load"
-        hx-target="#top_score"
-        hx-swap="innerHTML">
+       hx-get="{{ url_for('scores.top') }}"
+       hx-trigger="load"
+       hx-target="#top_score"
+       hx-swap="innerHTML">
   </div>
   <button
       hx-delete="{{ url_for('scores.reset') }}"
@@ -61,6 +61,9 @@
           hx-target="#app"
           hx-swap="innerHTML">
         Edit
+      </td>
+      <td hx-get="{{ url_for('displays.show', pkey=record.pkey) }}">
+        Show
       </td>
       <td
           hx-delete="{{ url_for('displays.delete', pkey=record.pkey) }}"

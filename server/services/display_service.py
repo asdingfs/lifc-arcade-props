@@ -108,6 +108,7 @@ def delete_one(pkey):
   db.commit()
   return None
 
+
 def top_score():
   db = get_db()
   cursor = db.cursor()
@@ -119,6 +120,7 @@ def top_score():
   )
   record = cursor.fetchone()
   return None if record is None else record["top_score"]
+
 
 def reset_scores():
   db = get_db()
