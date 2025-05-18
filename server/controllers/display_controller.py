@@ -30,6 +30,14 @@ def create():
   return redirect(url_for("displays.index"))
 
 
+@bp.route("/edit/<int:pkey>", methods=["GET"])
+def edit(pkey):
+  return render_template(
+      "partials/displays/_edit.html.j2",
+      display=display.find_one(pkey)
+  )
+
+
 def validate_pkey(pkey):
   display_view = display.find_one(pkey)
   if display_view:

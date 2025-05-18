@@ -41,7 +41,12 @@
         {% endif %}
       </td>
       <td>{{ entry.created_at }}</td>
-      <td>Edit</td>
+      <td
+          hx-get="{{ url_for('displays.edit', pkey=entry.pkey) }}"
+          hx-target="#app"
+          hx-swap="innerHTML">
+        Edit
+      </td>
       <td>Delete</td>
     </tr>
   {% endfor %}

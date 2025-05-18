@@ -1,0 +1,55 @@
+<form hx-patch="/displays/{{ pkey }}" hx-encoding="multipart/form-data">
+  <label>Player 1 Name:
+    <input type="text" name="p1_name" value="{{ display.p1_name }}" required>
+  </label><br>
+  <label>Player 1 Score:
+    <input type="number" name="p1_score" value="{{ display.p1_score }}">
+  </label><br>
+  <label>Player 1 Image:
+    <input
+        type="file" name="p1_file" accept="image/*"
+        hx-post="/media/upload"
+        hx-trigger="change"
+        hx-swap="#p1_media_id"
+        hx-vals='{"inputName": "p1_file", "outputId": "p1_media_id","outputName": "p1_media_id"}'
+    >
+    <input
+        type="hidden"
+        id="p1_media_id"
+        name="p1_media_id"
+        value="{{ display.p1_media_id }}">
+  </label><br>
+  <label>Player 2 Name:
+    <input type="text" name="p2_name" value="{{ display.p2_name }}" required>
+  </label><br>
+  <label>Player 2 Score:
+    <input type="number" name="p2_score" value="{{ display.p2_score }}">
+  </label><br>
+  <label>Player 2 Image:
+    <input
+        type="file" name="p2_file" accept="image/*"
+        hx-post="/media/upload"
+        hx-trigger="change"
+        hx-swap="#p2_media_id"
+        hx-vals='{"inputName": "p2_file", "outputId": "p2_media_id","outputName": "p2_media_id"}'
+    >
+    <input
+        type="hidden"
+        id="p2_media_id"
+        name="p2_media_id"
+        value="{{ display.p2_media_id }}">
+  </label><br>
+  <label>Feedback:
+    <textarea name="feedback">
+      {{ display.feedback }}
+    </textarea>
+  </label><br>
+  <button type="submit">Update</button>
+  <button
+      hx-get="{{ url_for('displays.index') }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
+    Back to List
+  </button>
+</form>
+
