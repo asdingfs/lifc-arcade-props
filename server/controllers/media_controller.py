@@ -1,6 +1,6 @@
 from flask import Blueprint, request, current_app, render_template, flash, abort
 from server.controllers import helper
-from server.services import media
+from server.services import media_service
 
 bp = Blueprint("media", __name__, url_prefix="/media")
 app = current_app
@@ -10,7 +10,7 @@ app = current_app
 def create():
   input_file = request.form.get("inputFile")
   valid_file = helper.validate_file(request.files.get(input_file))
-  record = media.create_one(valid_file)
+  record = media_service.create_one(valid_file)
   return render_template(
       "partials/media/_input_preview.html.j2",
       name=request.form.get("outputName"),
@@ -29,7 +29,7 @@ def show(pkey):
 
 
 def validate_pkey(pkey):
-  record = media.find_one(pkey)
+  record = media_service.find_one(pkey)
   if record:
     return record
   else:

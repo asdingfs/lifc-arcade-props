@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort, \
   flash, current_app
 from server.data.display_row import DisplayRow
-from server.services import display
+from server.services import display_service
 from server.utils import random_uuid
 
 bp = Blueprint("displays", __name__, url_prefix="/displays")
@@ -12,7 +12,7 @@ app = current_app
 def index():
   return render_template(
       "partials/displays/_index.html.j2",
-      records=display.find_all(),
+      records=display_service.find_all(),
   )
 
 
@@ -23,7 +23,7 @@ def new():
 
 @bp.route("/", methods=["POST"])
 def create():
-  display.create_one(DisplayRow.from_request(request, random_uuid()))
+  display_service.create_one(DisplayRow.from_request(request, random_uuid()))
   flash("Entry created successfully!", "success")
   return redirect(url_for("displays.index"), 303)
 
@@ -33,20 +33,20 @@ def edit(pkey):
   validate_pkey(pkey)
   return render_template(
       "partials/displays/_edit.html.j2",
-      display=display.find_one(pkey)
+      display=display_service.find_one(pkey)
   )
 
 
 @bp.route("/<int:pkey>", methods=["PUT"])
 def update(pkey):
   validate_pkey(pkey)
-  display.update_one(pkey, DisplayRow.from_request(request))
+  display_service.update_one(pkey, DisplayRow.from_request(request))
   flash("Entry updated successfully!", "success")
   return redirect(url_for("displays.index"), 303)
 
 
 def validate_pkey(pkey):
-  display_view = display.find_one(pkey)
+  display_view = display_service.find_one(pkey)
   if display_view:
     return display_view
   else:
