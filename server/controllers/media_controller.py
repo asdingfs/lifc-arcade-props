@@ -1,4 +1,4 @@
-from flask import Blueprint, request, current_app, render_template
+from flask import Blueprint, request, current_app, render_template, flash, abort
 from server.controllers import helper
 from server.services import media
 
@@ -6,17 +6,32 @@ bp = Blueprint("media", __name__, url_prefix="/media")
 app = current_app
 
 
-# returns ID only
 @bp.route("/upload", methods=["POST"])
 def create():
-  input_name = request.form.get("inputName")
-  output_id = request.form.get("outputId")
-  output_name = request.form.get("outputName")
-  valid_file = helper.validate_file(request.files.get(input_name))
-  created_id = media.create_one(valid_file)
+  input_file = request.form.get("inputFile")
+  valid_file = helper.validate_file(request.files.get(input_file))
+  record = media.create_one(valid_file)
   return render_template(
-      "partials/media/_id_input.html.j2",
-      id=output_id,
-      name=output_name,
-      value=created_id,
+      "partials/media/_input_preview.html.j2",
+      name=request.form.get("outputName"),
+      record=record,
   )
+
+
+@bp.route("/<int:pkey>", methods=["GET"])
+def show(pkey):
+  record = validate_pkey(pkey)
+  return render_template(
+      "partials/media/_input_preview.html.j2",
+      name=request.form.get("outputName"),
+      record=record,
+  )
+
+
+def validate_pkey(pkey):
+  record = media.find_one(pkey)
+  if record:
+    return record
+  else:
+    flash("Display not found", "error")
+    abort(404)

@@ -1,0 +1,12 @@
+{% if record.id is not none %}
+  <input
+      type="hidden"
+      name="{{ name }}"
+      value="{{ record.id }}">
+  {% if record.img_src is not none %}
+    <img
+        src="{{ record.img_src }}"
+        width="64"
+        alt="image preview">
+  {% endif %}
+{% endif %}

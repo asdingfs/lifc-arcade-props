@@ -12,7 +12,7 @@ app = current_app
 def index():
   return render_template(
       "partials/displays/_index.html.j2",
-      entries=display.find_all(),
+      records=display.find_all(),
   )
 
 

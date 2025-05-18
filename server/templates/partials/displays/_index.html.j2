@@ -17,32 +17,32 @@
   </tr>
   </thead>
   <tbody>
-  {% for entry in entries %}
+  {% for record in records %}
     <tr>
-      <td>{{ entry.id }}</td>
-      <td>{{ entry.p1_name }}</td>
-      <td>{{ entry.p1_score }}</td>
+      <td>{{ record.id }}</td>
+      <td>{{ record.p1_name }}</td>
+      <td>{{ record.p1_score }}</td>
       <td>
-        {% if entry.p1_img_src %}
+        {% if record.p1_img_src %}
           <img
-              src="{{ entry.p1_img_src }}"
+              src="{{ record.p1_img_src }}"
               width="64"
               alt="player 1 image">
         {% endif %}
       </td>
-      <td>{{ entry.p2_name }}</td>
-      <td>{{ entry.p2_score }}</td>
+      <td>{{ record.p2_name }}</td>
+      <td>{{ record.p2_score }}</td>
       <td>
-        {% if entry.p2_img_src %}
+        {% if record.p2_img_src %}
           <img
-              src="{{ entry.p2_img_src }}"
+              src="{{ record.p2_img_src }}"
               width="64"
               alt="player 2 image">
         {% endif %}
       </td>
-      <td>{{ entry.created_at }}</td>
+      <td>{{ record.created_at }}</td>
       <td
-          hx-get="{{ url_for('displays.edit', pkey=entry.pkey) }}"
+          hx-get="{{ url_for('displays.edit', pkey=record.pkey) }}"
           hx-target="#app"
           hx-swap="innerHTML">
         Edit

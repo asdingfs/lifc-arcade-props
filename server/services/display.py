@@ -14,12 +14,12 @@ def find_all():
           FROM display d
           LEFT JOIN media m1 ON d.p1_media_id = m1.id
           LEFT JOIN media m2 ON d.p2_media_id = m2.id
-          ORDER BY d.created_at DESC
+          ORDER BY d.created_at DESC;
       '''
   )
-  entries = cursor.fetchall()
+  records = cursor.fetchall()
 
-  return [DisplayView.from_row(row) for row in entries]
+  return [DisplayView.from_row(row) for row in records]
 
 
 def find_one(pkey):
@@ -34,12 +34,12 @@ def find_one(pkey):
         FROM display d
         LEFT JOIN media m1 ON d.p1_media_id = m1.id
         LEFT JOIN media m2 ON d.p2_media_id = m2.id
-        WHERE d.id = ?
+        WHERE d.id = ?;
       ''', (pkey,)
   )
-  entry = cursor.fetchone()
+  record = cursor.fetchone()
 
-  return None if entry is None else DisplayView.from_row(entry)
+  return None if record is None else DisplayView.from_row(record)
 
 
 def create_one(display):
@@ -51,7 +51,7 @@ def create_one(display):
           p1_name, p1_media_id, p1_score,
           p2_name, p2_media_id, p2_score,
           code, feedback
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
       ''',
       (
         display.p1_name,
@@ -66,8 +66,7 @@ def create_one(display):
   )
   created_id = cursor.lastrowid
   db.commit()
-
-  return created_id
+  return None if created_id is None else find_one(created_id)
 
 
 def update_one(pkey, display):
@@ -94,4 +93,6 @@ def update_one(pkey, display):
       )
   )
   db.commit()
-  return
+  return find_one(pkey)
+
+

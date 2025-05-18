@@ -6,15 +6,14 @@
         type="file" name="p1_file" accept="image/*"
         hx-post="/media/upload"
         hx-trigger="change"
-        hx-swap="#p1_media_id"
-        hx-vals='{"inputName": "p1_file", "outputId": "p1_media_id","outputName": "p1_media_id"}'
+        hx-target="#p1_media_id"
+        hx-swap="innerHTML"
+        hx-vals='{"inputFile": "p1_file","outputName": "p1_media_id"}'
     >
-    <input
-        type="hidden"
-        id="p1_media_id"
-        name="p1_media_id"
-        value="">
   </label><br>
+  <div id="p1_media_id">
+    <input type="hidden" name="p1_media_id" value="">
+  </div>
   <label>Player 2 Name: <input type="text" name="p2_name" required></label><br>
   <label>Player 2 Score: <input type="number" name="p2_score"></label><br>
   <label>Player 2 Image:
@@ -22,15 +21,14 @@
         type="file" name="p2_file" accept="image/*"
         hx-post="/media/upload"
         hx-trigger="change"
-        hx-swap="#p2_media_id"
-        hx-vals='{"inputName": "p2_file", "outputId": "p2_media_id","outputName": "p2_media_id"}'
+        hx-target="#p2_media_id"
+        hx-swap="innerHTML"
+        hx-vals='{"inputFile": "p2_file","outputName": "p2_media_id"}'
     >
-    <input
-        type="hidden"
-        id="p2_media_id"
-        name="p2_media_id"
-        value="">
   </label><br>
+  <div id="p2_media_id">
+    <input type="hidden" name="p2_media_id" value="">
+  </div>
   <label>Feedback: <textarea name="feedback"></textarea></label><br>
   <button type="submit">Create</button>
   <button

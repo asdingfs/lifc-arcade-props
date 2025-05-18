@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS display;
 DROP TABLE IF EXISTS media;
-
+PRAGMA foreign_keys = ON;
 
 CREATE TABLE media
 (
@@ -16,13 +16,13 @@ CREATE TABLE display
     -- id database
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     -- player 1
-    p1_name     VARCHAR(10),
-    p1_media_id INTEGER      REFERENCES media (id) ON DELETE SET NULL,
-    p1_score    INT,
+    p1_name     VARCHAR(10) NOT NULL,
+    p1_media_id INTEGER     NOT NULL REFERENCES media (id) ON DELETE RESTRICT,
+    p1_score    INT         NOT NULL DEFAULT 0,
     -- player 2
-    p2_name     VARCHAR(10),
-    p2_media_id INTEGER      REFERENCES media (id) ON DELETE SET NULL,
-    p2_score    INT,
+    p2_name     VARCHAR(10) NOT NULL,
+    p2_media_id INTEGER     NOT NULL REFERENCES media (id) ON DELETE RESTRICT,
+    p2_score    INT         NOT NULL DEFAULT 0,
     -- feedback
     code        VARCHAR(36) NOT NULL UNIQUE,
     feedback    TEXT,
@@ -49,4 +49,4 @@ BEGIN
     UPDATE media SET updated_at=CURRENT_TIMESTAMP WHERE id = OLD.id;
 END;
 
-CREATE UNIQUE INDEX display_code_key ON display(code);
+CREATE UNIQUE INDEX display_code_key ON display (code);
