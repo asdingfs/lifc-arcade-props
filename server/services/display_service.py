@@ -9,8 +9,7 @@ def find_all():
       '''
           SELECT d.*,
             m1.url as p1_img_src,
-            m2.url as p2_img_src,
-            MAX(d.p1_score, d.p2_score) as top_score
+            m2.url as p2_img_src
           FROM display d
           LEFT JOIN media m1 ON d.p1_media_id = m1.id
           LEFT JOIN media m2 ON d.p2_media_id = m2.id
@@ -19,7 +18,7 @@ def find_all():
   )
   records = cursor.fetchall()
 
-  return [DisplayView.from_row(row) for row in records]
+  return [DisplayView.from_row(row, top_score()) for row in records]
 
 
 def find_one(pkey):
@@ -29,8 +28,7 @@ def find_one(pkey):
       '''
         SELECT d.*,
           m1.url as p1_img_src,
-          m2.url as p2_img_src,
-          MAX(d.p1_score, d.p2_score) as top_score
+          m2.url as p2_img_src
         FROM display d
         LEFT JOIN media m1 ON d.p1_media_id = m1.id
         LEFT JOIN media m2 ON d.p2_media_id = m2.id
@@ -39,7 +37,7 @@ def find_one(pkey):
   )
   record = cursor.fetchone()
 
-  return None if record is None else DisplayView.from_row(record)
+  return None if record is None else DisplayView.from_row(record, top_score())
 
 
 def create_one(display):
@@ -114,7 +112,7 @@ def top_score():
   cursor = db.cursor()
   cursor.execute(
       '''
-        SELECT MAX(p1_score, p2_score) as top_score
+        SELECT MAX(MAX(p1_score), MAX(p2_score)) as top_score
         FROM display;
       '''
   )

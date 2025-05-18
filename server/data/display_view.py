@@ -47,7 +47,7 @@ class DisplayView:
     ]
 
   @classmethod
-  def from_row(cls, row: Row):
+  def from_row(cls, row: Row, top_score: int = 0):
     return cls(
         pkey=row["id"],
         code=row["code"],
@@ -61,5 +61,5 @@ class DisplayView:
         p2_img_path=uploaded_file_fullpath(row["p2_img_src"]),
         p2_media_id=row["p2_media_id"],
         p2_score=row["p2_score"],
-        top_score=row["top_score"],
+        top_score=top_score,
     )
