@@ -47,7 +47,12 @@
           hx-swap="innerHTML">
         Edit
       </td>
-      <td>Delete</td>
+      <td
+          hx-delete="{{ url_for('displays.delete', pkey=record.pkey) }}"
+          hx-target="#app"
+          hx-swap="innerHTML">
+        Delete
+      </td>
     </tr>
   {% endfor %}
   </tbody>

@@ -96,3 +96,14 @@ def update_one(pkey, display):
   return find_one(pkey)
 
 
+def delete_one(pkey):
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+        DELETE FROM display WHERE id = ?;
+      ''',
+      (pkey,)
+  )
+  db.commit()
+  return None
