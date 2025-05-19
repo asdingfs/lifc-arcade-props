@@ -13,6 +13,15 @@ class ArgumentParser {
     }
   }
 
+  boolean toSavePreview() {
+    String savePreview = options.get("savePreview");
+    return savePreview != null && !savePreview.trim().isEmpty();
+  }
+
+  String getSavePreviewLocation() { 
+    return options.get("savePreview");
+  }
+
   FrameData toFrameData() {
     String p1Name = options.get("p1Name");
     String p1ImgSrc = options.get("p1ImgSrc");

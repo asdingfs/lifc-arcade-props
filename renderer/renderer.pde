@@ -41,27 +41,38 @@ void settings() {
 }
 
 void setup() {
-  // initialize palette
-  if (args != null && args.length > 0) {
-    // modify FrameData based on arguments, you can find the variables in FrameData.pde
-    ArgumentParser parser = new ArgumentParser(args);
-    frameData = parser.toFrameData();
-  } else {
-    FrameDataBuilder builder = new FrameDataBuilder();
-    frameData = builder.build();
-  }
-
-  resetBackground();
-  // initialize registry
-  registry = new DeviceRegistry();
-  testObserver = new TestObserver();
-  registry.addObserver(testObserver);
   // initialize fonts
   h1Font = createFont(FrameData.fontName, FrameData.h1FontSizePx);
   h2Font = createFont(FrameData.fontName, FrameData.h2FontSizePx);
   h3Font = createFont(FrameData.fontName, FrameData.h3FontSizePx);
-  // render frame data
-  renderFrameData(frameData);
+
+  // create default frame data
+  // modify FrameData based on arguments, you can find the variables in FrameData.pde
+  ArgumentParser parser = new ArgumentParser(args);
+  if (args != null && args.length > 0) {
+    println("Processing received arguments: " + Arrays.toString(args));
+    frameData = parser.toFrameData();
+  } else {
+    println("No arguments received, using default values.");
+    FrameDataBuilder builder = new FrameDataBuilder();
+    frameData = builder.build();
+  }
+  // check if we're to save preview only, or to render frame data continuously
+  if (parser.toSavePreview()) {
+    println("Saving preview and exiting...");
+    preview(frameData);
+    save(parser.getSavePreviewLocation());
+    exit();
+  } else {
+    println("Rendering frame data...");
+    // initialize registry
+    registry = new DeviceRegistry();
+    testObserver = new TestObserver();
+    registry.addObserver(testObserver);
+    // render frame data
+    resetBackground();
+    renderFrameData(frameData);
+  }
 }
 
 void draw() {
@@ -136,4 +147,27 @@ void renderFrameData(FrameData dt) {
   renderStringRow("2UP", rightX, 160, dt.arcadeCyan);
   renderStringRow(padZeros(dt.p2Score, 7), rightX, 200, dt.arcadeWhite);
   renderStringRow(dt.p2Name.substring(0, Math.min(dt.p2Name.length(), 8)), rightX, 240, dt.arcadeOrange);
+}
+
+// this method will output attempt to estimate what would it look like on the actual display
+void preview(FrameData dt) {
+  background(0); // led panel are black in colour, so background is black
+  renderFrameData(dt);
+  // render the preview
+  loadPixels();
+  rectMode(CENTER);
+  for (int i = 0; i < width; i += dt.imgDpSize) {
+    for (int j = 0; j < height; j += dt.imgDpSize) {
+      int x = i;
+      int y = j;
+      int offset = (int) Math.floor((dt.imgDpSize) / 2);
+      color c = pixels[(x + offset) + (y + offset) * width];
+      fill(c);
+      stroke(0);
+      int s = (int) Math.floor(dt.imgDpSize / dt.pixelPitch);
+      circle(x, y, s);
+      noFill();
+      noStroke();
+    }
+  }
 }
