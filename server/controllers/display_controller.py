@@ -29,14 +29,21 @@ def show(pkey):
         "Pushing pixels failed! Please check logs for more information."
     )
 
+
 @bp.route("/preview/<int:pkey>", methods=["GET"])
 def preview(pkey):
   validate_pkey(pkey)
   display = display_service.find_one(pkey)
-  return render_template(
-      "partials/displays/_preview.html.j2",
-      display=display
-  )
+  preview_path = pixel_service.preview(display)
+  if preview_path:
+    return render_template(
+        "partials/displays/_preview.html.j2",
+        display=display,
+        preview=preview_path,
+    )
+  else:
+    flash("Preview generation failed!", "error")
+    return make_response("unknown error when generating preview", 500)
 
 
 @bp.route("/create", methods=["GET"])

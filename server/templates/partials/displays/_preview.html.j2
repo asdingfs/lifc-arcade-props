@@ -5,10 +5,19 @@
   <div class="modal-underlay" _="on click trigger closeModal"></div>
   <div class="modal-content">
     <h1>Preview</h1>
-    This is the modal content.
-    You can put anything here, like text, or a form, or an image.
+    {% if preview %}
+      <img
+          src="{{ preview }}"
+          width="1280"
+          alt="image preview">
+    {% endif %}
+    Are you sure you want to display this image on the panel?
     <br>
     <br>
-    <button _="on click trigger closeModal">Close</button>
+    <button _="on click trigger closeModal"
+            hx-get="{{ url_for('displays.show', pkey=display.pkey) }}">
+      Yes
+    </button>
+    <button _="on click trigger closeModal">Cancel</button>
   </div>
 </div>

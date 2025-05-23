@@ -25,3 +25,4 @@ build/
 *.log
 
 renderer/imgs/*
+server/static/previews/*

@@ -3,6 +3,7 @@
 # define current environment
 SCRIPT=$(realpath "$0")
 SCRIPT_PATH=$(dirname "$SCRIPT")
+RENDERER_PATH=$(realpath "$SCRIPT_PATH/../renderer")
 
 # define lockfile arguments
 LOCKFILE="/tmp/lifc-arcade-props.lock"
@@ -34,5 +35,6 @@ rm -f "$LOCKFILE"
 
 
 # Run the actual program
-processing-java --sketch="$(realpath "$SCRIPT_PATH/../renderer")" --run "$@" & MY_PID=$!
+
+processing-java --sketch="$RENDERER_PATH" --run "$@" & MY_PID=$!
 echo "$MY_PID" > "$LOCKFILE"
