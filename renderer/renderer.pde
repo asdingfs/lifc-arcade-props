@@ -70,6 +70,7 @@ void setup() {
     testObserver = new TestObserver();
     registry.addObserver(testObserver);
     // render frame data
+    clear();
     resetBackground();
     renderFrameData(frameData);
   }
@@ -151,21 +152,20 @@ void renderFrameData(FrameData dt) {
 
 // this method will output attempt to estimate what would it look like on the actual display
 void preview(FrameData dt) {
+  clear();
   background(0); // led panel are black in colour, so background is black
   renderFrameData(dt);
   // render the preview
+  rectMode(CORNER);
   loadPixels();
-  rectMode(CENTER);
-  for (int i = 0; i < width; i += dt.imgDpSize) {
-    for (int j = 0; j < height; j += dt.imgDpSize) {
-      int x = i;
-      int y = j;
-      int offset = (int) Math.floor((dt.imgDpSize) / 2);
-      color c = pixels[(x + offset) + (y + offset) * width];
+  for (int x = 0; x < width; x += dt.imgDpSize) {
+    for (int y = 0; y < height; y += dt.imgDpSize) {
+      int offset = 0; // (int) Math.floor((dt.imgDpSize) / 2);
+      color c = pixels[(y + offset) * width + (x + offset)];
       fill(c);
       stroke(0);
       int s = (int) Math.floor(dt.imgDpSize / dt.pixelPitch);
-      circle(x, y, s);
+      square(x, y, s);
       noFill();
       noStroke();
     }
