@@ -29,6 +29,15 @@ def show(pkey):
         "Pushing pixels failed! Please check logs for more information."
     )
 
+@bp.route("/preview/<int:pkey>", methods=["GET"])
+def preview(pkey):
+  validate_pkey(pkey)
+  display = display_service.find_one(pkey)
+  return render_template(
+      "partials/displays/_preview.html.j2",
+      display=display
+  )
+
 
 @bp.route("/create", methods=["GET"])
 def new():

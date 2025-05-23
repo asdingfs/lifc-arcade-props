@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <title>Display Sets</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/modal.css') }}">
   <script
       src="https://unpkg.com/htmx.org@2.0.4"
       integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
       crossorigin="anonymous"></script>
+  <script
+      src="https://unpkg.com/hyperscript.org@0.9.14"></script>
 </head>
 <body>
 <div id="app" hx-get="/displays" hx-trigger="load" hx-swap="innerHTML">
