@@ -1,0 +1,13 @@
+<div
+    id="zoomModal"
+    _="on closeModal add .closing and then wait for animationend and then remove .zoom-modal then remove me
+        on keyup[key is 'Escape'] from window trigger closeModal">
+  <div class="modal-underlay" _="on click trigger closeModal"></div>
+  <div class="modal-content">
+    <img
+        id="zoomedImg"
+        src="{{ src }}"
+        style="max-width:90vw; max-height:90vh; display:block; margin:auto;"
+        alt="zoomed image"/>
+  </div>
+</div>

@@ -7,9 +7,14 @@
     <h1>Preview</h1>
     {% if preview %}
       <img
+          hx-get="{{ url_for('displays.zoom', src=preview) }}"
+          hx-target="body"
+          hx-trigger="click"
+          hx-swap="beforeend"
           src="{{ preview }}"
           width="1280"
-          alt="image preview">
+          alt="image preview"
+      >
     {% endif %}
     Are you sure you want to display this image on the panel?
     <br>

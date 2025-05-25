@@ -10,6 +10,7 @@ app = current_app
 def scripts_path():
   return os.path.abspath(os.path.join(app.root_path, "..", "scripts"))
 
+
 def previews_path():
   return os.path.abspath(os.path.join(app.root_path, "static"))
 
@@ -50,7 +51,19 @@ def preview(display: DisplayView):
     log_file.write(f"\nGenerating preview FAILED!\n")
   log_file.flush()
   log_file.close()
-  return ws_img_path if is_successful else None
+  return (os_img_path, ws_img_path) if is_successful else (None, None)
+
+
+def download(display: DisplayView):
+  os_path, _ = preview(display)
+  if os_path:
+    filename = os.path.basename(os_path)
+    mimetype = "image/png"
+    return os_path, filename, mimetype
+  else:
+    # If preview generation failed, return None values
+    app.logger.error(f"failed to generate preview for display {display.code}")
+    return None, None, None
 
 
 def poll_exec(process: subprocess.Popen, log_file):

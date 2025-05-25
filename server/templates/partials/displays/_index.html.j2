@@ -66,13 +66,9 @@
         Show
       </td>
       <td>
-        <button
-            hx-get="{{ url_for('displays.preview', pkey=record.pkey) }}"
-            hx-target="body"
-            hx-trigger="click"
-            hx-swap="beforeend">
-          Preview
-        </button>
+        <a href="{{ url_for('displays.download', pkey=record.pkey) }}" download>
+          Download
+        </a>
       </td>
       <td
           hx-delete="{{ url_for('displays.delete', pkey=record.pkey) }}"

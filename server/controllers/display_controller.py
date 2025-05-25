@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort, \
-  flash, current_app, make_response
+  flash, current_app, make_response, send_file
 from server.data.display_record import DisplayRecord
 from server.services import display_service, pixel_service
 from server.utils import random_uuid
@@ -30,20 +30,21 @@ def show(pkey):
     )
 
 
-@bp.route("/preview/<int:pkey>", methods=["GET"])
-def preview(pkey):
+@bp.route("/download/<int:pkey>", methods=["GET"])
+def download(pkey):
   validate_pkey(pkey)
   display = display_service.find_one(pkey)
-  preview_path = pixel_service.preview(display)
-  if preview_path:
-    return render_template(
-        "partials/displays/_preview.html.j2",
-        display=display,
-        preview=preview_path,
+  (filepath, filename, mimetype) = pixel_service.download(display)
+  if filepath:
+    return send_file(
+        filepath,
+        mimetype=mimetype,
+        as_attachment=True,
+        download_name=filename,
     )
   else:
     flash("Preview generation failed!", "error")
-    return make_response("unknown error when generating preview", 500)
+    return abort(500, message="unknown error when generating preview")
 
 
 @bp.route("/create", methods=["GET"])
