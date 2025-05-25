@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort, \
   flash, current_app, make_response, send_file
+from server.data.display_state import DisplayState
 from server.data.display_record import DisplayRecord
 from server.services import display_service, pixel_service
 from server.utils import random_uuid
@@ -20,6 +21,7 @@ def index():
 def show(pkey):
   validate_pkey(pkey)
   display = display_service.find_one(pkey)
+  DisplayState().set_display(display)
   if pixel_service.push(display):
     flash("Display pushed successfully!", "success")
     return make_response("", 204)
@@ -45,6 +47,13 @@ def download(pkey):
   else:
     flash("Preview generation failed!", "error")
     return abort(500, message="unknown error when generating preview")
+
+
+@bp.route("/sync", methods=["POST"])
+def sync():
+  DisplayState().sync()
+  flash("All displays synced successfully!", "success")
+  return redirect(url_for("displays.index"), 303)
 
 
 @bp.route("/create", methods=["GET"])

@@ -10,17 +10,30 @@ def create_one(media):
   cursor = db.cursor()
   filename = secure_filename(str(uuid4()) + '-' + media.filename)
   media.save(uploaded_file_fullpath(filename))
-  cursor.execute("INSERT INTO media "
-                 "  (url) "
-                 "VALUES (?) "
-                 "RETURNING *;", (filename,))
+  cursor.execute(
+      "INSERT INTO media "
+      "  (url) "
+      "VALUES (?) "
+      "RETURNING *;", (filename,)
+  )
   record = cursor.fetchone()
   db.commit()
   return None if record is None else MediaRecord.from_row(record)
+
 
 def find_one(media):
   db = get_db()
   cursor = db.cursor()
   cursor.execute("SELECT * FROM media WHERE id = ?;", (media,))
+  record = cursor.fetchone()
+  return None if record is None else MediaRecord.from_row(record)
+
+
+def find_one_random_sample():
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      "SELECT * FROM media WHERE sample = TRUE ORDER BY RANDOM() LIMIT 1;"
+  )
   record = cursor.fetchone()
   return None if record is None else MediaRecord.from_row(record)

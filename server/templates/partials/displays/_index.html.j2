@@ -3,6 +3,27 @@
         hx-swap="innerHTML">
   Create New Display
 </button>
+<button hx-post="{{ url_for('displays.sync') }}"
+        hx-target="#app"
+        hx-swap="innerHTML">
+  Sync
+</button>
+<form hx-post="{{ url_for('scans.create') }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
+  <label>
+    Code: <input type="text" name="code" required>
+  </label>
+  <label>
+    <input type="radio" name="player" value="p1"/>
+    p1
+  </label>
+  <label>
+    <input type="radio" name="player" value="p2"/>
+    p2
+  </label>
+  <button type="submit">Submit</button>
+</form>
 <div>
   <div>Top Score:</div>
   <div id="top_score"

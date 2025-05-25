@@ -60,11 +60,6 @@
       type="hidden"
       name="code"
       value="{{ display.code }}">
-  <label>Feedback:
-    <textarea name="feedback">
-      {{ display.feedback }}
-    </textarea>
-  </label><br>
   <button type="submit">Update</button>
   <button
       hx-get="{{ url_for('displays.index') }}"

@@ -10,6 +10,9 @@ class DisplayView:
       p2_name: str, p2_img_src: str, p2_img_path: str,
       p2_media_id: int, p2_score: int,
       top_score: int,
+      # time in epoch second
+      # TODO: figure out what format is this
+      created_at, updated_at
   ):
     self.pkey = pkey
     self.code = code
@@ -24,6 +27,8 @@ class DisplayView:
     self.p2_media_id = p2_media_id
     self.p2_score = p2_score
     self.top_score = top_score
+    self.created_at = created_at
+    self.updated_at = updated_at
 
   def __repr__(self):
     return (f"<Display {self.pkey} (code: {self.code}): "
@@ -61,5 +66,7 @@ class DisplayView:
         p2_img_path=uploaded_file_fullpath(row["p2_img_src"]),
         p2_media_id=row["p2_media_id"],
         p2_score=row["p2_score"],
+        created_at=row["created_at"],
+        updated_at=row["updated_at"],
         top_score=top_score,
     )

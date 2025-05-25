@@ -13,7 +13,7 @@ def find_all():
           FROM display d
           LEFT JOIN media m1 ON d.p1_media_id = m1.id
           LEFT JOIN media m2 ON d.p2_media_id = m2.id
-          ORDER BY d.created_at DESC;
+          ORDER BY d.updated_at DESC;
       '''
   )
   records = cursor.fetchall()
@@ -48,8 +48,8 @@ def create_one(display):
         INSERT INTO display (
           p1_name, p1_media_id, p1_score,
           p2_name, p2_media_id, p2_score,
-          code, feedback
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+          code
+        ) VALUES (?, ?, ?, ?, ?, ?, ?);
       ''',
       (
         display.p1_name,
@@ -59,7 +59,6 @@ def create_one(display):
         display.p2_media_id,
         display.p2_score,
         display.code,
-        display.feedback
       )
   )
   created_id = cursor.lastrowid
@@ -75,7 +74,7 @@ def update_one(pkey, display):
         UPDATE display
         SET p1_name = ?, p1_media_id = ?, p1_score = ?,
             p2_name = ?, p2_media_id = ?, p2_score = ?,
-            code = ?, feedback = ?
+            code = ?
         WHERE id = ?;
       ''',
       (
@@ -86,7 +85,6 @@ def update_one(pkey, display):
         display.p2_media_id,
         display.p2_score,
         display.code,
-        display.feedback,
         pkey,
       )
   )
