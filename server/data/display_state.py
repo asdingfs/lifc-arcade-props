@@ -32,9 +32,9 @@ def player_set(badge_id: int | None):
     return None
 
 
-def default_player_set():
-  badge = badge_service.find_one_random_default()
-  return player_set(badge.pkey if badge else None)
+def default_player_set(n: int = 1):
+  badges = badge_service.find_random_defaults(n)
+  return [player_set(badge.pkey if badge else None) for badge in badges]
 
 
 class DisplayState:
@@ -84,13 +84,14 @@ class DisplayState:
 
   def generate(self):
     state = self.get()
+    (p1_default, p2_default) = default_player_set(2)
     with self._lock:
       p1_set = player_set(
           getattr(state["p1"], "badge_id", None)
-      ) or default_player_set()
+      ) or p1_default
       p2_set = player_set(
           getattr(state["p2"], "badge_id", None)
-      ) or default_player_set()
+      ) or p2_default
       if p1_set and p2_set:
         record = DisplayRecord(*p1_set, *p2_set, random_uuid())
         display_view = display_service.create_one(record)
@@ -146,6 +147,7 @@ class DisplayState:
   def sync_players(self):
     return self.sync_display(self.generate())
 
+  # TODO: IDEA: during sync_diplay, add time, so we know when is was last displayed
   def sync_display(self, display):
     if display:
       pixel_service.push(display)

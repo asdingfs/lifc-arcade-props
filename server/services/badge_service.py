@@ -9,14 +9,35 @@ DEFAULT_CODES = [
 ]
 
 
+def find_by_codes(codes: list[str]):
+  if not codes:
+    return []
+
+  db = get_db()
+  cursor = db.cursor()
+  placeholders = ', '.join(['?'] * len(codes))
+  cursor.execute(
+      f'''
+        SELECT b.*,
+          m.url as img_src
+        FROM badge b
+        LEFT JOIN media m ON b.media_id = m.id
+        WHERE b.code IN ({placeholders});
+      ''', tuple(codes)
+  )
+  records = cursor.fetchall()
+
+  return [BadgeRecord.from_row(record) for record in records]
+
+
 def find_one(pkey):
   db = get_db()
   cursor = db.cursor()
   cursor.execute(
       '''
-        SELECT b.*
-        FROM badge b
-        WHERE b.id = ?;
+      SELECT b.*
+      FROM badge b
+      WHERE b.id = ?;
       ''', (pkey,)
   )
   record = cursor.fetchone()
@@ -31,16 +52,18 @@ def find_one_by_uuid(uuid):
   cursor = db.cursor()
   cursor.execute(
       '''
-        SELECT b.*,
-          m.url as img_src
-        FROM badge b
-        LEFT JOIN media m ON b.media_id = m.id
-        WHERE b.code = ?;
+      SELECT b.*,
+             m.url as img_src
+      FROM badge b
+               LEFT JOIN media m ON b.media_id = m.id
+      WHERE b.code = ?;
       ''', (uuid,)
   )
   record = cursor.fetchone()
   return None if record is None else BadgeRecord.from_row(record)
 
 
-def find_one_random_default():
-  return find_one_by_uuid(random.choice(DEFAULT_CODES))
+def find_random_defaults(n: int = 1):
+  if n < 1 or n > len(DEFAULT_CODES):
+    raise ValueError(f"n must be between 1 and {len(DEFAULT_CODES)}")
+  return find_by_codes(random.sample(DEFAULT_CODES, n))

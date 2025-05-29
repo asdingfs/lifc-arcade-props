@@ -35,19 +35,11 @@ def new_input(code: str, p1_or_p2: bool):
       # Update the display state with the new scan record
       state = DisplayState()  # singleton
       state.set_player(scan_record, player)
-      display_view = state.generate()
-      if display_view:
-        flash(
-            f"scanned ID for {player} successfully, and generated display!",
-            "success"
-        )
-        return display_view
-      else:
-        return abort(
-            500,
-            f"failed to generate a post-scan display. "
-            f"id: {scan_record.pkey}"
-        )
+      flash(
+          f"scanned ID for {player} successfully!",
+          "success"
+      )
+      return make_response("", 204)
     else:
       return abort(
           500, f"failed to create scan record for {player}"
