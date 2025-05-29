@@ -2,8 +2,6 @@
 
 # define current environment
 SCRIPT=$(realpath "$0")
-SCRIPT_PATH=$(dirname "$SCRIPT")
-RENDERER_PATH=$(realpath "$SCRIPT_PATH/../renderer")
 
 # define lockfile arguments
 LOCKFILE="/tmp/lifc-arcade-props.lock"
@@ -22,7 +20,7 @@ get_nested_pids() {
 # Check if lockfile exists
 if [ -f "$LOCKFILE" ]; then
   LOCK_PID=$(cat "$LOCKFILE")
-  get_nested_pids $LOCK_PID
+  get_nested_pids "$LOCK_PID"
 
   for pid in "${pids[@]}"; do
     if ps -p "$pid" > /dev/null 2>&1; then # if process still running
@@ -32,9 +30,3 @@ if [ -f "$LOCKFILE" ]; then
   done
 fi
 rm -f "$LOCKFILE"
-
-
-# Run the actual program
-
-processing-java --sketch="$RENDERER_PATH" --run "$@" & MY_PID=$!
-echo "$MY_PID" > "$LOCKFILE"

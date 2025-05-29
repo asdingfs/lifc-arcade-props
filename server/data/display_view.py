@@ -39,7 +39,7 @@ class DisplayView:
             f", top score: {self.top_score} "
             f">")
 
-  # this is to construct arguments located in /scripts/async_single_renderer.sh
+  # this is to construct arguments located in /scripts/bg_draw_update.sh
   def to_cli_args(self):
     return [
       f"--p1Name={self.p1_name}",

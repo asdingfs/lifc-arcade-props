@@ -16,7 +16,7 @@ def previews_path():
 
 
 def push(display: DisplayView):
-  script_path = os.path.join(scripts_path(), "async_single_renderer.sh")
+  script_path = os.path.join(scripts_path(), "bg_draw_update.sh")
   log_path = os.path.join(scripts_path(), "processing-java.log")
   log_file = open(log_path, "a")
   args = display.to_cli_args()
@@ -30,7 +30,7 @@ def push(display: DisplayView):
 
 
 def preview(display: DisplayView):
-  script_path = os.path.join(scripts_path(), "sync_multiple_renderer.sh")
+  script_path = os.path.join(scripts_path(), "fg_draw_create.sh")
   filename = f"previews/{display.code}.png"
   os_img_path = os.path.join(previews_path(), filename)
   ws_img_path = url_for('static', filename=filename)
