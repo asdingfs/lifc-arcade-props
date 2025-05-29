@@ -1,21 +1,29 @@
 import os
 from flask import Flask, render_template
 from . import db, constants
-from server.controllers import display_controller, media_controller, \
-  score_controller, scan_controller
+from server.services import scheduler_service
 from server.constants import DATABASE_NAME, UPLOAD_FOLDER
+from server.config.ap_scheduler_config import APSchedulerConfig
+from dotenv import load_dotenv
 
 
 def create_app(test_config=None):
+  # Get env file path from environment variable, default to development.env
+  env_path = os.getenv('FLASK_ENV_FILE', 'development.env')
+  load_dotenv(env_path)
   # create and configure the app
   app = Flask(
       __name__,
       instance_relative_config=True,
       template_folder="templates",
   )
-
-  app.config.from_mapping(
-      SECRET_KEY='dev',
+  app.config.from_object(APSchedulerConfig())
+  app.config.update(
+      # Environment-specific configuration
+      SECRET_KEY=os.getenv("SECRET_KEY", 'dev'),
+      SERVER_NAME=os.getenv('SERVER_NAME', 'localhost:5000'),
+      PREFERRED_URL_SCHEME=os.getenv('PREFERRED_URL_SCHEME', 'http'),
+      APPLICATION_ROOT=os.getenv('APPLICATION_ROOT', '/'),
       DATABASE=os.path.join(app.instance_path, DATABASE_NAME),
       UPLOAD_FOLDER=os.path.join(
           app.static_folder, UPLOAD_FOLDER
@@ -35,18 +43,29 @@ def create_app(test_config=None):
   except OSError:
     pass
 
-  # setup database
-  db.init_app(app)
-
   # root page declarations
   @app.route("/")
   def index():
     return render_template("index.html.j2")
 
-  # register blueprints
-  app.register_blueprint(display_controller.bp)
-  app.register_blueprint(media_controller.bp)
-  app.register_blueprint(score_controller.bp)
-  app.register_blueprint(scan_controller.bp)
+  # setup database
+  db.init_app(app)
 
-  return app
+  # setup scheduler
+  scheduler = scheduler_service.get_scheduler()
+  scheduler.init_app(app)
+
+  with app.app_context():
+    # load tasks and start scheduler
+    from server.tasks import display_tasks
+    scheduler.start()
+
+    # register blueprints
+    from server.controllers import display_controller, media_controller, \
+      score_controller, scan_controller
+    app.register_blueprint(display_controller.bp)
+    app.register_blueprint(media_controller.bp)
+    app.register_blueprint(score_controller.bp)
+    app.register_blueprint(scan_controller.bp)
+
+    return app

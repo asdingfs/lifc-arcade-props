@@ -101,11 +101,28 @@ class DisplayState:
       else:
         return None
 
-  def changed(self):
+  def after_change(self):
     state = self.get()
     with self._lock:
       state["changed_players"] = False
       state["changed_display"] = False
+      self._state = state
+
+  def regress(self):
+    """Reset the display state to default."""
+    state = self.get()
+    p1_scan_record = state.get("p1", None)
+    p2_scan_record = state.get("p2", None)
+    with self._lock:
+      changed = False
+      if p1_scan_record and p1_scan_record.is_inactive():
+        changed = True
+        state["p1"] = None
+      if p2_scan_record and p2_scan_record.is_inactive():
+        changed = True
+        state["p2"] = None
+      if changed:
+        state["changed_players"] = True
       self._state = state
 
   def sync(self):
@@ -132,7 +149,7 @@ class DisplayState:
   def sync_display(self, display):
     if display:
       pixel_service.push(display)
-      self.changed()
+      self.after_change()
       return display
     else:
       return None
