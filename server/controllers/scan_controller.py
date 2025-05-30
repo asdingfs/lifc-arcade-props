@@ -39,7 +39,7 @@ def new_input(code: str, p1_or_p2: bool):
           f"scanned ID for {player} successfully!",
           "success"
       )
-      return make_response("", 204)
+      return True
     else:
       return abort(
           500, f"failed to create scan record for {player}"
