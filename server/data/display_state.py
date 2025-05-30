@@ -128,6 +128,7 @@ class DisplayState:
     # after changing state, sync the display if
     #     display is changed as a result of regress() method
     if changed:
+      print("inactive players, regressing display...")
       return self.sync()
     else:
       return None

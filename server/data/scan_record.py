@@ -1,7 +1,8 @@
 from sqlite3 import Row
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 INACTIVE_IF_MORE_THAN_MINUTES = 5
+
 
 class ScanRecord:
   def __init__(
@@ -29,7 +30,10 @@ class ScanRecord:
   def is_inactive(self):
     """Check if this record is inactive."""
     delta = timedelta(minutes=INACTIVE_IF_MORE_THAN_MINUTES)
-    return (datetime.now() - self.updated_at) > delta
+    return (
+        datetime.now(timezone.utc) -
+        self.updated_at.replace(tzinfo=timezone.utc)
+    ) > delta
 
   @classmethod
   def from_row(cls, row: Row):

@@ -16,4 +16,3 @@ def display_reset():
   with app.app_context():
     display = DisplayState()
     display.regress()
-  print('Display reset executed successfully!')
