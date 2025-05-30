@@ -20,7 +20,7 @@ get_nested_pids() {
 # Check if lockfile exists
 if [ -f "$LOCKFILE" ]; then
   LOCK_PID=$(cat "$LOCKFILE")
-  get_nested_pids "$LOCK_PID"
+  get_nested_pids $LOCK_PID
 
   for pid in "${pids[@]}"; do
     if ps -p "$pid" > /dev/null 2>&1; then # if process still running
