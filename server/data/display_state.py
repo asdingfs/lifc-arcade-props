@@ -114,8 +114,8 @@ class DisplayState:
     state = self.get()
     p1_scan_record = state.get("p1", None)
     p2_scan_record = state.get("p2", None)
+    changed = False
     with self._lock:
-      changed = False
       if p1_scan_record and p1_scan_record.is_inactive():
         changed = True
         state["p1"] = None
@@ -125,6 +125,12 @@ class DisplayState:
       if changed:
         state["changed_players"] = True
       self._state = state
+    # after changing state, sync the display if
+    #     display is changed as a result of regress() method
+    if changed:
+      return self.sync()
+    else:
+      return None
 
   def sync(self):
     """Synchronize the display state with the current configuration."""
