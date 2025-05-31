@@ -3,6 +3,7 @@
 # define current environment
 SCRIPT=$(realpath "$0")
 SCRIPT_PATH=$(dirname "$SCRIPT")
+PROCESSING_PATH=$(realpath "$SCRIPT_PATH/../../processing-4.3.4/processing-java")
 RENDERER_PATH=$(realpath "$SCRIPT_PATH/../renderer")
 
 # define lockfile arguments
@@ -34,5 +35,5 @@ fi
 
 # replace currently running drawing process
 rm -f "$LOCKFILE"
-processing-java --sketch="$RENDERER_PATH" --run "$@" & MY_PID=$!
+xvfb-run "$PROCESSING_PATH" --sketch="$RENDERER_PATH" --run "$@" & MY_PID=$!
 echo "$MY_PID" > "$LOCKFILE"
