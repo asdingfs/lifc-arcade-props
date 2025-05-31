@@ -70,7 +70,7 @@ void setup() {
     testObserver = new TestObserver();
     registry.addObserver(testObserver);
     // render frame data
-    clear();
+    background(0);
     resetBackground();
     renderFrameData(frameData);
   }
@@ -152,7 +152,6 @@ void renderFrameData(FrameData dt) {
 
 // this method will output attempt to estimate what would it look like on the actual display
 void preview(FrameData dt) {
-  clear();
   background(0); // led panel are black in colour, so background is black
   renderFrameData(dt);
   // render the preview
