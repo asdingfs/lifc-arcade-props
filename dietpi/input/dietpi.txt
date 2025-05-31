@@ -63,7 +63,7 @@ AUTO_UNMASK_LOGIND=1
 # - Add as many APT package names as you wish, separated by space.
 # - They will be installed after dietpi-software options and before the script defined via AUTO_SETUP_CUSTOM_SCRIPT_EXEC (see below) is executed.
 # - E.g. the following (without the leading "#") will install the APT packages iotop, iptables and xz-utils:
-# AUTO_SETUP_APT_INSTALLS=build-essential xvfb libxrender1 libxtst6 libxi6 default-jre
+AUTO_SETUP_APT_INSTALLS=gcc-arm-linux-gnueabihf python3-venv python3-spidev
 
 # Custom Script (pre-networking and pre-DietPi install)
 # - Allows you to automatically execute a custom script before network is up on first boot.
