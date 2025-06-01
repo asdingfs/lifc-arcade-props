@@ -1,7 +1,7 @@
-#!/home/trigger/lifc-arcade-props/readers/.venv/bin/python
+#!/home/trigger/lifc-arcade-props/inputs/.venv/bin/python
 
-from RPi.GPIO import GPIO
 from constants import SYNC_BUTTON_PIN_IN, SYNC_LED_PIN_OUT, SERVER_URL
+import RPi.GPIO as GPIO
 import time
 import requests
 import logging

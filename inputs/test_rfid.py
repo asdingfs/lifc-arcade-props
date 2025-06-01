@@ -1,3 +1,5 @@
+#!/home/trigger/lifc-arcade-props/readers/.venv/bin/python
+
 from time import sleep
 import sys
 from mfrc522 import SimpleMFRC522
