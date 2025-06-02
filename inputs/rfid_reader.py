@@ -52,13 +52,13 @@ def read(nfc, ss_pin, logger):
   # 'uid' will be populated with the UID, and uidLength will indicate
   # if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
   success, uid = nfc.readPassiveTargetID(pn532.PN532_MIFARE_ISO14443A_106KBPS)
-
   if success:
     log(logger.info, ss_pin, "Found a tag!")
     log(logger.info, ss_pin, "UID Length: {:d}".format(len(uid)))
     log(logger.info, ss_pin, "UID Value: {}".format(binascii.hexlify(uid)))
+    time.sleep(1)
     return binascii.hexlify(uid).decode('utf-8')  # return UID as a string
   else:
     # pn532 probably timed out waiting for a card
-    log(logger.info, ss_pin, "Timed out waiting for a card!")
+    log(logger.debug, ss_pin, "Timed out waiting for a card!")
     return None
