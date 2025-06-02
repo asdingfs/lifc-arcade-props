@@ -13,10 +13,11 @@ def led_off(pin):
   GPIO.output(pin, GPIO.HIGH)
 
 
-def press(logger, api, led_pin):
+def press(logger, api, led_pin, desc=None):
   """Handle the button press event."""
   # This function can be customized to perform any action when the button is pressed.
-  logger.info("reset button pressed!")
+  this = f"{desc} button" if desc else "button"
+  logger.info(f"{this} pressed!")
   with ThreadPoolExecutor() as executor:
     led_future = executor.submit(flash_led, led_pin, 1, 1)
     request_future = executor.submit(api, logger)
