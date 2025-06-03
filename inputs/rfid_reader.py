@@ -1,3 +1,5 @@
+#!/home/trigger/lifc-arcade-props/inputs/.venv/bin/python
+
 import time
 import binascii
 from pn532pi import Pn532, pn532, Pn532Spi
@@ -11,7 +13,7 @@ def log(logger_level, ss_pin, message):
 def setup(nfc, ss_pin, logger):
   nfc.begin()
 
-  # print out firmware version
+  # print out a firmware version
   firmware = nfc.getFirmwareVersion()
   if not firmware:
     log(logger.error, ss_pin, "Didn't find PN53x board")
@@ -49,7 +51,7 @@ def read(nfc, ss_pin, logger):
     log(logger.info, ss_pin, "Found a tag!")
     log(logger.info, ss_pin, "UID Length: {:d}".format(len(uid)))
     log(logger.info, ss_pin, "UID Value: {}".format(binascii.hexlify(uid)))
-    time.sleep(0.1)
+    time.sleep(1)
     return binascii.hexlify(uid).decode('utf-8')  # return UID as a string
   else:
     # pn532 probably timed out waiting for a card

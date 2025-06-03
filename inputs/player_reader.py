@@ -1,4 +1,5 @@
 #!/home/trigger/lifc-arcade-props/inputs/.venv/bin/python
+
 """
     This example will attempt to connect to an ISO14443A
     card or tag and retrieve some basic information about it
@@ -18,15 +19,16 @@ from rfid_reader import setup, read, log
 # setup logging
 script_dir = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(
-  filename=os.path.join(script_dir, 'readers.log'),
-  level=logging.INFO,  # Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-  format='%(asctime)s %(levelname)s: %(message)s'
+    filename=os.path.join(script_dir, 'readers.log'),
+    level=logging.INFO,  # Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s %(levelname)s: %(message)s'
 )
 logger = logging.getLogger(__name__)
 
 # setup player 1 RFID reader on SPI
-p1_reader = Pn532(Pn532Spi(PLAYER_1_RFID_SS_PIN))
-if setup(p1_reader, PLAYER_1_RFID_SS_PIN, logger):
+PN532_SPI = Pn532Spi(PLAYER_1_RFID_SS_PIN)
+nfc = Pn532(PN532_SPI)
+if setup(nfc, PLAYER_1_RFID_SS_PIN, logger):
   log(logger.info, PLAYER_1_RFID_SS_PIN, "setup successfully!")
 else:
   log(logger.error, PLAYER_1_RFID_SS_PIN, "setup failed!")
@@ -40,5 +42,7 @@ else:
 
 # start listening for RFID tags on both readers
 while True:
-  p1_uid = read(p1_reader, PLAYER_1_RFID_SS_PIN, logger)
+  p1_uid = read(nfc, PLAYER_1_RFID_SS_PIN, logger)
+  if p1_uid:
+    log(logger.info, PLAYER_1_RFID_SS_PIN, f"Player 1 UID: {p1_uid}")
   # p2_uid = read(p2_reader, PLAYER_2_RFID_SS_PIN, logger)
