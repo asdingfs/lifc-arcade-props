@@ -8,10 +8,10 @@
 """
 import time
 import binascii
-
 from pn532pi import Pn532, pn532, Pn532Spi
 
 
+# define rfid functions
 def log(logger_level, ss_pin, message):
   logger_level(f"[Reader-SS#{ss_pin}]: {message}")
 
@@ -51,12 +51,13 @@ def read(nfc, ss_pin, logger):
   # Wait for an ISO14443A type cards (Mifare, etc.).  When one is found
   # 'uid' will be populated with the UID, and uidLength will indicate
   # if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
+  log(logger.debug, ss_pin, "Waiting for a read...")
   success, uid = nfc.readPassiveTargetID(pn532.PN532_MIFARE_ISO14443A_106KBPS)
   if success:
     log(logger.info, ss_pin, "Found a tag!")
     log(logger.info, ss_pin, "UID Length: {:d}".format(len(uid)))
     log(logger.info, ss_pin, "UID Value: {}".format(binascii.hexlify(uid)))
-    time.sleep(1)
+    time.sleep(0.1)
     return binascii.hexlify(uid).decode('utf-8')  # return UID as a string
   else:
     # pn532 probably timed out waiting for a card
