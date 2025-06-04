@@ -1,3 +1,4 @@
+from typing import Callable, Any
 from flask import Blueprint, current_app, abort, flash, make_response, request, \
   redirect, url_for
 from server.services import badge_service, scan_service
@@ -9,12 +10,18 @@ app = current_app
 
 @bp.route("/p1/<uuid>", methods=["POST"])
 def new_p1(uuid):
-  return new_input(uuid, True)
+  return new_input(
+      uuid, True,
+      on_success=lambda: make_response("", 204)
+  )
 
 
 @bp.route("/p2/<uuid>", methods=["POST"])
 def new_p2(uuid):
-  return new_input(uuid, False)
+  return new_input(
+      uuid, False,
+      on_success=lambda: make_response("", 204)
+  )
 
 
 @bp.route("/", methods=["POST"])
@@ -22,11 +29,13 @@ def create():
   uuid = request.form.get("code")
   player = request.form.get("player")
   p1_or_p2 = (player == "p1")
-  new_input(uuid, p1_or_p2)
-  return redirect(url_for("displays.index"), 303)
+  return new_input(
+      uuid, p1_or_p2,
+      on_success=lambda: redirect(url_for("displays.index"), 303)
+  )
 
 
-def new_input(code: str, p1_or_p2: bool):
+def new_input(code: str, p1_or_p2: bool, on_success: Callable[[], Any]):
   badge_record = badge_service.find_one_by_uuid(code)
   player = "p1" if p1_or_p2 else "p2"
   if badge_record:
@@ -39,7 +48,7 @@ def new_input(code: str, p1_or_p2: bool):
           f"scanned ID for {player} successfully!",
           "success"
       )
-      return True
+      return on_success()
     else:
       return abort(
           500, f"failed to create scan record for {player}"

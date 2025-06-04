@@ -34,7 +34,7 @@ def display_sync(logger):
   This function is called when the sync button is pressed.
   It will send a request to the server to sync the display.
   """
-  call_request(
+  return call_request(
       lambda: requests.post(
           f"{SERVER_URL}/displays/sync",
           timeout=(CONNECT_TIMEOUT, READ_TIMEOUT)
@@ -50,11 +50,39 @@ def display_reset(logger):
   This function is called when the reset button is pressed.
   It will send a request to the server to reset the display.
   """
-  call_request(
+  return call_request(
       lambda: requests.post(
           f"{SERVER_URL}/displays/reset",
           timeout=(CONNECT_TIMEOUT, READ_TIMEOUT)
       ),
       logger,
-      "Display reset",
+      "display reset",
+  )
+
+
+def register_p1(p1_uid, logger):
+  """
+  Register the P1 UID from RFID reader.
+  """
+  return call_request(
+      lambda: requests.post(
+          f"{SERVER_URL}/scans/p1/{p1_uid}",
+          timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+      ),
+      logger,
+      "register p1"
+  )
+
+
+def register_p2(logger, p2_uid):
+  """
+  Register the P1 UID from RFID reader.
+  """
+  return call_request(
+      lambda: requests.post(
+          f"{SERVER_URL}/scans/p2/{p2_uid}",
+          timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+      ),
+      logger,
+      "register p2"
   )

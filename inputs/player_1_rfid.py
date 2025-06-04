@@ -8,6 +8,7 @@ import os
 from pn532pi import Pn532, pn532, Pn532Spi
 from rfid_reader import setup, read, log
 from constants import PLAYER_1_RFID_SS_PIN
+from apis import register_p1
 
 # setup logging
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -29,6 +30,6 @@ else:
 
 while True:
   uid = read(nfc, PLAYER_1_RFID_SS_PIN, logger)
-  if uid:
-    # TODO: process the UID
-    pass
+  uid and register_p1(
+      uid.decode("utf-8"), logger
+  )  # if uid is valid, register_p1
