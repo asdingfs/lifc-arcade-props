@@ -1,8 +1,11 @@
-from constants import SERVER_URL, CONNECT_TIMEOUT, READ_TIMEOUT
+from logging import Logger
+from typing import Any, Callable
 import requests
+from requests import Response
+from constants import SERVER_URL, CONNECT_TIMEOUT, READ_TIMEOUT
 
 
-def describe_request_description(desc=None):
+def describe_request_description(desc=None) -> str:
   """
   Decorator to add a description to a function.
   This can be used to provide additional context or information about the function.
@@ -10,7 +13,11 @@ def describe_request_description(desc=None):
   return f"{desc} request".capitalize() if desc else f"request".capitalize()
 
 
-def call_request(call, logger, desc=None):
+def call_request(
+    call: Callable[[], Response],
+    logger: Logger,
+    desc=None
+) -> bool:
   this = describe_request_description(desc)
   try:
     response = call()
@@ -24,11 +31,11 @@ def call_request(call, logger, desc=None):
       )
       return False
   except IOError as e:
-    logger.error(f"IOError during {this}: {str(e)}")
+    logger.error(f"IOError during {this}: {e}")
     return False
 
 
-def display_sync(logger):
+def display_sync(logger: Logger) -> bool:
   """
   Sync the display by sending a request to the server.
   This function is called when the sync button is pressed.
@@ -44,7 +51,7 @@ def display_sync(logger):
   )
 
 
-def display_reset(logger):
+def display_reset(logger: Logger) -> bool:
   """
   Reset the display by sending a request to the server.
   This function is called when the reset button is pressed.
@@ -60,7 +67,7 @@ def display_reset(logger):
   )
 
 
-def register_p1(p1_uid, logger):
+def register_p1(p1_uid: str, logger: Logger) -> bool:
   """
   Register the P1 UID from RFID reader.
   """
@@ -74,7 +81,7 @@ def register_p1(p1_uid, logger):
   )
 
 
-def register_p2(logger, p2_uid):
+def register_p2(p2_uid: str, logger: Logger) -> bool:
   """
   Register the P1 UID from RFID reader.
   """
