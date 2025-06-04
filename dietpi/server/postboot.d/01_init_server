@@ -1,0 +1,5 @@
+#!/home/server/lifc-arcade-props/server/.venv/bin/python
+# startup script for the server
+
+cd /home/server/lifc-arcade-props
+gunicorn -w 4 'main:application' --preload -b 192.168.50.100:5000 --daemon
