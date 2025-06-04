@@ -8,6 +8,8 @@
 """
 import time
 import binascii
+from typing import Callable
+
 from pn532pi import Pn532, pn532, Pn532Spi
 
 
@@ -54,7 +56,7 @@ def setup(nfc, ss_pin, logger, retry=3):
     return True  # indicates setup was successful
 
 
-def read(nfc, ss_pin, logger):
+def read(nfc, ss_pin, logger, on_read: Callable[[str], bool]):
   # Wait for an ISO14443A type cards (Mifare, etc.).  When one is found
   # 'uid' will be populated with the UID, and uidLength will indicate
   # if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
@@ -64,7 +66,9 @@ def read(nfc, ss_pin, logger):
     log(logger.info, ss_pin, "UID Length: {:d}".format(len(uid)))
     log(logger.info, ss_pin, "UID Value: {}".format(binascii.hexlify(uid)))
     time.sleep(1)
-    return binascii.hexlify(uid).decode('utf-8')  # return UID as a string
+    return on_read(
+        binascii.hexlify(uid).decode('utf-8')
+    )  # return UID as a string
   else:
     # pn532 probably timed out waiting for a card
     log(logger.debug, ss_pin, "Timed out waiting for a card!")

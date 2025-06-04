@@ -29,7 +29,7 @@ else:
   log(logger.error, PLAYER_1_RFID_SS_PIN, "setup failed!")
 
 while True:
-  uid = read(nfc, PLAYER_1_RFID_SS_PIN, logger)
-  uid and register_p1(
-      uid.decode("utf-8"), logger
-  )  # if uid is valid, register_p1
+  read(
+      nfc, PLAYER_1_RFID_SS_PIN, logger,
+      on_read=lambda uid: register_p1(uid, logger),
+  )
