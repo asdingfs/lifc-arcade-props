@@ -12,3 +12,5 @@
 
 # listen to inputs from player 2 RFID reader in BG
 /home/trigger/lifc-arcade-props/inputs/player_2_rfid.py &
+
+exit 0
