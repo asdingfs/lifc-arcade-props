@@ -8,7 +8,6 @@
 """
 import time
 import binascii
-
 from pn532pi import Pn532, pn532, Pn532Spi
 
 
@@ -16,35 +15,43 @@ def log(logger_level, ss_pin, message):
   logger_level(f"[Reader-SS#{ss_pin}]: {message}")
 
 
-def setup(nfc, ss_pin, logger):
+def setup(nfc, ss_pin, logger, retry=3):
   nfc.begin()
 
   # print out firmware version
   firmware = nfc.getFirmwareVersion()
   if not firmware:
-    log(logger.error, ss_pin, "Didn't find PN53x board")
-    return False
+    if retry > 0:
+      log(logger.warning, ss_pin, "Couldn't find PN53x board, retrying...")
+      time.sleep(1)
+      return setup(nfc, ss_pin, logger, retry - 1)
+    else:
+      # If we reach here, it means we have exhausted all retries
+      # and still couldn't find the PN53x board.
+      # Log an error message and return False.
+      log(logger.error, ss_pin, "Couldn't find PN53x board even after retries!")
+      return False
+  else:
+    # print firmware version
+    log(
+        logger.info, ss_pin,
+        "Found chip PN5 {:#x} Firmware ver. {:d}.{:d}".format(
+            (firmware >> 24) & 0xFF, (firmware >> 16) & 0xFF,
+            (firmware >> 8) & 0xFF
+        )
+    )
+    # Set the max number of retry attempts to read from a card
+    # This prevents us from waiting forever for a card, which is
+    # the default behaviour of the pn532.
+    nfc.setPassiveActivationRetries(0xFF)
 
-  # print firmware version
-  log(
-      logger.info, ss_pin,
-      "Found chip PN5 {:#x} Firmware ver. {:d}.{:d}".format(
-          (firmware >> 24) & 0xFF, (firmware >> 16) & 0xFF,
-          (firmware >> 8) & 0xFF
-      )
-  )
-  # Set the max number of retry attempts to read from a card
-  # This prevents us from waiting forever for a card, which is
-  # the default behaviour of the pn532.
-  nfc.setPassiveActivationRetries(0xFF)
-
-  # configure board to read RFID tags
-  nfc.SAMConfig()
-  log(
-      logger.info, ss_pin,
-      "Successfully setup! Waiting for an ISO14443A card..."
-  )
-  return True  # indicates setup was successful
+    # configure board to read RFID tags
+    nfc.SAMConfig()
+    log(
+        logger.info, ss_pin,
+        "Successfully setup! Waiting for an ISO14443A card..."
+    )
+    return True  # indicates setup was successful
 
 
 def read(nfc, ss_pin, logger):
