@@ -4,6 +4,7 @@ from server.services import scheduler_service
 scheduler = scheduler_service.get_scheduler()
 app = scheduler.app
 
+
 # interval example
 @scheduler.task(
     'interval',
@@ -12,7 +13,7 @@ app = scheduler.app
     misfire_grace_time=900
 )
 def display_reset():
-  print('Executing periodic display reset...')
+  # print('Executing periodic display reset...')
   with app.app_context():
     display = DisplayState()
     display.regress()

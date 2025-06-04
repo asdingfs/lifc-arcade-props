@@ -4,7 +4,7 @@ from flask import Blueprint, current_app, abort, flash, make_response, request, 
 from server.services import badge_service, scan_service
 from server.data.display_state import DisplayState
 
-bp = Blueprint("scans", __name__, url_prefix="/scans")
+bp = Blueprint("inputs", __name__, url_prefix="/inputs")
 app = current_app
 
 
@@ -22,6 +22,18 @@ def new_p2(uuid):
       uuid, False,
       on_success=lambda: make_response("", 204)
   )
+
+
+@bp.route("/sync", methods=["POST"])
+def sync():
+  DisplayState().sync()
+  return make_response("", 204)
+
+
+@bp.route("/reset", methods=["POST"])
+def reset():
+  DisplayState().regress(force=True)
+  return make_response("", 204)
 
 
 @bp.route("/", methods=["POST"])

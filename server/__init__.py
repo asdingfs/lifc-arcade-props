@@ -62,10 +62,10 @@ def create_app(test_config=None):
 
     # register blueprints
     from server.controllers import display_controller, media_controller, \
-      score_controller, scan_controller
+      score_controller, input_controller
     app.register_blueprint(display_controller.bp)
     app.register_blueprint(media_controller.bp)
     app.register_blueprint(score_controller.bp)
-    app.register_blueprint(scan_controller.bp)
+    app.register_blueprint(input_controller.bp)
 
     return app

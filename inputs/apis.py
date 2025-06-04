@@ -14,7 +14,7 @@ def call_request(call, logger, desc=None):
   this = describe_request_description(desc)
   try:
     response = call()
-    if response.status_code >= 200:
+    if 200 <= response.status_code < 300:
       logger.info(f"{this} successful!")
       return True
     else:
@@ -36,11 +36,11 @@ def display_sync(logger):
   """
   return call_request(
       lambda: requests.post(
-          f"{SERVER_URL}/displays/sync",
+          f"{SERVER_URL}/inputs/sync",
           timeout=(CONNECT_TIMEOUT, READ_TIMEOUT)
       ),
       logger,
-      "display sync",
+      "inputs sync",
   )
 
 
@@ -52,11 +52,11 @@ def display_reset(logger):
   """
   return call_request(
       lambda: requests.post(
-          f"{SERVER_URL}/displays/reset",
+          f"{SERVER_URL}/inputs/reset",
           timeout=(CONNECT_TIMEOUT, READ_TIMEOUT)
       ),
       logger,
-      "display reset",
+      "inputs reset",
   )
 
 
@@ -66,7 +66,7 @@ def register_p1(p1_uid, logger):
   """
   return call_request(
       lambda: requests.post(
-          f"{SERVER_URL}/scans/p1/{p1_uid}",
+          f"{SERVER_URL}/inputs/p1/{p1_uid}",
           timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
       ),
       logger,
@@ -80,7 +80,7 @@ def register_p2(logger, p2_uid):
   """
   return call_request(
       lambda: requests.post(
-          f"{SERVER_URL}/scans/p2/{p2_uid}",
+          f"{SERVER_URL}/inputs/p2/{p2_uid}",
           timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
       ),
       logger,
