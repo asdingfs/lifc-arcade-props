@@ -8,10 +8,11 @@ from server.data.display_state import DisplayState
 
 application = create_app()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
+def server():
   with application.app_context():
     DisplayState().sync()  # Ensure the display state is synced on startup
   application.run()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+  server()

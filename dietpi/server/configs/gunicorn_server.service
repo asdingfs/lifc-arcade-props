@@ -1,0 +1,21 @@
+# --> to copy to /etc/systemd/system:
+# ln -sfn /home/server/lifc-arcade-props/server/configs/gunicorn_server.service /etc/systemd/system/
+# sudo systemctl start gunicorn_server
+# sudo systemctl enable gunicorn_server
+# --> to check:
+# sudo systemctl status gunicorn_server
+
+[Unit]
+Description=Gunicorn instance to serve lifc-arcade-props server
+Requires=pixel_pusher_server.service
+After=network.target pixel_pusher_server.service
+
+[Service]
+User=server
+Group=www-data
+WorkingDirectory=/home/server/lifc-arcade-props
+Environment="PATH=/home/server/lifc-arcade-props/server/.venv/bin"
+ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --workers 4 --bind unix:server/server.sock -m 007 main:server()
+
+[Install]
+WantedBy=multi-user.target
