@@ -11,11 +11,12 @@ Requires=pixel_pusher_server.service
 After=network.target pixel_pusher_server.service
 
 [Service]
+Type=forking
 User=root
 Group=www-data
 WorkingDirectory=/home/server/lifc-arcade-props
 Environment="PATH=/home/server/lifc-arcade-props/server/.venv/bin"
-ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --workers 4 --bind unix:server/server.sock -m 007 main:server()
+ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --workers 4 --bind unix:server/server.sock -m 007 main:server() --daemon
 Restart=on-failure
 
 [Install]
