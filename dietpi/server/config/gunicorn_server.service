@@ -1,5 +1,5 @@
 # --> to copy to /etc/systemd/system:
-# ln -sfn /home/server/lifc-arcade-props/server/configs/gunicorn_server.service /etc/systemd/system/
+# ln -sfn /home/server/lifc-arcade-props/dietpi/server/config/gunicorn_server.service /etc/systemd/system/
 # sudo systemctl start gunicorn_server
 # sudo systemctl enable gunicorn_server
 # --> to check:
