@@ -26,3 +26,4 @@ build/
 
 renderer/imgs/*
 server/static/previews/*
+*.env

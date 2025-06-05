@@ -6,11 +6,12 @@ from server.constants import DATABASE_NAME, UPLOAD_FOLDER
 from server.config.ap_scheduler_config import APSchedulerConfig
 from dotenv import load_dotenv
 from werkzeug.middleware.proxy_fix import ProxyFix
+from flask_cors import CORS
 
 
 def create_app(test_config=None):
-  # Get env file path from environment variable, default to development.env
-  env_path = os.getenv('FLASK_ENV_FILE', 'development.env')
+  # Get env file path from environment variable, default to .env
+  env_path = os.getenv('FLASK_ENV_FILE', '.env')
   load_dotenv(env_path)
   # create and configure the app
   app = Flask(
@@ -22,7 +23,7 @@ def create_app(test_config=None):
   app.config.update(
       # Environment-specific configuration
       SECRET_KEY=os.getenv("SECRET_KEY", 'dev'),
-      SERVER_NAME=os.getenv('SERVER_NAME', 'localhost:5000'),
+      SERVER_NAME=os.getenv("SERVER_NAME", 'Lifc2025PropsServer.local'),
       PREFERRED_URL_SCHEME=os.getenv('PREFERRED_URL_SCHEME', 'http'),
       APPLICATION_ROOT=os.getenv('APPLICATION_ROOT', '/'),
       DATABASE=os.path.join(app.instance_path, DATABASE_NAME),
@@ -60,6 +61,9 @@ def create_app(test_config=None):
   app.wsgi_app = ProxyFix(
       app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
   )
+
+  # setup cors
+  CORS(app, resources={r"/*": {"origins": "http://Lifc2025PropsServer.local"}})
 
   with app.app_context():
     # load tasks and start scheduler

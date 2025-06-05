@@ -11,13 +11,16 @@ Requires=pixel_pusher_server.service
 After=network.target pixel_pusher_server.service
 
 [Service]
-Type=forking
+Type=simple
 User=root
-Group=www-data
+Group=server
 WorkingDirectory=/home/server/lifc-arcade-props
-Environment="PATH=/home/server/lifc-arcade-props/server/.venv/bin"
-ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --preload --workers 4 --chdir=/home/server/lifc-arcade-props --bind unix:server/server.sock -m 007 main:server() --daemon
-Restart=on-failure
+Environment="PATH=/home/server/lifc-arcade-props/server/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="FLASK_ENV_FILE=/home/server/lifc-arcade-props/.env"
+ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --preload --workers 4 --chdir /home/server/lifc-arcade-props --bind unix:server/server.sock --umask 007 --access-logfile /var/log/gunicorn/access.log --error-logfile /var/log/gunicorn/error.log --capture-output --log-level info --forwarded-allow-ips "*" main:application
+ExecStartPost=/bin/bash -c 'for i in {1..10}; do [ -S /home/server/lifc-arcade-props/server/server.sock ] && break; sleep 0.5; done'
+ExecStartPost=chown server:server /home/server/lifc-arcade-props/server/server.sock
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

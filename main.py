@@ -8,10 +8,17 @@ from server.data.display_state import DisplayState
 
 application = create_app()
 
+
 def server():
+  application.run()
+
+
+def init():
   with application.app_context():
     DisplayState().sync()  # Ensure the display state is synced on startup
-  application.run()
+
+
+init()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
