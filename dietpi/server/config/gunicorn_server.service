@@ -16,7 +16,7 @@ User=root
 Group=www-data
 WorkingDirectory=/home/server/lifc-arcade-props
 Environment="PATH=/home/server/lifc-arcade-props/server/.venv/bin"
-ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --workers 4 --bind unix:server/server.sock -m 007 main:server() --daemon
+ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --preload --workers 4 --chdir=/home/server/lifc-arcade-props --bind unix:server/server.sock -m 007 main:server() --daemon
 Restart=on-failure
 
 [Install]
