@@ -11,10 +11,11 @@ Wants=gunicorn_server.service
 Before=gunicorn_server.service
 
 [Service]
-User=server
+User=root
 Group=www-data
 WorkingDirectory=/home/server/lifc-arcade-props
-ExecStart=sudo /home/server/rpi-matrix-pixelpusher/pixel-push --led-rows=64 --led-cols=64 --led-chain=5 --led-brightness=25 --led-slowdown-gpio=4 --led-panel-type=FM6127 --led-pwm-lsb-nanoseconds=110 --led-multiplexing=0 --led-row-addr-type=0 -i eth0 -u 65507
+ExecStart=/home/server/rpi-matrix-pixelpusher/pixel-push --led-rows=64 --led-cols=64 --led-chain=5 --led-brightness=25 --led-slowdown-gpio=4 --led-panel-type=FM6127 --led-pwm-lsb-nanoseconds=110 --led-multiplexing=0 --led-row-addr-type=0 -i eth0 -u 65507
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
