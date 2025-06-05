@@ -15,7 +15,7 @@ User=server
 Group=www-data
 WorkingDirectory=/home/server/lifc-arcade-props
 Environment="PATH=/home/server/lifc-arcade-props/server/.venv/bin"
-ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --workers 4 --bind unix:server/server.sock -m 007 main:server()
+ExecStart=sudo /home/server/lifc-arcade-props/server/.venv/bin/gunicorn --workers 4 --bind unix:server/server.sock -m 007 main:server()
 
 [Install]
 WantedBy=multi-user.target
