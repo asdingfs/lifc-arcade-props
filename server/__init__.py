@@ -5,6 +5,7 @@ from server.services import scheduler_service
 from server.constants import DATABASE_NAME, UPLOAD_FOLDER
 from server.config.ap_scheduler_config import APSchedulerConfig
 from dotenv import load_dotenv
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 def create_app(test_config=None):
@@ -54,6 +55,11 @@ def create_app(test_config=None):
   # setup scheduler
   scheduler = scheduler_service.get_scheduler()
   scheduler.init_app(app)
+
+  # setup reverse proxy (nginx)
+  app.wsgi_app = ProxyFix(
+      app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+  )
 
   with app.app_context():
     # load tasks and start scheduler
