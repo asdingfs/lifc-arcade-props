@@ -1,8 +1,8 @@
-{% if record.id is not none %}
+{% if record.pkey is not none %}
   <input
       type="hidden"
       name="{{ name }}"
-      value="{{ record.id }}">
+      value="{{ record.pkey }}">
   {% if record.img_src is not none %}
     <img
         src="{{ record.img_src }}"

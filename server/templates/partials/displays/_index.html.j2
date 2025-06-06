@@ -1,13 +1,13 @@
 {% for record in records %}
-  {% if loop.index < records_size + 1 %}
-    {% if loop.index < records_size %}
+  {% if loop.index < size %}
+    {% if loop.index < size - 1 %}
   <tr>
     {% else %}
   <tr hx-get='/displays?page={{ page + 1 }}&size={{ size }}{{ "&search=" + enc_search if enc_search else "" }}'
     hx-trigger="revealed"
     hx-swap="afterend">
     {% endif %}
-    <td>{{ record.id }}</td>
+    <td>{{ record.pkey }}</td>
     <td>{{ record.p1_name }}</td>
     <td>{{ record.p1_score }}</td>
     <td>
