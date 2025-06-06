@@ -43,7 +43,7 @@ def create():
   p1_or_p2 = (player == "p1")
   return new_input(
       uuid, p1_or_p2,
-      on_success=lambda: redirect(url_for("displays.index"), 303)
+      on_success=lambda: redirect(url_for("index"), 303)
   )
 
 

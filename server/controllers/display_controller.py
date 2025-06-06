@@ -56,7 +56,7 @@ def download(pkey):
 def sync():
   DisplayState().sync()
   flash("All displays synced successfully!", "success")
-  return redirect(url_for("displays.index"), 303)
+  return redirect(url_for("index"), 303)
 
 
 @bp.route("/create", methods=["GET"])
@@ -68,7 +68,7 @@ def new():
 def create():
   display_service.create_one(DisplayRecord.from_request(request, random_uuid()))
   flash("Entry created successfully!", "success")
-  return redirect(url_for("displays.index"), 303)
+  return redirect(url_for("index"), 303)
 
 
 @bp.route("/edit/<int:pkey>", methods=["GET"])
@@ -85,7 +85,7 @@ def update(pkey):
   validate_pkey(pkey)
   display_service.update_one(pkey, DisplayRecord.from_request(request))
   flash("Entry updated successfully!", "success")
-  return redirect(url_for("displays.index"), 303)
+  return redirect(url_for("index"), 303)
 
 
 @bp.route("/<int:pkey>", methods=["DELETE"])
@@ -93,7 +93,7 @@ def delete(pkey):
   validate_pkey(pkey)
   display_service.delete_one(pkey)
   flash("Entry deleted successfully!", "success")
-  return redirect(url_for("displays.index"), 303)
+  return redirect(url_for("index"), 303)
 
 
 def validate_pkey(pkey):

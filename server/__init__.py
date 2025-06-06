@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask.logging import default_handler
 from . import db, constants
 from server.services import scheduler_service, pixel_service
@@ -52,8 +52,18 @@ def create_app(test_config=None):
 
   # root page declarations
   @app.route("/")
-  def index():
+  def home():
     return render_template("index.html.j2")
+
+  @app.route("/app", methods=["GET"])
+  def index():
+    search = request.args.get("search", None)
+    page = request.args.get("page", 0, type=int)
+    size = request.args.get("size", 20, type=int)
+    return render_template(
+        "app.html.j2",
+        search=search, page=page, size=size,
+    )
 
   # setup database
   db.init_app(app)
