@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo mkdir -p /var/log/inputs
+sudo touch /var/log/inputs/readers.log /var/log/inputs/buttons.log
