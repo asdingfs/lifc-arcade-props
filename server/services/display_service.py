@@ -7,18 +7,18 @@ def find_all():
   cursor = db.cursor()
   cursor.execute(
       '''
-          SELECT d.*,
-            m1.url as p1_img_src,
-            m2.url as p2_img_src
-          FROM display d
-          LEFT JOIN media m1 ON d.p1_media_id = m1.id
-          LEFT JOIN media m2 ON d.p2_media_id = m2.id
-          ORDER BY d.updated_at DESC;
+      SELECT d.*,
+             m1.url as p1_img_src,
+             m2.url as p2_img_src
+      FROM display d
+               LEFT JOIN media m1 ON d.p1_media_id = m1.id
+               LEFT JOIN media m2 ON d.p2_media_id = m2.id
+      ORDER BY d.updated_at DESC;
       '''
   )
   records = cursor.fetchall()
-
-  return [DisplayView.from_row(row, top_score()) for row in records]
+  top = top_score()
+  return [DisplayView.from_row(row, top) for row in records]
 
 
 def find_one(pkey):
@@ -26,13 +26,13 @@ def find_one(pkey):
   cursor = db.cursor()
   cursor.execute(
       '''
-        SELECT d.*,
-          m1.url as p1_img_src,
-          m2.url as p2_img_src
-        FROM display d
-        LEFT JOIN media m1 ON d.p1_media_id = m1.id
-        LEFT JOIN media m2 ON d.p2_media_id = m2.id
-        WHERE d.id = ?;
+      SELECT d.*,
+             m1.url as p1_img_src,
+             m2.url as p2_img_src
+      FROM display d
+               LEFT JOIN media m1 ON d.p1_media_id = m1.id
+               LEFT JOIN media m2 ON d.p2_media_id = m2.id
+      WHERE d.id = ?;
       ''', (pkey,)
   )
   record = cursor.fetchone()
@@ -45,11 +45,10 @@ def create_one(display):
   cursor = db.cursor()
   cursor.execute(
       '''
-        INSERT INTO display (
-          p1_name, p1_media_id, p1_score,
-          p2_name, p2_media_id, p2_score,
-          code
-        ) VALUES (?, ?, ?, ?, ?, ?, ?);
+      INSERT INTO display (p1_name, p1_media_id, p1_score,
+                           p2_name, p2_media_id, p2_score,
+                           code)
+      VALUES (?, ?, ?, ?, ?, ?, ?);
       ''',
       (
         display.p1_name,
@@ -71,11 +70,15 @@ def update_one(pkey, display):
   cursor = db.cursor()
   cursor.execute(
       '''
-        UPDATE display
-        SET p1_name = ?, p1_media_id = ?, p1_score = ?,
-            p2_name = ?, p2_media_id = ?, p2_score = ?,
-            code = ?
-        WHERE id = ?;
+      UPDATE display
+      SET p1_name     = ?,
+          p1_media_id = ?,
+          p1_score    = ?,
+          p2_name     = ?,
+          p2_media_id = ?,
+          p2_score    = ?,
+          code        = ?
+      WHERE id = ?;
       ''',
       (
         display.p1_name,
@@ -97,7 +100,9 @@ def delete_one(pkey):
   cursor = db.cursor()
   cursor.execute(
       '''
-        DELETE FROM display WHERE id = ?;
+      DELETE
+      FROM display
+      WHERE id = ?;
       ''',
       (pkey,)
   )
@@ -110,8 +115,8 @@ def top_score():
   cursor = db.cursor()
   cursor.execute(
       '''
-        SELECT MAX(MAX(p1_score), MAX(p2_score)) as top_score
-        FROM display;
+      SELECT MAX(MAX(p1_score), MAX(p2_score)) as top_score
+      FROM display;
       '''
   )
   record = cursor.fetchone()
@@ -123,8 +128,9 @@ def reset_scores():
   cursor = db.cursor()
   cursor.execute(
       '''
-        UPDATE display
-        SET p1_score = 0, p2_score = 0;
+      UPDATE display
+      SET p1_score = 0,
+          p2_score = 0;
       '''
   )
   db.commit()
