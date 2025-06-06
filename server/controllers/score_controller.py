@@ -16,4 +16,4 @@ def top():
 @bp.route("/", methods=["DELETE"])
 def reset():
   display_service.reset_scores()
-  return redirect(url_for("index"), 303)
+  return redirect(url_for("index", page="displays"), 303)

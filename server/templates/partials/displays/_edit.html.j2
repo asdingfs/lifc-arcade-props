@@ -65,7 +65,7 @@
       value="{{ display.code }}">
   <button type="submit">Update</button>
   <button
-      hx-get="{{ url_for('index') }}"
+      hx-get="{{ url_for('index', page='displays') }}"
       hx-target="#app"
       hx-swap="innerHTML">
     Back to List

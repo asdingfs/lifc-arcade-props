@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask.logging import default_handler
 from . import db
 from .config import constants
@@ -58,7 +58,11 @@ def create_app(test_config=None):
 
   @app.route("/app", methods=["GET"])
   def index():
-    return render_template("index.html.j2")
+    page = request.args.get("page", "displays")
+    return render_template(
+        "index.html.j2",
+        page=f"pages.{page}"
+    )
 
   # setup database
   db.init_app(app)

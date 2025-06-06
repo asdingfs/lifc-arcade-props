@@ -30,7 +30,7 @@ def new():
 def create():
   badge_service.create_one(BadgeRecord.from_request(request))
   flash("Entry created successfully!", "success")
-  return redirect(url_for("index"), 303)
+  return redirect(url_for("index", page="players"), 303)
 
 
 @bp.route("/edit/<int:pkey>", methods=["GET"])
@@ -47,7 +47,7 @@ def update(pkey):
   validate_pkey(pkey)
   badge_service.update_one(pkey, BadgeRecord.from_request(request))
   flash("Entry updated successfully!", "success")
-  return redirect(url_for("index"), 303)
+  return redirect(url_for("index", page="players"), 303)
 
 
 @bp.route("/<int:pkey>", methods=["DELETE"])
@@ -55,7 +55,7 @@ def delete(pkey):
   validate_pkey(pkey)
   badge_service.delete_one(pkey)
   flash("Entry deleted successfully!", "success")
-  return redirect(url_for("index"), 303)
+  return redirect(url_for("index", page="players"), 303)
 
 
 def validate_pkey(pkey):

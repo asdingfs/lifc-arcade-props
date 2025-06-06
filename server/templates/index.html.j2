@@ -1,15 +1,15 @@
 <div id="app_header">
-  <button hx-get="{{ url_for('pages.players') }}"
-          hx-target="#app_body"
-          hx-swap="innerHTML">
-    < Players >
-  </button>
   <button hx-get="{{ url_for('pages.displays') }}"
           hx-target="#app_body"
           hx-swap="innerHTML">
     < Displays >
   </button>
+  <button hx-get="{{ url_for('pages.players') }}"
+          hx-target="#app_body"
+          hx-swap="innerHTML">
+    < Players >
+  </button>
 </div>
-<div id="app_body" hx-get="{{ url_for('pages.displays') }}" hx-trigger="load" hx-swap="innerHTML">
+<div id="app_body" hx-get='{{ url_for(page) }}' hx-trigger="load" hx-swap="innerHTML">
   <!-- partials will be loaded here -->
 </div>
