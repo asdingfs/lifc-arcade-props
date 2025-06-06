@@ -1,9 +1,11 @@
 import os
 from flask import Flask, render_template
+from flask.logging import default_handler
 from . import db, constants
-from server.services import scheduler_service
+from server.services import scheduler_service, pixel_service
 from server.constants import DATABASE_NAME, UPLOAD_FOLDER
 from server.config.ap_scheduler_config import APSchedulerConfig
+from server.config.logger_config import LoggerFormatter
 from dotenv import load_dotenv
 from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_cors import CORS
@@ -45,6 +47,9 @@ def create_app(test_config=None):
   except OSError:
     pass
 
+  # setup default logging
+  default_handler.setFormatter(LoggerFormatter.default())
+
   # root page declarations
   @app.route("/")
   def index():
@@ -78,4 +83,5 @@ def create_app(test_config=None):
     app.register_blueprint(score_controller.bp)
     app.register_blueprint(input_controller.bp)
 
+    app.logger.info("flask initialized successfully!")
     return app

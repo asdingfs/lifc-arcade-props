@@ -15,18 +15,21 @@ def previews_path():
   return os.path.abspath(os.path.join(app.root_path, "static"))
 
 
+def logfile_path():
+  return os.path.join(scripts_path(), "processing-java.log")
+
+
 def push(display: DisplayView):
   script_path = os.path.join(scripts_path(), "bg_draw_update.sh")
-  log_path = os.path.join(scripts_path(), "processing-java.log")
-  log_file = open(log_path, "a")
+  logfile = open(logfile_path(), "a")
   args = display.to_cli_args()
   # run processing-java in background
   process = subprocess.Popen(
       ['bash', script_path, *args],
-      stdout=log_file,
-      stderr=log_file
+      stdout=logfile,
+      stderr=logfile
   )
-  return poll_exec(process, log_file)
+  return poll_exec(process, logfile)
 
 
 def preview(display: DisplayView):
@@ -34,23 +37,22 @@ def preview(display: DisplayView):
   filename = f"previews/{display.code}.png"
   os_img_path = os.path.join(previews_path(), filename)
   ws_img_path = url_for('static', filename=filename)
-  log_path = os.path.join(scripts_path(), "processing-java.log")
-  log_file = open(log_path, "a")
+  logfile = open(logfile_path(), "a")
   args = display.to_cli_args()
   args.append(f"--savePreview={os_img_path}")
   # run processing-java in background
   process = subprocess.Popen(
       ['bash', script_path, *args],
-      stdout=log_file,
-      stderr=log_file
+      stdout=logfile,
+      stderr=logfile
   )
-  is_successful = poll_exec(process, log_file)
+  is_successful = poll_exec(process, logfile)
   if is_successful:
-    log_file.write(f"\nPreview successfully saved to {os_img_path}\n")
+    logfile.write(f"\nPreview successfully saved to {os_img_path}\n")
   else:
-    log_file.write(f"\nGenerating preview FAILED!\n")
-  log_file.flush()
-  log_file.close()
+    logfile.write(f"\nGenerating preview FAILED!\n")
+  logfile.flush()
+  logfile.close()
   return (os_img_path, ws_img_path) if is_successful else (None, None)
 
 
@@ -66,23 +68,23 @@ def download(display: DisplayView):
     return None, None, None
 
 
-def poll_exec(process: subprocess.Popen, log_file):
+def poll_exec(process: subprocess.Popen, logfile):
   # Check if the process has terminated, and write to log file
   while True:
     exit_code = process.poll()  # None if still running, or exit code if finished
     if exit_code is not None:
       if exit_code != 0:
-        log_file.write(f"\nProcess failed with exit code {exit_code}\n")
-        log_file.flush()
-        log_file.close()
+        logfile.write(f"\nProcess failed with exit code {exit_code}\n")
+        logfile.flush()
+        logfile.close()
         return False
       else:
-        log_file.write(
+        logfile.write(
             f"\nProcess completed successfully with exit code {exit_code}\n"
         )
-        log_file.flush()
+        logfile.flush()
         return True
     else:
-      log_file.write("\nProcess is still running...\n")
-      log_file.flush()
+      logfile.write("\nProcess is still running...\n")
+      logfile.flush()
       time.sleep(1)

@@ -83,6 +83,7 @@ class DisplayState:
         return state
 
   def generate(self):
+    app.logger.info("generating display state...")
     state = self.get()
     (p1_default, p2_default) = default_player_set(2)
     with self._lock:
@@ -112,15 +113,22 @@ class DisplayState:
   # will always regress if force is set to True
   def regress(self, force: bool = False):
     """Reset the display state to default."""
+    force and app.logger.info("forcing display state to regress...")
     state = self.get()
     p1_scan_record = state.get("p1", None)
     p2_scan_record = state.get("p2", None)
     changed = False
     with self._lock:
       if p1_scan_record and (p1_scan_record.is_inactive() or force):
+        p1_scan_record.is_inactive() and app.logger.info(
+            "p1_scan_record is inactive, nullify state..."
+        )
         changed = True
         state["p1"] = None
       if p2_scan_record and (p2_scan_record.is_inactive() or force):
+        p1_scan_record.is_inactive() and app.logger.info(
+            "p2_scan_record is inactive, nullify state..."
+        )
         changed = True
         state["p2"] = None
       if changed:
@@ -153,10 +161,12 @@ class DisplayState:
       return None
 
   def sync_players(self):
+    app.logger.info("updating players information...")
     return self.sync_display(self.generate())
 
   # TODO: IDEA: during sync_display, add time, so we know when is was last displayed
   def sync_display(self, display):
+    app.logger.info("syncing display state...")
     if display:
       pixel_service.push(display)
       self.after_change()
