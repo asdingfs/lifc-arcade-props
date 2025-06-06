@@ -3,44 +3,50 @@ from datetime import datetime
 
 import click
 from flask import current_app, g
+from config.db_connection_pool import DbConnectionPool
 
 
 def init_db():
-    """Initialize the database."""
-    db = get_db()
+  """Initialize the database."""
+  db = open_db()
 
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+  with current_app.open_resource('schema.sql') as f:
+    db.executescript(f.read().decode('utf8'))
 
 
 @click.command('init-db')
 def init_db_command():
-    """Clear the existing data and create new tables."""
-    init_db()
-    click.echo('Initialized the database.')
+  """Clear the existing data and create new tables."""
+  init_db()
+  click.echo('Initialized the database.')
+
 
 def init_app(app):
-    app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
+  ensure_pool()
+  app.teardown_appcontext(close_pool)
+  app.cli.add_command(init_db_command)
 
 
-def get_db():
-    """Get a database connection."""
-    if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES,
-        )
-        g.db.row_factory = sqlite3.Row
-    return g.db
+def ensure_pool():
+  if 'db' not in g:
+    g.db = DbConnectionPool(current_app.config['DATABASE'], 5)
 
 
-def close_db(e=None):
-    """Close the database connection."""
-    db = g.pop('db', None)
+def open_db():
+  return g.db.get()
 
-    if db is not None:
-        db.close()
+
+def close_db(db_conn):
+  """Close the database connection."""
+  return None if ('db' not in g or db_conn is None) else g.db.forgo(db_conn)
+
+
+def close_pool(db_conn):
+  """'Close the database connection, essentially returning it to the pool."""
+  """Close the database connection."""
+  db = g.pop('db', None)
+  if db is not None:
+    db.close_all()
 
 
 sqlite3.register_converter(

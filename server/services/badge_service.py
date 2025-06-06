@@ -1,4 +1,4 @@
-from server.db import get_db
+from server.db import open_db, close_db
 from server.data.badge_record import BadgeRecord
 import random
 
@@ -13,7 +13,7 @@ def find_by_codes(codes: list[str]):
   if not codes:
     return []
 
-  db = get_db()
+  db = open_db()
   cursor = db.cursor()
   placeholders = ', '.join(['?'] * len(codes))
   cursor.execute(
@@ -26,12 +26,13 @@ def find_by_codes(codes: list[str]):
       ''', tuple(codes)
   )
   records = cursor.fetchall()
+  close_db(db)
 
   return [BadgeRecord.from_row(record) for record in records]
 
 
 def find_one(pkey):
-  db = get_db()
+  db = open_db()
   cursor = db.cursor()
   cursor.execute(
       '''
@@ -41,6 +42,7 @@ def find_one(pkey):
       ''', (pkey,)
   )
   record = cursor.fetchone()
+  close_db(db)
 
   return None \
     if record is None \
@@ -48,7 +50,7 @@ def find_one(pkey):
 
 
 def find_one_by_uuid(uuid):
-  db = get_db()
+  db = open_db()
   cursor = db.cursor()
   cursor.execute(
       '''
@@ -60,6 +62,7 @@ def find_one_by_uuid(uuid):
       ''', (uuid,)
   )
   record = cursor.fetchone()
+  close_db(db)
   return None if record is None else BadgeRecord.from_row(record)
 
 

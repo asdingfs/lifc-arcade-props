@@ -1,9 +1,9 @@
-from server.db import get_db
+from server.db import open_db, close_db
 from server.data.scan_record import ScanRecord
 
 
 def find_one(pkey: int):
-  db = get_db()
+  db = open_db()
   cursor = db.cursor()
   cursor.execute(
       """
@@ -12,12 +12,13 @@ def find_one(pkey: int):
         """, (pkey,)
   )
   record = cursor.fetchone()
+  close_db(db)
   return None if record is None else ScanRecord.from_row(record)
 
 
 # p1_or_p2: boolean. True -> P1, False -> P2
 def create_one(badge_id: int, p1_or_p2: bool):
-  db = get_db()
+  db = open_db()
   cursor = db.cursor()
   cursor.execute(
       "INSERT INTO scan "
@@ -27,24 +28,27 @@ def create_one(badge_id: int, p1_or_p2: bool):
   )
   record = cursor.fetchone()
   db.commit()
+  close_db(db)
   return None if record is None else ScanRecord.from_row(record)
 
 
 def find_latest_p1():
-  db = get_db()
+  db = open_db()
   cursor = db.cursor()
   cursor.execute(
       "SELECT * FROM scan WHERE p1_or_p2 = TRUE ORDER BY updated_at DESC LIMIT 1;"
   )
   record = cursor.fetchone()
+  close_db(db)
   return None if record is None else ScanRecord.from_row(record)
 
 
 def find_latest_p2():
-  db = get_db()
+  db = open_db()
   cursor = db.cursor()
   cursor.execute(
       "SELECT * FROM scan WHERE p1_or_p2 = FALSE ORDER BY updated_at DESC LIMIT 1;"
   )
   record = cursor.fetchone()
+  close_db(db)
   return None if record is None else ScanRecord.from_row(record)
