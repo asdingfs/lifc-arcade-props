@@ -11,9 +11,9 @@ Description=Start Button to Sync Displays of the Arcade Props
 [Service]
 Type=simple
 User=root
-Group=server
+Group=input
 WorkingDirectory=/home/trigger/lifc-arcade-props
-ExecStart=/home/trigger/lifc-arcade-props/inputs/start_button.py
+ExecStart=/home/trigger/lifc-arcade-props/inputs/.venv/bin/python /home/trigger/lifc-arcade-props/inputs/start_button.py
 Restart=always
 
 [Install]

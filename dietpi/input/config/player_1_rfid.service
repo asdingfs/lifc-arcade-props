@@ -11,9 +11,9 @@ Description=Player 1 RFID Reader Background Service
 [Service]
 Type=simple
 User=root
-Group=server
+Group=input
 WorkingDirectory=/home/trigger/lifc-arcade-props
-ExecStart=/home/trigger/lifc-arcade-props/inputs/player_1_rfid.py
+ExecStart=/home/trigger/lifc-arcade-props/inputs/.venv/bin/python /home/trigger/lifc-arcade-props/inputs/player_1_rfid.py
 Restart=always
 
 [Install]
