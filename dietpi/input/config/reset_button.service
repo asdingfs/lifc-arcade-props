@@ -1,0 +1,20 @@
+# --> to copy to /etc/systemd/system:
+# ln -sfn /home/trigger/lifc-arcade-props/dietpi/input/config/*.service /etc/systemd/system/
+# sudo systemctl start reset_button.service
+# sudo systemctl enable reset_button.service
+# --> to check:
+# sudo systemctl status reset_button.service
+
+[Unit]
+Description=Reset Button to Reset Displays of the Arcade Props
+
+[Service]
+Type=simple
+User=root
+Group=server
+WorkingDirectory=/home/trigger/lifc-arcade-props
+ExecStart=/home/trigger/lifc-arcade-props/inputs/reset_button.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
