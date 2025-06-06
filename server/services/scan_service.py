@@ -1,4 +1,4 @@
-from server.db import get_db
+from server.db import get_db, close_db
 from server.data.scan_record import ScanRecord
 
 
@@ -12,6 +12,7 @@ def find_one(pkey: int):
         """, (pkey,)
   )
   record = cursor.fetchone()
+  close_db()  # Close the DB connection after query
   return None if record is None else ScanRecord.from_row(record)
 
 
@@ -27,6 +28,7 @@ def create_one(badge_id: int, p1_or_p2: bool):
   )
   record = cursor.fetchone()
   db.commit()
+  close_db()  # Close the DB connection after query
   return None if record is None else ScanRecord.from_row(record)
 
 
@@ -37,6 +39,7 @@ def find_latest_p1():
       "SELECT * FROM scan WHERE p1_or_p2 = TRUE ORDER BY updated_at DESC LIMIT 1;"
   )
   record = cursor.fetchone()
+  close_db()  # Close the DB connection after query
   return None if record is None else ScanRecord.from_row(record)
 
 
@@ -47,4 +50,5 @@ def find_latest_p2():
       "SELECT * FROM scan WHERE p1_or_p2 = FALSE ORDER BY updated_at DESC LIMIT 1;"
   )
   record = cursor.fetchone()
+  close_db()  # Close the DB connection after query
   return None if record is None else ScanRecord.from_row(record)

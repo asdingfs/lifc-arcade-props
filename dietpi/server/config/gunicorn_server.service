@@ -17,7 +17,7 @@ Group=server
 WorkingDirectory=/home/server/lifc-arcade-props
 Environment="PATH=/home/server/lifc-arcade-props/server/.venv/bin:/usr/local/bin:/usr/bin:/bin"
 Environment="FLASK_ENV_FILE=/home/server/lifc-arcade-props/.env"
-ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --preload --workers 1 --threads 1 --chdir /home/server/lifc-arcade-props --bind unix:server/server.sock --umask 007 --access-logfile /var/log/gunicorn/access.log --error-logfile /var/log/gunicorn/error.log --capture-output --log-level info --forwarded-allow-ips "*" main:application
+ExecStart=/home/server/lifc-arcade-props/server/.venv/bin/gunicorn --preload --workers 3 --threads 3 --chdir /home/server/lifc-arcade-props --bind unix:server/server.sock --umask 007 --access-logfile /var/log/gunicorn/access.log --error-logfile /var/log/gunicorn/error.log --capture-output --log-level info --forwarded-allow-ips "*" main:application
 ExecStartPost=/bin/bash -c 'for i in {1..10}; do [ -S /home/server/lifc-arcade-props/server/server.sock ] && break; sleep 0.5; done'
 ExecStartPost=chown server:server /home/server/lifc-arcade-props/server/server.sock
 Restart=always

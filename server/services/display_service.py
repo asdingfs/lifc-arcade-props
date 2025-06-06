@@ -1,4 +1,4 @@
-from server.db import get_db
+from server.db import get_db, close_db
 from server.data.display_view import DisplayView
 
 
@@ -17,6 +17,7 @@ def find_all():
       '''
   )
   records = cursor.fetchall()
+  close_db()  # Close the DB connection after query
   top = top_score()
   return [DisplayView.from_row(row, top) for row in records]
 
@@ -36,7 +37,7 @@ def find_one(pkey):
       ''', (pkey,)
   )
   record = cursor.fetchone()
-
+  close_db()
   return None if record is None else DisplayView.from_row(record, top_score())
 
 
@@ -62,6 +63,7 @@ def create_one(display):
   )
   created_id = cursor.lastrowid
   db.commit()
+  close_db()  # Close the DB connection after query
   return None if created_id is None else find_one(created_id)
 
 
@@ -92,6 +94,7 @@ def update_one(pkey, display):
       )
   )
   db.commit()
+  close_db()  # Close the DB connection after query
   return find_one(pkey)
 
 
@@ -107,6 +110,7 @@ def delete_one(pkey):
       (pkey,)
   )
   db.commit()
+  close_db()  # Close the DB connection after query
   return None
 
 
@@ -120,6 +124,7 @@ def top_score():
       '''
   )
   record = cursor.fetchone()
+  close_db()  # Close the DB connection after query
   return None if record is None else record["top_score"]
 
 
@@ -134,4 +139,5 @@ def reset_scores():
       '''
   )
   db.commit()
+  close_db()  # Close the DB connection after query
   return None
