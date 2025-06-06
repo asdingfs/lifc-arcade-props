@@ -4,6 +4,7 @@ from server.data.display_state import DisplayState
 from server.data.display_record import DisplayRecord
 from server.services import display_service, pixel_service
 from server.utils import random_uuid
+import urllib.parse
 
 bp = Blueprint("displays", __name__, url_prefix="/displays")
 app = current_app
@@ -14,9 +15,13 @@ def index():
   search = request.args.get("search", None)
   page = request.args.get("page", 0, type=int)
   size = request.args.get("size", 20, type=int)
+  records = display_service.find_all(search, page, size)
   return render_template(
       "partials/displays/_index.html.j2",
       records=display_service.find_all(search, page, size),
+      enc_search=urllib.parse.quote_plus(search) if search else None,
+      page=page, size=size,
+      records_size=len(records) - 1,
   )
 
 

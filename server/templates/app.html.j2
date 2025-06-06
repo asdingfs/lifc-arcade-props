@@ -43,15 +43,35 @@
   <label>
     Search: <input
       type="text"
+      id="search"
       name="search"
       hx-get="{{ url_for('displays.index') }}"
       hx-target="#content"
       hx-swap="innerHTML"
       hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
-      hx-vals='{"search":{{ search }}, "page":{{ page }}, "size":{{ size }}}'
+      hx-include="search"
       hx-preserve="true">
   </label>
 </div>
-<div id="content" hx-get="/displays" hx-trigger="load" hx-swap="innerHTML">
-  <!-- partials will be loaded here -->
-</div>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>P1 Name</th>
+    <th>P1 Score</th>
+    <th>P1 Image</th>
+    <th>P2 Name</th>
+    <th>P2 Score</th>
+    <th>P2 Image</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody
+      id="content"
+      hx-get="{{ url_for('displays.index') }}"
+      hx-trigger="load"
+      hx-target="#content"
+      hx-swap="innerHTML">
+  <!-- partials will replace this <tr> -->
+  </tbody>
+</table>

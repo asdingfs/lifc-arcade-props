@@ -1,7 +1,7 @@
 from server.db import get_db, close_db
 from server.data.display_view import DisplayView
 
-
+# NOTE: this records, always return one more... for infinite scrolling
 def find_all(search: str | None = None, page: int = 0, size: int = 20):
   db = get_db()
   cursor = db.cursor()

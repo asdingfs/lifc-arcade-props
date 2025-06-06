@@ -57,13 +57,7 @@ def create_app(test_config=None):
 
   @app.route("/app", methods=["GET"])
   def index():
-    search = request.args.get("search", None)
-    page = request.args.get("page", 0, type=int)
-    size = request.args.get("size", 20, type=int)
-    return render_template(
-        "app.html.j2",
-        search=search, page=page, size=size,
-    )
+    return render_template("app.html.j2")
 
   # setup database
   db.init_app(app)
