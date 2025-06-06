@@ -26,6 +26,8 @@ FrameData frameData;
 PFont h1Font;
 PFont h2Font;
 PFont h3Font;
+// changed
+boolean isChanged = false;
 
 // START: helper methods for rendering
 void resetBackground() {
@@ -57,6 +59,7 @@ void setup() {
     FrameDataBuilder builder = new FrameDataBuilder();
     frameData = builder.build();
   }
+  isChanged = true; // set changed to true, so we can render frame data
   // check if we're to save preview only, or to render frame data continuously
   if (parser.toSavePreview()) {
     println("Saving preview and exiting...");
@@ -77,24 +80,33 @@ void setup() {
 }
 
 void draw() {
-  loadPixels();
   if (testObserver.hasStrips) {
-    registry.startPushing();
-    List<Strip> strips = registry.getStrips();
-    // iterate through each available strips, and sample pixels
-    int y = 0;
-    int scaleY = height / (strips.size());
-    for (Strip strip: strips) {
-      int scaleX = width / strip.getLength();
-      for (int x = 0; x < strip.getLength(); x++) {
-        color c = pixels[y*scaleY*width+x*scaleX];
-        // color c = get(x*scaleX, y*scaleY); // this is a slower, but what was written in docs
-        strip.setPixel(c, x);
+    if (isChanged) {
+      loadPixels();
+      registry.startPushing();
+      List<Strip> strips = registry.getStrips();
+      // iterate through each available strips, and sample pixels
+      int y = 0;
+      int scaleY = height / (strips.size());
+      for (Strip strip: strips) {
+        int scaleX = width / strip.getLength();
+        for (int x = 0; x < strip.getLength(); x++) {
+          color c = pixels[y*scaleY*width+x*scaleX];
+          // color c = get(x*scaleX, y*scaleY); // this is a slower, but what was written in docs
+          strip.setPixel(c, x);
+        }
+        y++;
       }
-      y++;
+      isChanged = false;
+      delay(100); // wait a bit, so we can see the data
+    } else {
+      // clean up registry, so there's no updating (hence no flickering)
+      delay(100);
+      registry.stopPushing();
     }
   }
 }
+
 
 void renderStringRow(String str, int x, int y, color colour) {
   textAlign(CENTER);
