@@ -1,17 +1,17 @@
 {% for record in records %}
   {% if loop.index < size %}
     {% if loop.index < size - 1 %}
-      <tr>
+      <tr class="border-b border-[#713481]">
         {% else %}
       <tr hx-get='/badges?page={{ page + 1 }}&size=
           {{ size }}{{ "&search=" + enc_search if enc_search else "" }}'
           hx-trigger="revealed"
           hx-swap="afterend">
     {% endif %}
-  <td>{{ record.pkey }}</td>
-  <td>{{ record.code }}</td>
-  <td>{{ record.name }}</td>
-  <td>
+  <td class="px-4 py-2">{{ record.pkey }}</td>
+  <td class="px-4 py-2">{{ record.code }}</td>
+  <td class="px-4 py-2">{{ record.name }}</td>
+  <td class="px-4 py-2">
     {% if record.img_src %}
       <img
           src="{{ record.server_img_src() }}"
@@ -19,18 +19,24 @@
           alt="player badge image">
     {% endif %}
   </td>
-  <td>{{ record.created_at }}</td>
-  <td
-      hx-get="{{ url_for('badges.edit', pkey=record.pkey) }}"
-      hx-target="#app_body"
-      hx-swap="innerHTML">
-    Edit
+  <td class="px-4 py-2"><span class="text-xs text-[#91A1FF]">{{ record.created_at }}</span></td>
+  <td class="px-4 py-2 text-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+         class="size-6 text-[#91A1FF] inline">
+      <path
+          d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712L8 16.313V20h3.687l8.826-8.826Z"/>
+    </svg>
   </td>
-  <td
-      hx-delete="{{ url_for('badges.delete', pkey=record.pkey) }}"
-      hx-target="#app"
-      hx-swap="innerHTML">
-    Delete
+  <td class="px-4 py-2 text-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+         class="size-6 text-[#F215FF] inline">
+      <path fill-rule="evenodd"
+            d="M16.5 4.478v.227a48.842 48.842 0 0 1 3.865.5l.282.082c1.4.41 1.4 2.37 0 2.78l-.174.05Z"
+            clip-rule="evenodd"/>
+      <path fill-rule="evenodd"
+            d="M13.375 1.5c-.404 0-.808.078-1.207.239L4.5 5.05a3 3 0 0 0-1.892 2.77L2.25 17.577A4.5 4.5 0 0 0 6.75 22.075h10.5a4.5 4.5 0 0 0 4.5-4.5l-.158-9.754a3 3 0 0 0-1.892-2.77l-7.668-3.31c-.398-.161-.802-.239-1.207-.239Zm.306 6.016a.75.75 0 1 0-1.06-1.06L9 9.44l-1.72-1.72a.75.75 0 0 0-1.06 1.06L7.94 10.5l-1.72 1.72a.75.75 0 1 0 1.06 1.06L9 11.56l1.72 1.72a.75.75 0 1 0 1.06-1.06L10.06 10.5l1.72-1.72Z"
+            clip-rule="evenodd"/>
+    </svg>
   </td>
   </tr>
   {% endif %}

@@ -1,15 +1,15 @@
-<div id="app_header">
-  <button hx-get="{{ url_for('pages.displays') }}"
+<div id="app_header" class="flex flex-col md:flex-row gap-y-4 md:gap-x-6 justify-center items-center py-4 px-8 bg-[#061438] border-b-4 border-[#713481] shadow-lg rounded-b-2xl mb-8">
+  <button class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF] whitespace-nowrap" hx-get="{{ url_for('pages.displays') }}"
           hx-target="#app_body"
           hx-swap="innerHTML">
-    < Displays >
+    &lt; Displays &gt;
   </button>
-  <button hx-get="{{ url_for('pages.players') }}"
+  <button class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF] whitespace-nowrap" hx-get="{{ url_for('pages.players') }}"
           hx-target="#app_body"
           hx-swap="innerHTML">
-    < Players >
+    &lt; Players &gt;
   </button>
 </div>
-<div id="app_body" hx-get='{{ url_for(page) }}' hx-trigger="load" hx-swap="innerHTML">
+<div id="app_body" class="mt-8" hx-get='{{ url_for(page) }}' hx-trigger="load" hx-swap="innerHTML">
   <!-- partials will be loaded here -->
 </div>

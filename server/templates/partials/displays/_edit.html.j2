@@ -1,74 +1,124 @@
-<h1>PAGE: EDIT DISPLAY</h1>
+<h1 class="text-3xl font-extrabold text-[#F215FF] uppercase tracking-wider drop-shadow-lg mb-8 mt-2 text-center">
+  EDIT DISPLAY</h1>
 <form hx-put="{{ url_for('displays.update', pkey=display.pkey) }}"
       hx-encoding="multipart/form-data"
       hx-target="#app"
-      hx-swap="innerHTML">
-  <label>Player 1 Name:
-    <input type="text" name="p1_name" value="{{ display.p1_name }}" required>
-  </label><br>
-  <label>Player 1 Score:
-    <input type="number" name="p1_score" value="{{ display.p1_score }}">
-  </label><br>
-  <label>Player 1 Image:
-    <input
-        type="file" name="p1_file" accept="image/*"
-        hx-post="/media/upload"
-        hx-trigger="change"
-        hx-target="#p1_media_id"
-        hx-swap="innerHTML"
-        hx-vals='{"inputFile": "p1_file", "outputName": "p1_media_id"}'
-    >
-  </label><br>
-  <div id="p1_media_id">
-    <div
-        type="hidden"
-        hx-get='{{ url_for(
-            "media.show",
-            pkey=display.p1_media_id,
-            outputName="p1_media_id"
-        ) }}'
-        hx-trigger="load"
-        hx-target="#p1_media_id"
-        hx-swap="innerHTML"
-    ></div>
+      hx-swap="innerHTML"
+      class="flex flex-col mx-auto max-w-md"
+>
+  <div class="mb-8">
+    <label class="block"><span class="mb-1 block">Player 1 Name:</span>
+      <input
+          class="px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full"
+          type="text" name="p1_name" value="{{ display.p1_name }}" required>
+    </label>
   </div>
-  <label>Player 2 Name:
-    <input type="text" name="p2_name" value="{{ display.p2_name }}" required>
-  </label><br>
-  <label>Player 2 Score:
-    <input type="number" name="p2_score" value="{{ display.p2_score }}">
-  </label><br>
-  <label>Player 2 Image:
-    <input
-        type="file" name="p2_file" accept="image/*"
-        hx-post="/media/upload"
-        hx-trigger="change"
-        hx-swap="#p2_media_id"
-        hx-vals='{"inputName": "p2_file", "outputName": "p2_media_id"}'
-    >
-  </label><br>
-  <div id="p2_media_id">
-    <div
-        hx-get='{{ url_for(
-            "media.show",
-            pkey=display.p2_media_id,
-            outputName="p2_media_id"
-        ) }}'
-        hx-trigger="load"
-        hx-target="#p2_media_id"
-        hx-swap="innerHTML"
-    ></div>
+  <div class="mb-8">
+    <label class="block"><span class="mb-1 block">Player 1 Score:</span>
+      <input
+          class="px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full"
+          type="number" name="p1_score" value="{{ display.p1_score }}">
+    </label>
+  </div>
+  <div class="mb-8">
+    <label class="block">Player 1 Image:
+      <span class="sr-only">Choose file</span>
+      <input
+          type="file" name="p1_file" accept="image/*"
+          hx-post="/media/upload"
+          hx-trigger="change"
+          hx-target="#p1_media_id"
+          hx-swap="innerHTML"
+          hx-vals='{"inputFile": "p1_file", "outputName": "p1_media_id"}'
+          class="block w-full text-sm text-gray-500 mt-1
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-[#1CF2FE] file:text-[#F215FF]
+          hover:file:bg-[#91A1FF] hover:file:text-[#713481]
+          file:transition-all file:duration-200
+          file:outline file:outline-2 file:outline-[#713481]
+          file:focus:ring-2 file:focus:ring-[#F215FF]"
+      >
+    </label>
+    <div id="p1_media_id" class="mt-4">
+      <div
+          type="hidden"
+          hx-get='{{ url_for(
+              "media.show",
+              pkey=display.p1_media_id,
+              outputName="p1_media_id"
+          ) }}'
+          hx-trigger="load"
+          hx-target="#p1_media_id"
+          hx-swap="innerHTML"
+      ></div>
+    </div>
+  </div>
+  <div class="mb-8">
+    <label class="block"><span class="mb-1 block">Player 2 Name:</span>
+      <input
+          class="px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full"
+          type="text" name="p2_name" value="{{ display.p2_name }}" required>
+    </label>
+  </div>
+  <div class="mb-8">
+    <label class="block"><span class="mb-1 block">Player 2 Score:</span>
+      <input
+          class="px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full"
+          type="number" name="p2_score" value="{{ display.p2_score }}">
+    </label>
+  </div>
+  <div class="mb-8">
+    <label class="block">Player 2 Image:
+      <span class="sr-only">Choose file</span>
+      <input
+          type="file" name="p2_file" accept="image/*"
+          hx-post="/media/upload"
+          hx-trigger="change"
+          hx-swap="#p2_media_id"
+          hx-vals='{"inputName": "p2_file", "outputName": "p2_media_id"}'
+          class="block w-full text-sm text-gray-500 mt-1
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-[#1CF2FE] file:text-[#F215FF]
+          hover:file:bg-[#91A1FF] hover:file:text-[#713481]
+          file:transition-all file:duration-200
+          file:outline file:outline-2 file:outline-[#713481]
+          file:focus:ring-2 file:focus:ring-[#F215FF]"
+      >
+    </label>
+    <div id="p2_media_id" class="mt-4">
+      <div
+          hx-get='{{ url_for(
+              "media.show",
+              pkey=display.p2_media_id,
+              outputName="p2_media_id"
+          ) }}'
+          hx-trigger="load"
+          hx-target="#p2_media_id"
+          hx-swap="innerHTML"
+      ></div>
+    </div>
   </div>
   <input
       type="hidden"
       name="code"
       value="{{ display.code }}">
-  <button type="submit">Update</button>
-  <button
-      hx-get="{{ url_for('index', page='displays') }}"
-      hx-target="#app"
-      hx-swap="innerHTML">
-    Back to List
-  </button>
+  <div class="flex gap-4 mt-8">
+    <button
+        class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]"
+        hx-get="{{ url_for('index', page='displays') }}"
+        hx-target="#app"
+        hx-swap="innerHTML">
+      Back to Displays
+    </button>
+    <button type="submit"
+            class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]">
+      Update
+    </button>
+
+  </div>
 </form>
 

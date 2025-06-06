@@ -1,43 +1,72 @@
-<h1>PAGE: EDIT PLAYER</h1>
+<h1 class="text-3xl font-extrabold text-[#F215FF] uppercase tracking-wider drop-shadow-lg mb-8 mt-2 text-center">
+  EDIT PLAYER</h1>
 <form hx-put="{{ url_for('badges.update', pkey=badge.pkey) }}"
       hx-target="#app"
       hx-swap="innerHTML"
-      hx-encoding="multipart/form-data">
-  <label>Code:
-    <input type="text" name="code" value="{{ badge.code }}" required>
-  </label><br>
-  <label>Name:
-    <input type="text" name="name" value="{{ badge.name }}" required>
-  </label><br>
-  <label>Image:
-    <input
-        type="file" name="file" accept="image/*"
-        hx-post="/media/upload"
-        hx-trigger="change"
-        hx-target="#media_id"
-        hx-swap="innerHTML"
-        hx-vals='{"inputFile": "file", "outputName": "media_id"}'
-    >
-  </label><br>
-  <div id="media_id">
-    <div
-        type="hidden"
-        hx-get='{{ url_for(
-            "media.show",
-            pkey=badge.media_id,
-            outputName="media_id"
-        ) }}'
-        hx-trigger="load"
-        hx-target="#media_id"
-        hx-swap="innerHTML"
-    ></div>
+      hx-encoding="multipart/form-data"
+      class="flex flex-col mx-auto max-w-md"
+>
+  <div class="mb-8">
+    <label class="block"><span class="mb-1 block">Code:</span>
+      <input
+          class="px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full"
+          type="text" name="code" value="{{ badge.code }}" required>
+    </label>
   </div>
-  <button type="submit">Update</button>
-  <button
-      hx-get="{{ url_for('index', page='players') }}"
-      hx-target="#app"
-      hx-swap="innerHTML">
-    Back to List
-  </button>
+  <div class="mb-8">
+    <label class="block"><span class="mb-1 block">Name:</span>
+      <input
+          class="px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full"
+          type="text" name="name" value="{{ badge.name }}" required>
+    </label>
+  </div>
+  <div class="mb-8">
+    <label class="block">Image:
+      <span class="sr-only">Choose file</span>
+      <input
+          type="file" name="file" accept="image/*"
+          hx-post="/media/upload"
+          hx-trigger="change"
+          hx-target="#media_id"
+          hx-swap="innerHTML"
+          hx-vals='{"inputFile": "file", "outputName": "media_id"}'
+          class="block w-full text-sm text-gray-500 mt-1
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-[#1CF2FE] file:text-[#F215FF]
+          hover:file:bg-[#91A1FF] hover:file:text-[#713481]
+          file:transition-all file:duration-200
+          file:outline file:outline-2 file:outline-[#713481]
+          file:focus:ring-2 file:focus:ring-[#F215FF]"
+      >
+    </label>
+    <div id="media_id" class="mt-4">
+      <div
+          hx-get='{{ url_for(
+              "media.show",
+              pkey=badge.media_id,
+              outputName="media_id"
+          ) }}'
+          hx-trigger="load"
+          hx-target="#media_id"
+          hx-swap="innerHTML"
+      ></div>
+    </div>
+  </div>
+  <div class="flex gap-4 mt-8">
+    <button
+        class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]"
+        hx-get="{{ url_for('index', page='players') }}"
+        hx-target="#app"
+        hx-swap="innerHTML">
+      Back to Players
+    </button>
+    <button type="submit"
+            class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]">
+      Update
+    </button>
+
+  </div>
 </form>
 

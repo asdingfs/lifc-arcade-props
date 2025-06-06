@@ -1,47 +1,22 @@
-<h1>PAGE: DISPLAYS</h1>
-<button hx-get="{{ url_for('displays.new') }}"
-        hx-target="#app_body"
-        hx-swap="innerHTML">
-  Create New Display
-</button>
-<div
-    class="flex flex-row items-center gap-2">
-  <form
-      class="flex-initial"
-      hx-post="{{ url_for('inputs.create') }}"
+<h1 class="text-3xl font-extrabold text-[#F215FF] uppercase tracking-wider drop-shadow-lg mb-8 mt-2 text-center">
+  DISPLAYS</h1>
+<div class="flex justify-center gap-4 mb-8">
+  <button
+      class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]"
+      hx-get="{{ url_for('displays.new') }}"
       hx-target="#app_body"
       hx-swap="innerHTML">
-    <label
-
-        class="flex-initial">
-      Code: <input
-        class="flex-initial" type="text" name="code" required>
-    </label>
-    <label
-        class="flex-initial">
-      <input
-          class="flex-initial" type="radio" name="player" value="p1"/>
-      p1
-    </label>
-    <label
-        class="flex-initial">
-      <input
-          class="flex-initial" type="radio" name="player" value="p2"/>
-      p2
-    </label>
-    <button
-        class="flex-initial" type="submit">Submit
-    </button>
-  </form>
+    New
+  </button>
   <button
-      class="flex-initial"
+      class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]"
       hx-post="{{ url_for('displays.sync') }}"
       hx-target="#app_body"
       hx-swap="innerHTML">
     Sync
   </button>
 </div>
-<div class="flex flex-row items-center gap-2">
+<div class="flex flex-col md:flex-row items-center gap-4 mb-8">
   <div class="flex-initial">Top Score:</div>
   <div id="top_score"
        class="flex-initial"
@@ -51,16 +26,51 @@
        hx-swap="innerHTML">
   </div>
   <button
-      class="flex-initial"
+      class="flex-initial px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]"
       hx-delete="{{ url_for('scores.reset') }}"
       hx-target="#app_body"
       hx-swap="innerHTML">
-    Reset
+    Reset Scores
   </button>
 </div>
-<div>
-  <label>
-    Search: <input
+<div
+    class="flex flex-col md:flex-row items-center gap-4 mb-8">
+  <form
+      class="flex flex-col sm:flex-row items-center gap-4"
+      hx-post="{{ url_for('inputs.create') }}"
+      hx-target="#app_body"
+      hx-swap="innerHTML">
+    <label
+        class="text-white text-center">Code: <input
+        class="flex-initial px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full sm:w-auto"
+        type="text" name="code" required>
+    </label>
+    <div class="flex items-center gap-4">
+      <label
+          class="text-white">
+        <input
+            class="accent-[#1CF2FE]" type="radio" name="player" value="p1"/>
+        p1
+      </label>
+      <label
+          class="text-white">
+        <input
+            class="accent-[#1CF2FE]" type="radio" name="player" value="p2"/>
+        p2
+      </label>
+      <button
+          class="px-6 py-2 rounded-full font-bold text-[#F215FF] bg-[#1CF2FE] shadow-[0_0_16px_#F215FF] hover:bg-[#91A1FF] hover:text-[#713481] transition-all duration-200 outline outline-2 outline-[#713481] focus:ring-2 focus:ring-[#F215FF]"
+          type="submit">Submit
+      </button>
+    </div>
+  </form>
+</div>
+<div class="flex flex-col md:flex-row items-center gap-2 mb-8 justify-start">
+  <label class="flex-initial text-white">
+    Search:
+  </label>
+  <input
+      class="px-4 py-2 rounded bg-[#061438] border-2 border-[#1CF2FE] text-white focus:border-[#F215FF] placeholder-[#91A1FF] transition w-full md:w-auto"
       type="text"
       id="search"
       name="search"
@@ -69,19 +79,55 @@
       hx-swap="innerHTML"
       hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
       hx-include="search">
-  </label>
 </div>
-<table>
+<div class="overflow-x-auto">
+<table
+    class="w-full text-white border-separate border-spacing-0 bg-[#061438] border-4 border-[#713481] shadow-lg">
   <thead>
   <tr>
-    <th>ID</th>
-    <th>P1 Name</th>
-    <th>P1 Score</th>
-    <th>P1 Image</th>
-    <th>P2 Name</th>
-    <th>P2 Score</th>
-    <th>P2 Image</th>
-    <th>Created At</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">ID</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">P1<br>Name</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">P1<br>Score</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">P1<br>Image</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">P2<br>Name</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">P2<br>Score</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">P2<br>Image</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">Created<br>At</th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#91A1FF] inline">
+        <path
+            d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712L8 16.313V20h3.687l8.826-8.826Z"/>
+      </svg>
+    </th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#91A1FF] inline">
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+        <path fill-rule="evenodd"
+              d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.974 0 9.192 3.226 10.678 7.697a11.992 11.992 0 0 1-1.221 3.102 12.04 12.04 0 0 1-.597 1.165.75.75 0 1 0 1.329.746 13.548 13.548 0 0 0 1.221-3.102c1.488-4.471-1.04-9.165-5.606-10.702a11.95 11.95 0 0 0-6.842 0c-4.566 1.537-7.094 6.231-5.606 10.702a11.95 11.95 0 0 0 1.221 3.102 13.54 13.54 0 0 0 1.33-.746.75.75 0 0 0-.598-1.165 12.038 12.038 0 0 1-.597-1.165ZM15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+              clip-rule="evenodd"/>
+      </svg>
+    </th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#91A1FF] inline">
+        <path fill-rule="evenodd"
+              d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-2.25a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3v-2.25a.75.75 0 0 1 .75-.75Z"
+              clip-rule="evenodd"/>
+      </svg>
+    </th>
+    <th class="px-4 py-2 border-b-2 border-[#713481] text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#F215FF] inline">
+        <path fill-rule="evenodd"
+              d="M16.5 4.478v.227a48.842 48.842 0 0 1 3.865.5l.282.082c1.4.41 1.4 2.37 0 2.78l-.174.05Z"
+              clip-rule="evenodd"/>
+        <path fill-rule="evenodd"
+              d="M13.375 1.5c-.404 0-.808.078-1.207.239L4.5 5.05a3 3 0 0 0-1.892 2.77L2.25 17.577A4.5 4.5 0 0 0 6.75 22.075h10.5a4.5 4.5 0 0 0 4.5-4.5l-.158-9.754a3 3 0 0 0-1.892-2.77l-7.668-3.31c-.398-.161-.802-.239-1.207-.239Zm.306 6.016a.75.75 0 1 0-1.06-1.06L9 9.44l-1.72-1.72a.75.75 0 0 0-1.06 1.06L7.94 10.5l-1.72 1.72a.75.75 0 1 0 1.06 1.06L9 11.56l1.72 1.72a.75.75 0 1 0 1.06-1.06L10.06 10.5l1.72-1.72Z"
+              clip-rule="evenodd"/>
+      </svg>
+    </th>
   </tr>
   </thead>
   <tbody
@@ -90,6 +136,85 @@
       hx-trigger="load"
       hx-target="#content"
       hx-swap="innerHTML">
+  {% for record in records %}
+    {% if loop.index < size %}
+      {% if loop.index < size - 1 %}
+        <tr class="border-b border-[#713481]">
+          {% else %}
+        <tr hx-get='/displays?page={{ page + 1 }}&size=
+            {{ size }}{{ "&search=" + enc_search if enc_search else "" }}'
+            hx-trigger="revealed"
+            hx-swap="afterend">
+      {% endif %}
+    <td class="px-4 py-2 text-right">{{ record.pkey }}</td>
+    <td class="px-4 py-2 text-left">{{ record.p1_name }}</td>
+    <td class="px-4 py-2 text-right">{{ record.p1_score }}</td>
+    <td class="px-4 py-2 text-left">
+      {% if record.p1_img_src %}
+        <img
+            src="{{ record.p1_img_src }}"
+            width="64"
+            alt="player 1 image">
+      {% endif %}
+    </td>
+    <td class="px-4 py-2 text-left">{{ record.p2_name }}</td>
+    <td class="px-4 py-2 text-right">{{ record.p2_score }}</td>
+    <td class="px-4 py-2 text-left">
+      {% if record.p2_img_src %}
+        <img
+            src="{{ record.p2_img_src }}"
+            width="64"
+            alt="player 2 image">
+      {% endif %}
+    </td>
+    <td class="px-4 py-2 text-left"><span class="text-xs text-[#91A1FF]">{{ record.created_at }}</span></td>
+    <td class="px-4 py-2"
+        hx-get="{{ url_for('displays.edit', pkey=record.pkey) }}"
+        hx-target="#app_body"
+        hx-swap="innerHTML">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#91A1FF] hover:text-[#1CF2FE]">
+        <path
+            d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712L8 16.313V20h3.687l8.826-8.826Z"/>
+      </svg>
+    </td>
+    <td class="px-4 py-2" hx-get="{{ url_for('displays.show', pkey=record.pkey) }}">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#91A1FF] hover:text-[#1CF2FE]">
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+        <path fill-rule="evenodd"
+              d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.974 0 9.192 3.226 10.678 7.697a11.992 11.992 0 0 1-1.221 3.102 12.04 12.04 0 0 1-.597 1.165.75.75 0 1 0 1.329.746 13.548 13.548 0 0 0 1.221-3.102c1.488-4.471-1.04-9.165-5.606-10.702a11.95 11.95 0 0 0-6.842 0c-4.566 1.537-7.094 6.231-5.606 10.702a11.95 11.95 0 0 0 1.221 3.102 13.54 13.54 0 0 0 1.33-.746.75.75 0 0 0-.598-1.165 12.038 12.038 0 0 1-.597-1.165ZM15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+              clip-rule="evenodd"/>
+      </svg>
+    </td>
+    <td class="px-4 py-2">
+      <a href="{{ url_for('displays.download', pkey=record.pkey) }}" download>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="size-6 text-[#91A1FF] hover:text-[#1CF2FE]">
+          <path fill-rule="evenodd"
+                d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-2.25a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3v-2.25a.75.75 0 0 1 .75-.75Z"
+                clip-rule="evenodd"/>
+        </svg>
+      </a>
+    </td>
+    <td class="px-4 py-2"
+        hx-delete="{{ url_for('displays.delete', pkey=record.pkey) }}"
+        hx-target="#app"
+        hx-swap="innerHTML">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#F215FF] hover:text-[#91A1FF]">
+        <path fill-rule="evenodd"
+              d="M16.5 4.478v.227a48.842 48.842 0 0 1 3.865.5l.282.082c1.4.41 1.4 2.37 0 2.78l-.174.05Z"
+              clip-rule="evenodd"/>
+        <path fill-rule="evenodd"
+              d="M13.375 1.5c-.404 0-.808.078-1.207.239L4.5 5.05a3 3 0 0 0-1.892 2.77L2.25 17.577A4.5 4.5 0 0 0 6.75 22.075h10.5a4.5 4.5 0 0 0 4.5-4.5l-.158-9.754a3 3 0 0 0-1.892-2.77l-7.668-3.31c-.398-.161-.802-.239-1.207-.239Zm.306 6.016a.75.75 0 1 0-1.06-1.06L9 9.44l-1.72-1.72a.75.75 0 0 0-1.06 1.06L7.94 10.5l-1.72 1.72a.75.75 0 1 0 1.06 1.06L9 11.56l1.72 1.72a.75.75 0 1 0 1.06-1.06L10.06 10.5l1.72-1.72Z"
+              clip-rule="evenodd"/>
+      </svg>
+    </td>
+    </tr>
+    {% endif %}
+  {% endfor %}
   <!-- partials will replace this <tr> -->
   </tbody>
 </table>
+</div>

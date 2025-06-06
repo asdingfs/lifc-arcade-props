@@ -10,9 +10,24 @@
       crossorigin="anonymous"></script>
   <script
       src="https://unpkg.com/hyperscript.org@0.9.14"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    /* Hide the number input spin buttons */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+  </style>
 </head>
-<body>
-<div id="app" hx-get="{{ url_for('index') }}" hx-trigger="load" hx-swap="innerHTML">
+<body class="min-h-screen bg-[#061438] text-white font-['Press_Start_2P']">
+<div id="app" class="p-4" hx-get="{{ url_for('index') }}" hx-trigger="load" hx-swap="innerHTML">
   <!-- partials will be loaded here -->
 </div>
 </body>
