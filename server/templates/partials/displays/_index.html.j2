@@ -39,6 +39,18 @@
     Reset
   </button>
 </div>
+<div>
+  <label>
+    Search:  <input
+      type="text"
+      name="search"
+      hx-get="{{ url_for('displays.index') }}"
+      hx-target="#app"
+      hx-swap="innerHTML"
+      hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+      hx-preserve="true">
+  </label>
+</div>
 <table>
   <thead>
   <tr>
