@@ -1,5 +1,5 @@
 from flask import current_app, url_for
-from server.constants import ALLOWED_EXTENSIONS
+from server.config.constants import ALLOWED_EXTENSIONS
 from uuid import uuid4
 import os
 

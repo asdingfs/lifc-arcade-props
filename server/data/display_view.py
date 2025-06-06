@@ -1,5 +1,8 @@
 from sqlite3 import Row
 from server.utils import uploaded_file_path, uploaded_file_fullpath
+from datetime import datetime
+from server.config.constants import ARCADE_NAME_LENGTH
+import anyascii
 
 
 class DisplayView:
@@ -10,9 +13,7 @@ class DisplayView:
       p2_name: str, p2_img_src: str, p2_img_path: str,
       p2_media_id: int, p2_score: int,
       top_score: int,
-      # time in epoch second
-      # TODO: figure out what format is this
-      created_at, updated_at
+      created_at: datetime, updated_at: datetime,
   ):
     self.pkey = pkey
     self.code = code
@@ -29,6 +30,7 @@ class DisplayView:
     self.top_score = top_score
     self.created_at = created_at
     self.updated_at = updated_at
+    self.arcadeify_names()
 
   def __repr__(self):
     return (f"<Display {self.pkey} (code: {self.code}): "
@@ -50,6 +52,13 @@ class DisplayView:
       f"--p2Score={self.p2_score}",
       f"--topScore={self.top_score}"
     ]
+
+  def arcadeify_names(self):
+    self.p1_name = self.arcadeify(self.p1_name)
+    self.p2_name = self.arcadeify(self.p2_name)
+
+  def arcadeify(self, name: str) -> str:
+    return anyascii.anyascii(name)[:ARCADE_NAME_LENGTH].upper()
 
   @classmethod
   def from_row(cls, row: Row, top_score: int = 0):
