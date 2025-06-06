@@ -20,14 +20,20 @@
     {% endif %}
   </td>
   <td class="px-4 py-2"><span class="text-xs text-[#91A1FF]">{{ record.created_at }}</span></td>
-  <td class="px-4 py-2 text-center">
+  <td class="px-4 py-2 text-center"
+      hx-get="{{ url_for('badges.edit', pkey=record.pkey) }}"
+      hx-target="#app_body"
+      hx-swap="innerHTML">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
          class="size-6 text-[#91A1FF] inline">
       <path
           d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712L8 16.313V20h3.687l8.826-8.826Z"/>
     </svg>
   </td>
-  <td class="px-4 py-2 text-center">
+  <td class="px-4 py-2 text-center"
+      hx-delete="{{ url_for('badges.delete', pkey=record.pkey) }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
          class="size-6 text-[#F215FF] inline">
       <path fill-rule="evenodd"
