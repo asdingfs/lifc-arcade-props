@@ -1,0 +1,23 @@
+<h1>PAGE: CREATE PLAYERS</h1>
+<form hx-post={{ url_for('badges.create') }} hx-encoding="multipart/form-data">
+  <label>Badge UID: <input type="text" name="code" required></label><br>
+  <label>Badge Name: <input type="text" name="name"></label><br>
+  <label>Media:
+    <input
+        type="file" name="media" accept="image/*"
+        hx-post="/media/upload"
+        hx-trigger="change"
+        hx-target="#media_id"
+        hx-swap="innerHTML"
+        hx-vals='{"inputFile": "media","outputName": "media_id"}'
+    >
+  </label><br>
+  <div id="media_id"></div>
+  <button type="submit">Create</button>
+  <button
+      hx-get="{{ url_for('index') }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
+    Back to List
+  </button>
+</form>

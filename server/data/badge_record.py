@@ -31,3 +31,14 @@ class BadgeRecord:
         media_id=int(row["media_id"]) if row["media_id"] else None,
         img_src=row["img_src"] if "img_src" in row else None
     )
+
+  @classmethod
+  def from_request(cls, request):
+    media_id = request.form.get("media_id")
+    return cls(
+        pkey=0,  # pkey is not set during creation, and it's ignored by creation
+        code=request.form.get("code"),
+        name=request.form.get("name"),
+        media_id=int(media_id) if media_id else None,
+        img_src=None,  # when creating from request, this is unnecessary
+    )

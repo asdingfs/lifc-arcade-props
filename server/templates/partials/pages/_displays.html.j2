@@ -1,3 +1,4 @@
+<h1>PAGE: DISPLAYS</h1>
 <button hx-get="{{ url_for('displays.new') }}"
         hx-target="#app"
         hx-swap="innerHTML">
@@ -8,31 +9,17 @@
         hx-swap="innerHTML">
   Sync
 </button>
-<form hx-post="{{ url_for('inputs.create') }}"
-      hx-target="#app"
-      hx-swap="innerHTML">
-  <label>
-    Code: <input type="text" name="code" required>
-  </label>
-  <label>
-    <input type="radio" name="player" value="p1"/>
-    p1
-  </label>
-  <label>
-    <input type="radio" name="player" value="p2"/>
-    p2
-  </label>
-  <button type="submit">Submit</button>
-</form>
-<div>
-  <div>Top Score:</div>
+<div class="flex flex-row items-center gap-2">
+  <div class="flex-initial">Top Score:</div>
   <div id="top_score"
+       class="flex-initial"
        hx-get="{{ url_for('scores.top') }}"
        hx-trigger="load"
        hx-target="#top_score"
        hx-swap="innerHTML">
   </div>
   <button
+      class="flex-initial"
       hx-delete="{{ url_for('scores.reset') }}"
       hx-target="#app"
       hx-swap="innerHTML">

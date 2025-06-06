@@ -70,3 +70,23 @@ def find_random_defaults(n: int = 1):
   defaults = random.sample(DEFAULT_CODES, n)
   random.shuffle(defaults)  # Shuffle to ensure randomness
   return find_by_codes(defaults)
+
+
+def create_one(badge):
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+      INSERT INTO badge (code, name, media_id)
+      VALUES (?, ?, ?);
+      ''',
+      (
+        badge.code,
+        badge.name,
+        badge.media_id,
+      )
+  )
+  created_id = cursor.lastrowid
+  db.commit()
+  close_db()  # Close the DB connection after query
+  return None if created_id is None else find_one(created_id)

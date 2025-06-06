@@ -54,11 +54,11 @@ def create_app(test_config=None):
   # root page declarations
   @app.route("/")
   def home():
-    return render_template("index.html.j2")
+    return render_template("root.html.j2")
 
   @app.route("/app", methods=["GET"])
   def index():
-    return render_template("app.html.j2")
+    return render_template("index.html.j2")
 
   # setup database
   db.init_app(app)
@@ -88,12 +88,14 @@ def create_app(test_config=None):
     scheduler.start()
 
     # register blueprints
-    from server.controllers import display_controller, media_controller, \
-      score_controller, input_controller
+    from server.controllers import page_controller, display_controller, \
+      media_controller, score_controller, input_controller, badge_controller
     app.register_blueprint(display_controller.bp)
     app.register_blueprint(media_controller.bp)
     app.register_blueprint(score_controller.bp)
     app.register_blueprint(input_controller.bp)
+    app.register_blueprint(page_controller.bp)
+    app.register_blueprint(badge_controller.bp)
 
     app.logger.info("flask initialized successfully!")
     return app

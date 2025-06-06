@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Display Sets</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
-  <script
-      src="https://unpkg.com/htmx.org@2.0.4"
-      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
-      crossorigin="anonymous"></script>
-  <script
-      src="https://unpkg.com/hyperscript.org@0.9.14"></script>
-</head>
-<body>
-<div id="app" hx-get="/app" hx-trigger="load" hx-swap="innerHTML">
+<div id="app_header">
+  <button hx-get="{{ url_for('pages.players') }}"
+          hx-target="#app_body"
+          hx-swap="innerHTML">
+    < Players >
+  </button>
+  <button hx-get="{{ url_for('pages.displays') }}"
+          hx-target="#app_body"
+          hx-swap="innerHTML">
+    < Displays >
+  </button>
+</div>
+<div id="app_body" hx-get="{{ url_for('pages.displays') }}" hx-trigger="load" hx-swap="innerHTML">
   <!-- partials will be loaded here -->
 </div>
-</body>
-</html> 
