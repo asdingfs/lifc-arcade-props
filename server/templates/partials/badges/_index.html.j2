@@ -27,8 +27,8 @@
     Edit
   </td>
   <td
-      hx-delete="{{ url_for('badges.create', pkey=record.pkey) }}"
-      hx-target="#app_body"
+      hx-delete="{{ url_for('badges.delete', pkey=record.pkey) }}"
+      hx-target="#app"
       hx-swap="innerHTML">
     Delete
   </td>

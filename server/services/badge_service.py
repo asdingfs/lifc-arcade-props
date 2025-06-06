@@ -129,3 +129,18 @@ def update_one(pkey, badge: BadgeRecord):
   db.commit()
   close_db()  # Close the DB connection after query
   return find_one(pkey)
+
+def delete_one(pkey):
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+      DELETE
+      FROM badge
+      WHERE id = ?;
+      ''',
+      (pkey,)
+  )
+  db.commit()
+  close_db()  # Close the DB connection after query
+  return None

@@ -50,6 +50,14 @@ def update(pkey):
   return redirect(url_for("index"), 303)
 
 
+@bp.route("/<int:pkey>", methods=["DELETE"])
+def delete(pkey):
+  validate_pkey(pkey)
+  badge_service.delete_one(pkey)
+  flash("Entry deleted successfully!", "success")
+  return redirect(url_for("index"), 303)
+
+
 def validate_pkey(pkey):
   record = badge_service.find_one(pkey)
   if record:
