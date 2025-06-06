@@ -12,9 +12,8 @@ GPIO.setup(START_BUTTON_PIN_IN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(START_LED_PIN_OUT, GPIO.OUT, initial=GPIO.HIGH)
 
 # setup logging
-script_dir = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(
-    filename=os.path.join(script_dir, 'buttons.log'),  # Log file name
+    filename=os.path.join(os.path.abspath("/var/log/inputs"), 'buttons.log'),  # Log file name
     level=logging.INFO,  # Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
     format='%(asctime)s %(levelname)s: %(message)s'
 )

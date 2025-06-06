@@ -11,9 +11,8 @@ from constants import PLAYER_2_RFID_SS_PIN
 from apis import register_p2
 
 # setup logging
-script_dir = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(
-    filename=os.path.join(script_dir, 'readers.log'),
+    filename=os.path.join(os.path.abspath("/var/log/inputs"), 'readers.log'),
     level=logging.INFO,  # Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
     format='%(asctime)s %(levelname)s: %(message)s'
 )
