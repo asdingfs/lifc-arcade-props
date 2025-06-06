@@ -1,7 +1,7 @@
 <h1>PAGE: CREATE PLAYERS</h1>
 <form hx-post={{ url_for('badges.create') }} hx-encoding="multipart/form-data">
   <label>Badge UID: <input type="text" name="code" required></label><br>
-  <label>Badge Name: <input type="text" name="name"></label><br>
+  <label>Badge Name: <input type="text" name="name" required></label><br>
   <label>Media:
     <input
         type="file" name="media" accept="image/*"

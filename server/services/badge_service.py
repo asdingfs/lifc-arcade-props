@@ -9,6 +9,27 @@ DEFAULT_CODES = [
 ]
 
 
+def find_all(search: str | None = None, page: int = 0, size: int = 20):
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      f'''
+      SELECT b.*,
+             m.url as img_src
+      FROM badge b
+               LEFT JOIN media m ON b.media_id = m.id
+      {"WHERE (b.code LIKE ? OR b.name LIKE ?)" if search else ""}
+      ORDER BY b.updated_at DESC
+      LIMIT ? OFFSET ?;
+      ''',
+      (*((f"%{search}%", f"%{search}%") if search else ()),
+       *(size + 1, page * size)),
+  )
+  records = cursor.fetchall()
+  close_db()  # Close the DB connection after query
+  return [BadgeRecord.from_row(record) for record in records]
+
+
 def find_by_codes(codes: list[str]):
   if not codes:
     return []

@@ -1,8 +1,6 @@
 from sqlite3 import Row
-from server.utils import uploaded_file_path, uploaded_file_fullpath
+from server.utils import uploaded_file_path, uploaded_file_fullpath, arcadeify
 from datetime import datetime
-from server.config.constants import ARCADE_NAME_LENGTH
-import anyascii
 
 
 class DisplayView:
@@ -54,11 +52,8 @@ class DisplayView:
     ]
 
   def arcadeify_names(self):
-    self.p1_name = self.arcadeify(self.p1_name)
-    self.p2_name = self.arcadeify(self.p2_name)
-
-  def arcadeify(self, name: str) -> str:
-    return anyascii.anyascii(name)[:ARCADE_NAME_LENGTH].upper()
+    self.p1_name = arcadeify(self.p1_name)
+    self.p2_name = arcadeify(self.p2_name)
 
   @classmethod
   def from_row(cls, row: Row, top_score: int = 0):

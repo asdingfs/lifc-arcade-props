@@ -1,4 +1,5 @@
 from sqlite3 import Row
+from server.utils import uploaded_file_path, arcadeify
 
 
 class BadgeRecord:
@@ -15,12 +16,19 @@ class BadgeRecord:
     self.name = name
     self.media_id = media_id
     self.img_src = img_src
+    self.arcadeify_names()
 
   def __repr__(self):
     return (f"BadgeRecord("
             f"id={self.pkey}, uuid={self.code}, "
             f"name={self.name}, media_id={self.media_id}"
             f")")
+
+  def server_img_src(self):
+    return uploaded_file_path(self.img_src)
+
+  def arcadeify_names(self):
+    self.name = arcadeify(self.name) if self.name else None
 
   @classmethod
   def from_row(cls, row: Row):
@@ -29,7 +37,7 @@ class BadgeRecord:
         code=row["code"],
         name=row["name"],
         media_id=int(row["media_id"]) if row["media_id"] else None,
-        img_src=row["img_src"] if "img_src" in row else None
+        img_src=row["img_src"] if row["img_src"] else None
     )
 
   @classmethod

@@ -4,11 +4,43 @@
         hx-swap="innerHTML">
   Create New Display
 </button>
-<button hx-post="{{ url_for('displays.sync') }}"
-        hx-target="#app"
-        hx-swap="innerHTML">
-  Sync
-</button>
+<div
+    class="flex flex-row items-center gap-2">
+  <form
+      class="flex-initial"
+      hx-post="{{ url_for('inputs.create') }}"
+      hx-target="#app_body"
+      hx-swap="innerHTML">
+    <label
+
+        class="flex-initial">
+      Code: <input
+        class="flex-initial" type="text" name="code" required>
+    </label>
+    <label
+        class="flex-initial">
+      <input
+          class="flex-initial" type="radio" name="player" value="p1"/>
+      p1
+    </label>
+    <label
+        class="flex-initial">
+      <input
+          class="flex-initial" type="radio" name="player" value="p2"/>
+      p2
+    </label>
+    <button
+        class="flex-initial" type="submit">Submit
+    </button>
+  </form>
+  <button
+      class="flex-initial"
+      hx-post="{{ url_for('displays.sync') }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
+    Sync
+  </button>
+</div>
 <div class="flex flex-row items-center gap-2">
   <div class="flex-initial">Top Score:</div>
   <div id="top_score"
