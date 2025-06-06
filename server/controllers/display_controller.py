@@ -11,9 +11,12 @@ app = current_app
 
 @bp.route("/", methods=["GET"])
 def index():
+  search = request.args.get("search", None)
+  page = request.args.get("page", 0, type=int)
+  size = request.args.get("size", 20, type=int)
   return render_template(
       "partials/displays/_index.html.j2",
-      records=display_service.find_all(),
+      records=display_service.find_all(search, page, size),
   )
 
 

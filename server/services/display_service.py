@@ -2,19 +2,24 @@ from server.db import get_db, close_db
 from server.data.display_view import DisplayView
 
 
-def find_all():
+def find_all(search: str | None = None, page: int = 0, size: int = 20):
   db = get_db()
   cursor = db.cursor()
   cursor.execute(
-      '''
+      f'''
       SELECT d.*,
              m1.url as p1_img_src,
              m2.url as p2_img_src
       FROM display d
                LEFT JOIN media m1 ON d.p1_media_id = m1.id
                LEFT JOIN media m2 ON d.p2_media_id = m2.id
-      ORDER BY d.updated_at DESC;
-      '''
+      {"WHERE (d.p1_name LIKE ? OR d.p2_name LIKE ?)" if search else ""}
+      ORDER BY d.updated_at DESC
+      LIMIT ? OFFSET ?;
+      ''',
+      (*((f"%{search}%", f"%{search}%") if search else ()),
+       *(size + 1, page * size)),
+
   )
   records = cursor.fetchall()
   close_db()  # Close the DB connection after query

@@ -68,7 +68,14 @@ def create_app(test_config=None):
   )
 
   # setup cors
-  CORS(app, resources={r"/*": {"origins": "http://Lifc2025PropsServer.local"}})
+  CORS(
+      app,
+      resources={
+        r"/*": {
+          "origins": f"http://{app.config['SERVER_NAME']}"
+        }
+      }
+  )
 
   with app.app_context():
     # load tasks and start scheduler
