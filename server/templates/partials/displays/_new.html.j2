@@ -1,5 +1,9 @@
 <h1>PAGE: CREATE DISPLAY</h1>
-<form hx-post="/displays" hx-encoding="multipart/form-data">
+<form
+    hx-post="/displays"
+    hx-encoding="multipart/form-data"
+    hx-target="#app"
+    hx-swap="innerHTML">
   <label>Player 1 Name: <input type="text" name="p1_name" required></label><br>
   <label>Player 1 Score: <input type="number" name="p1_score"></label><br>
   <label>Player 1 Image:

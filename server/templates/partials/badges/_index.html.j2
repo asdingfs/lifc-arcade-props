@@ -1,36 +1,37 @@
 {% for record in records %}
   {% if loop.index < size %}
     {% if loop.index < size - 1 %}
-  <tr>
-    {% else %}
-  <tr hx-get='/badges?page={{ page + 1 }}&size={{ size }}{{ "&search=" + enc_search if enc_search else "" }}'
-    hx-trigger="revealed"
-    hx-swap="afterend">
+      <tr>
+        {% else %}
+      <tr hx-get='/badges?page={{ page + 1 }}&size=
+          {{ size }}{{ "&search=" + enc_search if enc_search else "" }}'
+          hx-trigger="revealed"
+          hx-swap="afterend">
     {% endif %}
-    <td>{{ record.pkey }}</td>
-    <td>{{ record.code }}</td>
-    <td>{{ record.name }}</td>
-    <td>
-      {% if record.img_src %}
-        <img
-            src="{{ record.server_img_src() }}"
-            width="64"
-            alt="player badge image">
-      {% endif %}
-    </td>
-    <td>{{ record.created_at }}</td>
-    <td
-        hx-get="{{ url_for('badges.create', pkey=record.pkey) }}"
-        hx-target="#app"
-        hx-swap="innerHTML">
-      Edit
-    </td>
-    <td
-        hx-delete="{{ url_for('badges.create', pkey=record.pkey) }}"
-        hx-target="#app"
-        hx-swap="innerHTML">
-      Delete
-    </td>
+  <td>{{ record.pkey }}</td>
+  <td>{{ record.code }}</td>
+  <td>{{ record.name }}</td>
+  <td>
+    {% if record.img_src %}
+      <img
+          src="{{ record.server_img_src() }}"
+          width="64"
+          alt="player badge image">
+    {% endif %}
+  </td>
+  <td>{{ record.created_at }}</td>
+  <td
+      hx-get="{{ url_for('badges.edit', pkey=record.pkey) }}"
+      hx-target="#app_body"
+      hx-swap="innerHTML">
+    Edit
+  </td>
+  <td
+      hx-delete="{{ url_for('badges.create', pkey=record.pkey) }}"
+      hx-target="#app_body"
+      hx-swap="innerHTML">
+    Delete
+  </td>
   </tr>
   {% endif %}
 {% endfor %}

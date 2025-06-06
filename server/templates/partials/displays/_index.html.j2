@@ -31,7 +31,7 @@
     <td>{{ record.created_at }}</td>
     <td
         hx-get="{{ url_for('displays.edit', pkey=record.pkey) }}"
-        hx-target="#app"
+        hx-target="#app_body"
         hx-swap="innerHTML">
       Edit
     </td>
@@ -45,7 +45,7 @@
     </td>
     <td
         hx-delete="{{ url_for('displays.delete', pkey=record.pkey) }}"
-        hx-target="#app"
+        hx-target="#app_body"
         hx-swap="innerHTML">
       Delete
     </td>

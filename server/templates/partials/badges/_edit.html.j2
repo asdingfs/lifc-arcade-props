@@ -1,0 +1,43 @@
+<h1>PAGE: EDIT PLAYER</h1>
+<form hx-put="{{ url_for('badges.update', pkey=badge.pkey) }}"
+      hx-target="#app"
+      hx-swap="innerHTML"
+      hx-encoding="multipart/form-data">
+  <label>Code:
+    <input type="text" name="code" value="{{ badge.code }}" required>
+  </label><br>
+  <label>Name:
+    <input type="text" name="name" value="{{ badge.name }}" required>
+  </label><br>
+  <label>Image:
+    <input
+        type="file" name="file" accept="image/*"
+        hx-post="/media/upload"
+        hx-trigger="change"
+        hx-target="#media_id"
+        hx-swap="innerHTML"
+        hx-vals='{"inputFile": "file", "outputName": "media_id"}'
+    >
+  </label><br>
+  <div id="media_id">
+    <div
+        type="hidden"
+        hx-get='{{ url_for(
+            "media.show",
+            pkey=badge.media_id,
+            outputName="media_id"
+        ) }}'
+        hx-trigger="load"
+        hx-target="#media_id"
+        hx-swap="innerHTML"
+    ></div>
+  </div>
+  <button type="submit">Update</button>
+  <button
+      hx-get="{{ url_for('index') }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
+    Back to List
+  </button>
+</form>
+

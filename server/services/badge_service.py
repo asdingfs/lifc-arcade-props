@@ -55,17 +55,17 @@ def find_one(pkey):
   cursor = db.cursor()
   cursor.execute(
       '''
-      SELECT b.*
+      SELECT b.*,
+             m.url as img_src
       FROM badge b
+               LEFT JOIN media m ON b.media_id = m.id
       WHERE b.id = ?;
       ''', (pkey,)
   )
   record = cursor.fetchone()
   close_db()  # Close the DB connection after query
-
-  return None \
-    if record is None \
-    else BadgeRecord.from_row(record)  # NOTE: no img_src
+  # NOTE: no img_src
+  return None if record is None else BadgeRecord.from_row(record)
 
 
 def find_one_by_uuid(uuid):
@@ -111,3 +111,21 @@ def create_one(badge):
   db.commit()
   close_db()  # Close the DB connection after query
   return None if created_id is None else find_one(created_id)
+
+
+def update_one(pkey, badge: BadgeRecord):
+  db = get_db()
+  cursor = db.cursor()
+  cursor.execute(
+      '''
+      UPDATE badge
+      SET code     = ?,
+          name     = ?,
+          media_id = ?
+      WHERE id = ?;
+      ''',
+      (badge.code, badge.name, badge.media_id, pkey,)
+  )
+  db.commit()
+  close_db()  # Close the DB connection after query
+  return find_one(pkey)

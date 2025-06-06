@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, current_app, flash, request, \
-  redirect, url_for
+  redirect, url_for, abort
 from server.services import badge_service
 from server.data.badge_record import BadgeRecord
 import urllib.parse
@@ -31,3 +31,29 @@ def create():
   badge_service.create_one(BadgeRecord.from_request(request))
   flash("Entry created successfully!", "success")
   return redirect(url_for("index"), 303)
+
+
+@bp.route("/edit/<int:pkey>", methods=["GET"])
+def edit(pkey):
+  validate_pkey(pkey)
+  return render_template(
+      "partials/badges/_edit.html.j2",
+      badge=badge_service.find_one(pkey)
+  )
+
+
+@bp.route("/<int:pkey>", methods=["PUT"])
+def update(pkey):
+  validate_pkey(pkey)
+  badge_service.update_one(pkey, BadgeRecord.from_request(request))
+  flash("Entry updated successfully!", "success")
+  return redirect(url_for("index"), 303)
+
+
+def validate_pkey(pkey):
+  record = badge_service.find_one(pkey)
+  if record:
+    return record
+  else:
+    flash("Badge not found", "error")
+    abort(404)

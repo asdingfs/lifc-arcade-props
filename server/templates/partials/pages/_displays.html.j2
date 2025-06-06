@@ -1,6 +1,6 @@
 <h1>PAGE: DISPLAYS</h1>
 <button hx-get="{{ url_for('displays.new') }}"
-        hx-target="#app"
+        hx-target="#app_body"
         hx-swap="innerHTML">
   Create New Display
 </button>
@@ -36,7 +36,7 @@
   <button
       class="flex-initial"
       hx-post="{{ url_for('displays.sync') }}"
-      hx-target="#app"
+      hx-target="#app_body"
       hx-swap="innerHTML">
     Sync
   </button>
@@ -53,7 +53,7 @@
   <button
       class="flex-initial"
       hx-delete="{{ url_for('scores.reset') }}"
-      hx-target="#app"
+      hx-target="#app_body"
       hx-swap="innerHTML">
     Reset
   </button>

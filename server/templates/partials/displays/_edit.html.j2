@@ -1,6 +1,8 @@
 <h1>PAGE: EDIT DISPLAY</h1>
 <form hx-put="{{ url_for('displays.update', pkey=display.pkey) }}"
-      hx-encoding="multipart/form-data">
+      hx-encoding="multipart/form-data"
+      hx-target="#app"
+      hx-swap="innerHTML">
   <label>Player 1 Name:
     <input type="text" name="p1_name" value="{{ display.p1_name }}" required>
   </label><br>
