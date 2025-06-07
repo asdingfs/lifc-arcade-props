@@ -1,2 +1,2 @@
 class APSchedulerConfig:
-  SCHEDULER_API_ENABLED = True
+  SCHEDULER_API_ENABLED = False

@@ -8,3 +8,5 @@ Flask-APScheduler>=1.13.1
 gunicorn>=23.0.0
 flask-cors>=6.0.0
 anyascii>=0.3.2
+redis>=6.2.0
+redlock-py>=1.0.8
