@@ -40,16 +40,19 @@ def reset():
 def create():
   uuid = request.form.get("code")
   player = request.form.get("player")
-  p1_or_p2 = (player == "p1")
+  if player is None:
+    return abort(400, "player must be specified")
+  else:
+    p1_or_p2 = (player == "p1")
   return new_input(
       uuid, p1_or_p2,
-      on_success=lambda: redirect(url_for("index", page="displays"), 303)
+      on_success=lambda: redirect(url_for("pages.displays"), 303)
   )
 
 
 def new_input(code: str, p1_or_p2: bool, on_success: Callable[[], Any]):
   badge_record = badge_service.find_one_by_uuid(code)
-  player = "p1" if p1_or_p2 else "p2"
+  player = "p1_id" if p1_or_p2 else "p2_id"
   if badge_record:
     scan_record = scan_service.create_one(badge_record.pkey, p1_or_p2)
     if scan_record:

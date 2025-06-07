@@ -7,9 +7,10 @@ def find_one(pkey: int):
   cursor = db.cursor()
   cursor.execute(
       """
-              SELECT s.* FROM scan s
-              WHERE s.id = ?;
-        """, (pkey,)
+      SELECT s.*
+      FROM scan s
+      WHERE s.id = ?;
+      """, (pkey,)
   )
   record = cursor.fetchone()
   close_db()  # Close the DB connection after query
