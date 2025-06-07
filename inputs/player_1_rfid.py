@@ -12,14 +12,13 @@ import RPi.GPIO as GPIO
 from pn532pi import Pn532, pn532, Pn532Spi
 from rfid_reader import setup, read, log
 from constants import PLAYER_1_RFID_SS_PIN, BUZZER_LEFT_PIN_OUT, \
-  BUZZER_RIGHT_PIN_OUT
 from apis import register_p1
 
 # setup buzzer GPIO
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(BUZZER_LEFT_PIN_OUT, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(BUZZER_RIGHT_PIN_OUT, GPIO.OUT, initial=GPIO.LOW)
 
+# and lock, so that the buzzer sounds will not overlap
 lock = threading.Lock()
 
 # setup logging
@@ -71,9 +70,12 @@ def on_read(uid):
     return False
 
 
-while True:
-  read(
-      nfc, PLAYER_1_RFID_SS_PIN, logger,
-      on_detect=on_detect,
-      on_read=on_read
-  )
+try:
+  while True:
+    read(
+        nfc, PLAYER_1_RFID_SS_PIN, logger,
+        on_detect=on_detect,
+        on_read=on_read
+    )
+finally:
+  GPIO.cleanup()

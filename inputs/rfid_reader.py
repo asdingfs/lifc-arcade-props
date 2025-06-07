@@ -69,8 +69,8 @@ def read(
     log(logger.info, ss_pin, "UID Value: {}".format(binascii.hexlify(uid)))
     hex_str = binascii.hexlify(uid).decode('utf-8')
     on_detect(hex_str)
-    result = on_read(hex_str)  # return UID as a string
     time.sleep(1)
+    result = on_read(hex_str)  # return UID as a string
     return result
   else:
     # pn532 probably timed out waiting for a card
