@@ -5,10 +5,22 @@
 """
 import logging
 import os
+import time
+import asyncio
+import threading
+import RPi.GPIO as GPIO
 from pn532pi import Pn532, pn532, Pn532Spi
 from rfid_reader import setup, read, log
-from constants import PLAYER_1_RFID_SS_PIN
+from constants import PLAYER_1_RFID_SS_PIN, BUZZER_LEFT_PIN_OUT, \
+  BUZZER_RIGHT_PIN_OUT
 from apis import register_p1
+
+# setup buzzer GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(BUZZER_LEFT_PIN_OUT, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(BUZZER_RIGHT_PIN_OUT, GPIO.OUT, initial=GPIO.LOW)
+
+lock = threading.Lock()
 
 # setup logging
 logging.basicConfig(
@@ -27,8 +39,41 @@ if setup(nfc, PLAYER_1_RFID_SS_PIN, logger):
 else:
   log(logger.error, PLAYER_1_RFID_SS_PIN, "setup failed!")
 
+
+async def buzz(pin, up=0.2, down=0.2, times=1):
+  """
+  Buzzes the buzzer connected to the specified pin.
+  """
+  with lock:
+    for _ in range(times):
+      GPIO.output(pin, GPIO.HIGH)
+      time.sleep(up)
+      GPIO.output(pin, GPIO.LOW)
+      time.sleep(down)
+
+
+def on_detect(_):
+  """
+  Callback function to handle detection of a card.
+  This function is called when a card is detected.
+  """
+  asyncio.create_task(buzz(BUZZER_LEFT_PIN_OUT, up=0.1, down=0.1, times=1))
+  return True
+
+
+# define on_read function
+def on_read(uid):
+  if register_p1(uid, logger):
+    asyncio.create_task(buzz(BUZZER_LEFT_PIN_OUT, up=1, down=0.1, times=1))
+    return True
+  else:
+    asyncio.create_task(buzz(BUZZER_LEFT_PIN_OUT, up=0.1, down=0.1, times=3))
+    return False
+
+
 while True:
   read(
       nfc, PLAYER_1_RFID_SS_PIN, logger,
-      on_read=lambda uid: register_p1(uid, logger),
+      on_detect=on_detect,
+      on_read=on_read
   )

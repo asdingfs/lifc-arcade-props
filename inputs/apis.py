@@ -71,6 +71,7 @@ def register_p1(p1_uid: str, logger: Logger) -> bool:
   """
   Register the P1 UID from RFID reader.
   """
+  logger.info("detecting p1 with UID: %s", p1_uid)
   return call_request(
       lambda: requests.post(
           f"{SERVER_URL}/inputs/p1/{p1_uid}",
@@ -85,6 +86,7 @@ def register_p2(p2_uid: str, logger: Logger) -> bool:
   """
   Register the P1 UID from RFID reader.
   """
+  logger.info("detecting p2 with UID: %s", p2_uid)
   return call_request(
       lambda: requests.post(
           f"{SERVER_URL}/inputs/p2/{p2_uid}",
