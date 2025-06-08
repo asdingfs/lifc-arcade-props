@@ -37,6 +37,7 @@ if setup(nfc, PLAYER_2_RFID_SS_PIN, logger):
   log(logger.info, PLAYER_2_RFID_SS_PIN, "setup successfully!")
 else:
   log(logger.error, PLAYER_2_RFID_SS_PIN, "setup failed!")
+  raise RuntimeError("Failed to setup player 2 RFID reader.")
 
 
 async def buzz(pin, up=0.2, down=0.2, times=1):
