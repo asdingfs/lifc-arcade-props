@@ -56,17 +56,17 @@ def on_detect(_):
   Callback function to handle detection of a card.
   This function is called when a card is detected.
   """
-  asyncio.create_task(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.1, times=1))
+  asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.1, times=1))
   return True
 
 
 # define on_read function
 def on_read(uid):
   if register_p2(uid, logger):
-    asyncio.create_task(buzz(BUZZER_RIGHT_PIN_OUT, up=1, down=0.1, times=1))
+    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=1, down=0.1, times=1))
     return True
   else:
-    asyncio.create_task(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.1, times=3))
+    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.1, times=3))
     return False
 
 
