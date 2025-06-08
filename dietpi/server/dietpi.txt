@@ -63,7 +63,7 @@ AUTO_UNMASK_LOGIND=1
 # - Add as many APT package names as you wish, separated by space.
 # - They will be installed after dietpi-software options and before the script defined via AUTO_SETUP_CUSTOM_SCRIPT_EXEC (see below) is executed.
 # - E.g. the following (without the leading "#") will install the APT packages iotop, iptables and xz-utils:
-AUTO_SETUP_APT_INSTALLS=build-essential xvfb libxrender1 libxtst6 libxi6 default-jre xauth python3-venv redis-server
+AUTO_SETUP_APT_INSTALLS=build-essential xvfb libxrender1 libxtst6 libxi6 default-jre xauth python3-venv
 
 # Custom Script (pre-networking and pre-DietPi install)
 # - Allows you to automatically execute a custom script before network is up on first boot.
@@ -136,7 +136,7 @@ AUTO_SETUP_GLOBAL_PASSWORD=Lifc2025ReTr0arCade
 # - Add as many software IDs as you wish, separated by space.
 # - DietPi will automatically install all dependencies, like ALSA/X11 for desktops etc.
 # - E.g. the following (without the leading "#") will install the LXDE desktop, the TigerVNC server and the Kodi media centre automatically on first boot:
-AUTO_SETUP_INSTALL_SOFTWARE_ID=0 17 85 87 130 152
+AUTO_SETUP_INSTALL_SOFTWARE_ID=0 17 85 87 91 130 152
 
 #------------------------------------------------------------------------------------------------------
 ##### Misc DietPi program settings #####
