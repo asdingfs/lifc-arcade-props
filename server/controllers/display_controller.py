@@ -59,7 +59,7 @@ def download(pkey):
 def sync():
   DisplayState().sync()
   flash("All displays synced successfully!", "success")
-  return redirect(url_for("index", page="displays"), 303)
+  return redirect(url_for("pages.display"), 303)
 
 
 @bp.route("/create", methods=["GET"])

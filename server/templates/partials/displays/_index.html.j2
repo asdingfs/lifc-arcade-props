@@ -1,64 +1,79 @@
 {% for record in records %}
   {% if loop.index < size %}
     {% if loop.index < size - 1 %}
-  <tr class="border-b border-[#713481]">
-    {% else %}
-  <tr hx-get='/displays?page={{ page + 1 }}&size={{ size }}{{ "&search=" + enc_search if enc_search else "" }}'
-    hx-trigger="revealed"
-    hx-swap="afterend">
+      <tr class="border-b border-[#713481]">
+        {% else %}
+      <tr hx-get='/displays?page={{ page + 1 }}&size=
+          {{ size }}{{ "&search=" + enc_search if enc_search else "" }}'
+          hx-trigger="revealed"
+          hx-swap="afterend">
     {% endif %}
-    <td class="px-4 py-2 text-left">{{ record.pkey }}</td>
-    <td class="px-4 py-2">{{ record.p1_name }}</td>
-    <td class="px-4 py-2 text-left">{{ record.p1_score }}</td>
-    <td class="px-4 py-2">
-      {% if record.p1_img_src %}
-        <img
-            src="{{ record.p1_img_src }}"
-            width="64"
-            alt="player 1 image">
-      {% endif %}
-    </td>
-    <td class="px-4 py-2">{{ record.p2_name }}</td>
-    <td class="px-4 py-2 text-left">{{ record.p2_score }}</td>
-    <td class="px-4 py-2">
-      {% if record.p2_img_src %}
-        <img
-            src="{{ record.p2_img_src }}"
-            width="64"
-            alt="player 2 image">
-      {% endif %}
-    </td>
-    <td class="px-4 py-2"><span class="text-xs text-[#91A1FF]">{{ record.created_at }}</span></td>
-    <td class="px-4 py-2 text-center"
-        hx-get="{{ url_for('displays.edit', pkey=record.pkey) }}"
-        hx-target="#app_body"
-        hx-swap="innerHTML">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-[#91A1FF] hover:text-[#1CF2FE] inline">
-        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712L8 16.313V20h3.687l8.826-8.826Z" />
+  <td class="px-4 py-2 text-left">{{ record.pkey }}</td>
+  <td class="px-4 py-2">
+    {% if record.p1_img_src %}
+      <img
+          src="{{ record.p1_img_src }}"
+          width="64"
+          alt="player 1 image">
+    {% endif %}
+  </td>
+  <td class="px-4 py-2">{{ record.p1_name }}</td>
+  <td class="px-4 py-2 text-left">{{ record.p1_score }}</td>
+  <td class="px-4 py-2">
+    {% if record.p2_img_src %}
+      <img
+          src="{{ record.p2_img_src }}"
+          width="64"
+          alt="player 2 image">
+    {% endif %}
+  </td>
+  <td class="px-4 py-2">{{ record.p2_name }}</td>
+  <td class="px-4 py-2 text-left">{{ record.p2_score }}</td>
+
+  <td class="px-4 py-2"><span class="text-xs text-[#91A1FF]">{{ record.created_at }}</span></td>
+  <td class="px-4 py-2 text-center"
+      hx-get="{{ url_for('displays.edit', pkey=record.pkey) }}"
+      hx-target="#app_body"
+      hx-swap="innerHTML">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+         class="size-6 text-[#91A1FF] hover:text-[#1CF2FE] inline">
+      <path
+          d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712L8 16.313V20h3.687l8.826-8.826Z"/>
+    </svg>
+  </td>
+  <td class="px-4 py-2 text-center" hx-get="{{ url_for('displays.show', pkey=record.pkey) }}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+         class="size-6 text-[#91A1FF] hover:text-[#1CF2FE] inline">
+      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+      <path fill-rule="evenodd"
+            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.974 0 9.192 3.226 10.678 7.697a11.992 11.992 0 0 1-1.221 3.102 12.04 12.04 0 0 1-.597 1.165.75.75 0 1 0 1.329.746 13.548 13.548 0 0 0 1.221-3.102c1.488-4.471-1.04-9.165-5.606-10.702a11.95 11.95 0 0 0-6.842 0c-4.566 1.537-7.094 6.231-5.606 10.702a11.95 11.95 0 0 0 1.221 3.102 13.54 13.54 0 0 0 1.33-.746.75.75 0 0 0-.598-1.165 12.038 12.038 0 0 1-.597-1.165ZM15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+            clip-rule="evenodd"/>
+    </svg>
+  </td>
+  <td class="px-4 py-2 text-center">
+    <a href="{{ url_for('displays.download', pkey=record.pkey) }}" download>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+           class="size-6 text-[#91A1FF] hover:text-[#1CF2FE] inline">
+        <path fill-rule="evenodd"
+              d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-2.25a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3v-2.25a.75.75 0 0 1 .75-.75Z"
+              clip-rule="evenodd"/>
       </svg>
-    </td>
-    <td class="px-4 py-2 text-center" hx-get="{{ url_for('displays.show', pkey=record.pkey) }}">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-[#91A1FF] hover:text-[#1CF2FE] inline">
-        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.974 0 9.192 3.226 10.678 7.697a11.992 11.992 0 0 1-1.221 3.102 12.04 12.04 0 0 1-.597 1.165.75.75 0 1 0 1.329.746 13.548 13.548 0 0 0 1.221-3.102c1.488-4.471-1.04-9.165-5.606-10.702a11.95 11.95 0 0 0-6.842 0c-4.566 1.537-7.094 6.231-5.606 10.702a11.95 11.95 0 0 0 1.221 3.102 13.54 13.54 0 0 0 1.33-.746.75.75 0 0 0-.598-1.165 12.038 12.038 0 0 1-.597-1.165ZM15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
-      </svg>
-    </td>
-    <td class="px-4 py-2 text-center">
-      <a href="{{ url_for('displays.download', pkey=record.pkey) }}" download>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-[#91A1FF] hover:text-[#1CF2FE] inline">
-          <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-2.25a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3v-2.25a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
-        </svg>
-      </a>
-    </td>
-    <td class="px-4 py-2 text-center"
-        hx-delete="{{ url_for('displays.delete', pkey=record.pkey) }}"
-        hx-target="#app"
-        hx-swap="innerHTML">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-[#F215FF] hover:text-[#91A1FF] inline">
-        <path fill-rule="evenodd" d="M16.5 4.478v.227a48.842 48.842 0 0 1 3.865.5l.282.082c1.4.41 1.4 2.37 0 2.78l-.174.05Z" clip-rule="evenodd" />
-        <path fill-rule="evenodd" d="M13.375 1.5c-.404 0-.808.078-1.207.239L4.5 5.05a3 3 0 0 0-1.892 2.77L2.25 17.577A4.5 4.5 0 0 0 6.75 22.075h10.5a4.5 4.5 0 0 0 4.5-4.5l-.158-9.754a3 3 0 0 0-1.892-2.77l-7.668-3.31c-.398-.161-.802-.239-1.207-.239Zm.306 6.016a.75.75 0 1 0-1.06-1.06L9 9.44l-1.72-1.72a.75.75 0 0 0-1.06 1.06L7.94 10.5l-1.72 1.72a.75.75 0 1 0 1.06 1.06L9 11.56l1.72 1.72a.75.75 0 1 0 1.06-1.06L10.06 10.5l1.72-1.72Z" clip-rule="evenodd" />
-      </svg>
-    </td>
+    </a>
+  </td>
+  <td class="px-4 py-2 text-center"
+      hx-delete="{{ url_for('displays.delete', pkey=record.pkey) }}"
+      hx-target="#app"
+      hx-swap="innerHTML">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+         class="size-6 text-[#F215FF] hover:text-[#91A1FF] inline">
+      <path fill-rule="evenodd"
+            d="M16.5 4.478v.227a48.842 48.842 0 0 1 3.865.5l.282.082c1.4.41 1.4 2.37 0 2.78l-.174.05Z"
+            clip-rule="evenodd"/>
+      <path fill-rule="evenodd"
+            d="M13.375 1.5c-.404 0-.808.078-1.207.239L4.5 5.05a3 3 0 0 0-1.892 2.77L2.25 17.577A4.5 4.5 0 0 0 6.75 22.075h10.5a4.5 4.5 0 0 0 4.5-4.5l-.158-9.754a3 3 0 0 0-1.892-2.77l-7.668-3.31c-.398-.161-.802-.239-1.207-.239Zm.306 6.016a.75.75 0 1 0-1.06-1.06L9 9.44l-1.72-1.72a.75.75 0 0 0-1.06 1.06L7.94 10.5l-1.72 1.72a.75.75 0 1 0 1.06 1.06L9 11.56l1.72 1.72a.75.75 0 1 0 1.06-1.06L10.06 10.5l1.72-1.72Z"
+            clip-rule="evenodd"/>
+    </svg>
+  </td>
   </tr>
   {% endif %}
 {% endfor %}
