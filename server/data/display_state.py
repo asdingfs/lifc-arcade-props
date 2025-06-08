@@ -45,7 +45,10 @@ class DisplayState:
   _lock = threading.Lock()
 
   def __new__(cls):
-    cls.log_with_pid("DisplayState instance requested (__new__)...", True)
+    cls.log_with_pid(
+        "DisplayState instance requested (__new__)...",
+        True
+    )
     if cls._instance is None:
       with cls._lock:
         # Another thread could have created the instance
@@ -58,16 +61,25 @@ class DisplayState:
 
   def init_state(self):
     """Initialize the display state from Redis or set to default."""
-    self.log_with_pid("Setting defaults for DisplayState (init_state)...")
+    self.log_with_pid(
+        "Setting defaults for DisplayState (init_state)...",
+        True
+    )
     self._redis.set_json_dict(self._redis_key, get_default())
 
   def get(self):
     """Get the current display state from Redis."""
-    self.log_with_pid("Getting DisplayState from redis (get)...")
+    self.log_with_pid(
+        "Getting DisplayState from redis (get)...",
+        True
+    )
     return self._redis.get_json_dict(self._redis_key)
 
   def set_player(self, new_record: ScanRecord | None, key: str):
-    self.log_with_pid("Setting player to DisplayState (set_player)...")
+    self.log_with_pid(
+        "Setting player to DisplayState (set_player)...",
+        True
+    )
     state = self.get()
     old_id = state.get(key, None)
     old_record = badge_service.find_one(old_id) if old_id else None
@@ -82,7 +94,10 @@ class DisplayState:
         return state
 
   def set_display(self, new_display: DisplayView | None):
-    self.log_with_pid("Setting a new display_id to show (set_display)...")
+    self.log_with_pid(
+        "Setting a new display_id to show (set_display)...",
+        True
+    )
     state = self.get()
     with self._lock:
       old_display_id = state.get("display_id", None)
@@ -164,7 +179,10 @@ class DisplayState:
 
   def sync(self):
     """Synchronize the display state with the current configuration."""
-    self.log_with_pid("Synchronizing display state (sync)...")
+    self.log_with_pid(
+        "Synchronizing display state (sync)...",
+        True
+    )
     state = self.get()  # to avoid mutilations by other processes
     changed_players = state.get("changed_players", None)
     changed_display = state.get("changed_display", None)
