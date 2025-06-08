@@ -89,8 +89,9 @@ def find_random_defaults(n: int = 1):
   if n < 1 or n > len(DEFAULT_CODES):
     raise ValueError(f"n must be between 1 and {len(DEFAULT_CODES)}")
   defaults = random.sample(DEFAULT_CODES, n)
-  random.shuffle(defaults)  # Shuffle to ensure randomness
-  return find_by_codes(defaults)
+  results = find_by_codes(defaults)
+  random.shuffle(results)  # Shuffle to ensure randomness
+  return results
 
 
 def create_one(badge):
