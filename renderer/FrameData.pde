@@ -28,7 +28,7 @@ class FrameData {
   static final private int h2FontSizePx = 32;
   static final private int h3FontSizePx = 16;
   //colours
-  final private color arcadeBackground = color(11, 11, 53);
+  final private color arcadeBackground = color(0, 0, 0);
   final private color arcadeWhite = color(255, 228, 250);
   final private color arcadeRed = color(229, 35, 53);
   final private color arcadeCyan = color(93, 235, 255);
