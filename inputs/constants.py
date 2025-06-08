@@ -1,7 +1,7 @@
 # request constants
-SERVER_URL = "http://192.168.50.100:5000"
+SERVER_URL = "http://Lifc2025PropsServer.local"
 CONNECT_TIMEOUT = 1
-READ_TIMEOUT = 1
+READ_TIMEOUT = 4
 # button constants
 START_BUTTON_PIN_IN = 16
 START_LED_PIN_OUT = 18
