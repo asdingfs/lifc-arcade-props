@@ -1,5 +1,5 @@
 from logging import Logger
-from typing import Any, Callable
+from typing import Callable
 import requests
 from requests import Response
 from constants import SERVER_URL, CONNECT_TIMEOUT, READ_TIMEOUT
