@@ -37,12 +37,14 @@ CREATE TABLE display
 CREATE TABLE badge
 (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
-    code       VARCHAR(36) NOT NULL UNIQUE,
+    code       VARCHAR(36) NOT NULL,
     name       VARCHAR(50) NOT NULL,
     media_id   INTEGER     REFERENCES media (id) ON DELETE SET NULL,
     -- timestamps
     created_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    -- indexes
+    UNIQUE (code COLLATE NOCASE) -- case-insensitive unique constraint
 );
 
 

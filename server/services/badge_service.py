@@ -68,7 +68,7 @@ def find_one(pkey):
   return None if record is None else BadgeRecord.from_row(record)
 
 
-def find_one_by_uuid(uuid):
+def find_one_by_code(code):
   db = get_db()
   cursor = db.cursor()
   cursor.execute(
@@ -78,7 +78,7 @@ def find_one_by_uuid(uuid):
       FROM badge b
                LEFT JOIN media m ON b.media_id = m.id
       WHERE b.code = ?;
-      ''', (uuid,)
+      ''', (code,)
   )
   record = cursor.fetchone()
   close_db()  # Close the DB connection after query
@@ -103,7 +103,7 @@ def create_one(badge):
       VALUES (?, ?, ?);
       ''',
       (
-        badge.code,
+        badge.code.upper(),
         badge.name,
         badge.media_id,
       )
@@ -125,11 +125,12 @@ def update_one(pkey, badge: BadgeRecord):
           media_id = ?
       WHERE id = ?;
       ''',
-      (badge.code, badge.name, badge.media_id, pkey,)
+      (badge.code.upper(), badge.name, badge.media_id, pkey,)
   )
   db.commit()
   close_db()  # Close the DB connection after query
   return find_one(pkey)
+
 
 def delete_one(pkey):
   db = get_db()

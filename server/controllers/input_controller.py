@@ -51,7 +51,7 @@ def create():
 
 
 def new_input(code: str, p1_or_p2: bool, on_success: Callable[[], Any]):
-  badge_record = badge_service.find_one_by_uuid(code)
+  badge_record = badge_service.find_one_by_code(code)
   player = "p1_id" if p1_or_p2 else "p2_id"
   if badge_record:
     scan_record = scan_service.create_one(badge_record.pkey, p1_or_p2)
