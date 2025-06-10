@@ -2,10 +2,11 @@ from server.utils import uploaded_file_fullpath
 from server.db import get_db, close_db
 from server.data.media_record import MediaRecord
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 from uuid import uuid4
 
 
-def create_one(media):
+def create_one(media: FileStorage) -> MediaRecord | None:
   db = get_db()
   cursor = db.cursor()
   filename = secure_filename(str(uuid4()) + '-' + media.filename)

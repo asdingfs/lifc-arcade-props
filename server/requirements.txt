@@ -9,3 +9,4 @@ gunicorn>=23.0.0
 flask-cors>=6.0.0
 anyascii>=0.3.2
 redis>=6.2.0
+pandas[excel]>=2.3.0
