@@ -1,10 +1,3 @@
-# --> to copy to /etc/systemd/system:
-# ln -sfn /home/server/lifc-arcade-props/dietpi/server/config/pixel_pusher_server.service /etc/systemd/system/
-# sudo systemctl start pixel_pusher_server
-# sudo systemctl enable pixel_pusher_server
-# --> to check:
-# sudo systemctl status pixel_pusher_server
-
 [Unit]
 Description=Pixel Pusher server to push pixels to led panels
 Wants=gunicorn_server.service
