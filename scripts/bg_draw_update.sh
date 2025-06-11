@@ -5,6 +5,7 @@ SCRIPT=$(realpath "$0")
 SCRIPT_PATH=$(dirname "$SCRIPT")
 PROCESSING_PATH=$(realpath "$SCRIPT_PATH/../../processing-4.3.4/processing-java")
 RENDERER_PATH=$(realpath "$SCRIPT_PATH/../renderer")
+EXECUTABLE_PATH=$(realpath "$RENDERER_PATH/linux-aarch64/renderer")
 
 # define lockfile arguments
 LOCKFILE="/tmp/lifc-arcade-props.lock"
@@ -35,5 +36,6 @@ fi
 
 # replace currently running drawing process
 rm -f "$LOCKFILE"
-xvfb-run "$PROCESSING_PATH" --sketch="$RENDERER_PATH" --run "$@" & MY_PID=$!
+# generate preview file and save it to
+xvfb-run "$EXECUTABLE_PATH" "$@" & MY_PID=$!
 echo "$MY_PID" > "$LOCKFILE"
