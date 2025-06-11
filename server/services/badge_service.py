@@ -3,9 +3,9 @@ from server.data.badge_record import BadgeRecord
 import random
 
 DEFAULT_CODES = [
-  "default_1",
-  "default_2",
-  "default_3",
+  "DEFAULT_1",
+  "DEFAULT_2",
+  "DEFAULT_3",
 ]
 
 
@@ -42,8 +42,8 @@ def find_by_codes(codes: list[str]):
           m.url as img_src
         FROM badge b
         LEFT JOIN media m ON b.media_id = m.id
-        WHERE b.code IN ({placeholders});
-      ''', tuple(codes)
+        WHERE UPPER(b.code) IN ({placeholders});
+      ''', tuple([x.upper() for x in codes])
   )
   records = cursor.fetchall()
   close_db()  # Close the DB connection after query
@@ -77,8 +77,8 @@ def find_one_by_code(code):
              m.url as img_src
       FROM badge b
                LEFT JOIN media m ON b.media_id = m.id
-      WHERE b.code = ?;
-      ''', (code,)
+      WHERE UPPER(b.code) = ?;
+      ''', (code.upper(),)
   )
   record = cursor.fetchone()
   close_db()  # Close the DB connection after query

@@ -97,11 +97,11 @@ END;
 
 -- seed some sample data
 INSERT INTO media (id, url, sample)
-VALUES (1, 'default_1.jpg', TRUE),
-       (2, 'default_2.jpg', TRUE),
-       (3, 'default_3.jpg', TRUE);
+VALUES (1, 'DEFAULT_OTTER.jpg', TRUE),
+       (2, 'DEFAULT_CAT.jpg', TRUE),
+       (3, 'DEFAULT_DOG.jpg', TRUE);
 
 INSERT INTO badge (id, code, name, media_id)
-VALUES (1, 'default_1', 'Skaev', 1),
-       (2, 'default_2', 'Klyx', 2),
-       (3, 'default_3', 'TyLo', 3);
+VALUES (1, 'DEFAULT_1', 'Arthur', 1),
+       (2, 'DEFAULT_2', 'Cathy', 2),
+       (3, 'DEFAULT_3', 'Dobby', 3);
