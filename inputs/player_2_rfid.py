@@ -16,7 +16,7 @@ from apis import register_p2
 
 # setup buzzer GPIO
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(BUZZER_LEFT_PIN_OUT, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(BUZZER_LEFT_PIN_OUT, GPIO.OUT, initial=GPIO.HIGH)
 
 # and lock, so that the buzzer sounds will not overlap
 lock = threading.Lock()
@@ -46,9 +46,9 @@ async def buzz(pin, up=0.2, down=0.2, times=1):
   """
   with lock:
     for _ in range(times):
-      GPIO.output(pin, GPIO.HIGH)
-      time.sleep(up)
       GPIO.output(pin, GPIO.LOW)
+      time.sleep(up)
+      GPIO.output(pin, GPIO.HIGH)
       time.sleep(down)
 
 
