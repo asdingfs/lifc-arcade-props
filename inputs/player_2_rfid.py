@@ -11,12 +11,12 @@ import threading
 import RPi.GPIO as GPIO
 from pn532pi import Pn532, pn532, Pn532Spi
 from rfid_reader import setup, read, log
-from constants import PLAYER_2_RFID_SS_PIN, BUZZER_RIGHT_PIN_OUT
+from constants import PLAYER_2_RFID_SS_PIN, BUZZER_LEFT_PIN_OUT
 from apis import register_p2
 
 # setup buzzer GPIO
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(BUZZER_RIGHT_PIN_OUT, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(BUZZER_LEFT_PIN_OUT, GPIO.OUT, initial=GPIO.LOW)
 
 # and lock, so that the buzzer sounds will not overlap
 lock = threading.Lock()
@@ -57,17 +57,17 @@ def on_detect(_):
   Callback function to handle detection of a card.
   This function is called when a card is detected.
   """
-  asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.1, times=1))
+  asyncio.run(buzz(BUZZER_LEFT_PIN_OUT, up=0.1, down=0.1, times=1))
   return True
 
 
 # define on_read function
 def on_read(uid):
   if register_p2(uid, logger):
-    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=1, down=0.1, times=1))
+    asyncio.run(buzz(BUZZER_LEFT_PIN_OUT, up=1, down=0.1, times=1))
     return True
   else:
-    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.1, times=3))
+    asyncio.run(buzz(BUZZER_LEFT_PIN_OUT, up=0.1, down=0.1, times=3))
     return False
 
 
