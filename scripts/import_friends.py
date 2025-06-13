@@ -14,14 +14,8 @@ SERVER_APP_ROOT = os.path.join(
     os.path.abspath(os.path.dirname(__file__)), '..',
 )
 UPLOAD_FOLDER = os.path.join(SERVER_APP_ROOT, 'server', 'static', 'uploads')
-BADGE_NUMBER_COLUMN = 'Badge Number'
-BADGE_NAME_COLUMN = 'Badge Name'
-AVATAR_URL_COLUMN = 'Avatar'
-BADGE_RFID_UID_COLUMN = 'UID'
-
-# setting path
-sys.path.append(f'{SERVER_APP_ROOT}/server/data')
-sys.path.append(f'{SERVER_APP_ROOT}/server/services')
+ID_COLUMN = 'id'
+NAME_COLUMN = 'name'
 
 
 def find_unique_file_with_prefix(directory, prefix) -> str | None:
@@ -70,20 +64,19 @@ def create_one_media(cursor: Cursor, file: BinaryIO, ) -> int | None:
   return int(record["id"]) if record else None
 
 
-def create_one_badge(
+def update_one_badge(
     cursor: Cursor,
-    code: str, name: str, media_id: int | None
+    id: int, name: str, media_id: int | None
 ) -> int | None:
   cursor.execute(
       '''
-      INSERT INTO badge (code, name, media_id)
-      VALUES (?, ?, ?);
+      UPDATE badge
+      SET name     = ?,
+          media_id = ?
+      WHERE id = ?
+      RETURNING *;
       ''',
-      (
-        code.upper(),
-        name,
-        media_id,
-      )
+      (name, media_id, id,)
   )
   record = cursor.fetchone()
   conn.commit()
@@ -91,10 +84,9 @@ def create_one_badge(
 
 
 df = pd.read_excel(
-    os.path.join(SERVER_APP_ROOT, 'instance', 'conbadge.xlsx'),
+    os.path.join(SERVER_APP_ROOT, 'instance', 'friends', 'friends.xlsx'),
     dtype={
-      BADGE_NUMBER_COLUMN: int, BADGE_NAME_COLUMN: str,
-      AVATAR_URL_COLUMN: str, BADGE_RFID_UID_COLUMN: str
+      ID_COLUMN: int, NAME_COLUMN: str,
     }
 )
 
@@ -107,16 +99,12 @@ count_valid_avatars = 0
 count_all_avatars = 0
 
 for i, row in df.iterrows():
-  badge_number = row[BADGE_NUMBER_COLUMN]
-  badge_name = anyascii.anyascii(row[BADGE_NAME_COLUMN]).upper()
-  badge_rfid_uid = row[BADGE_RFID_UID_COLUMN].upper()
-  badge_avatar_url = row[AVATAR_URL_COLUMN]
-  badge_avatar_url = '' if pd.isna(
-      badge_avatar_url
-  ) else badge_avatar_url.strip()
+  id = row[ID_COLUMN]
+  name = anyascii.anyascii(row[NAME_COLUMN]).upper()
+  badge_avatar_url = format_number(id)
   filepath = find_unique_file_with_prefix(
-      "../instance/images/avatars/",
-      f"{format_number(badge_number)} - "
+      "../instance/friends/",
+      f"{format_number(id)}"
   )
 
   # upload avatar is available, otherwise set media to None
@@ -125,26 +113,26 @@ for i, row in df.iterrows():
   if filepath is None:
     if badge_avatar_url:
       print(
-          f"WARNING: [B#{format_number(badge_number)}] "
+          f"WARNING: [ID#{format_number(id)}] "
           f"No file found for badge number even though URL in Excel exists!"
       )
       count_missing_avatars += 1
     else:
       print(
-          f"[B#{format_number(badge_number)}] "
-          f"{badge_name} has no avatar"
+          f"[ID#{format_number(id)}] "
+          f"{name} has no avatar"
       )
       count_no_avatars += 1
   else:
     print(
-        f"[B#{format_number(badge_number)}] "
-        f"{badge_name} has avatar at {filepath}"
+        f"[ID#{format_number(id)}] "
+        f"{name} has avatar at {filepath}"
     )
     media_id = create_one_media(cur, open(filepath, 'rb'))
     count_valid_avatars += 1
 
   # create badge record
-  create_one_badge(cur, badge_rfid_uid, badge_name, media_id)
+  update_one_badge(cur, id, name, media_id)
 
 close_db(conn)
 print(

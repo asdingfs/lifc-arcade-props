@@ -1,6 +1,6 @@
 {% for record in records %}
-  {% if loop.index < size %}
-    {% if loop.index < size - 1 %}
+  {% if loop.index < size + 1 %}
+    {% if loop.index < size %}
       <tr class="border-b border-[#713481]">
         {% else %}
       <tr hx-get='/displays?page={{ page + 1 }}&size=

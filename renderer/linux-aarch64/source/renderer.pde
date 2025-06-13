@@ -140,26 +140,26 @@ void renderFrameData(FrameData dt) {
   // render title row
   textFont(h1Font);
   fill(255);
-  renderStringRow("LIFC 2025: RETRO ARCADE", dt.widthCenter, 60, dt.arcadeMagenta);
+  renderStringRow("LIFC 2025: RETRO ARCADE", dt.widthCenter, 50, dt.arcadeMagenta);
 
   // render top score row
   int centerX = dt.widthCenter;
   fill(dt.arcadeRed);
-  rect(centerX, 106, 128, 40, 32);
+  rect(centerX, 86, 128, 40, 32);
   textFont(h2Font);
-  renderStringRow("TOP", centerX, 120, color(255));
-  renderStringRow(padZeros(dt.topScore, 7), centerX, 160, dt.arcadeWhite);
+  renderStringRow("TOP", centerX, 100, color(255));
+  renderStringRow(padZeros(dt.topScore, 7), centerX, 140, dt.arcadeWhite);
 
   // render p1 & p2 player score rows
   int middleOffsetX = -4;
-  int leftX = centerX - (FrameData.ledPanelWidth + middleOffsetX) * FrameData.imgDpSize;
-  int rightX = centerX + (FrameData.ledPanelWidth + middleOffsetX) * FrameData.imgDpSize;
+  int leftX = centerX - (FrameData.ledPanelWidth + middleOffsetX) * FrameData.imgDpSize + 40;
+  int rightX = centerX + (FrameData.ledPanelWidth + middleOffsetX) * FrameData.imgDpSize - 40;
   renderStringRow("1UP", leftX, 160, dt.arcadeCyan);
   renderStringRow(padZeros(dt.p1Score, 7), leftX, 200, dt.arcadeWhite);
-  renderStringRow(dt.p1Name.substring(0, Math.min(dt.p1Name.length(), 8)), leftX, 240, dt.arcadeOrange);
+  renderStringRow(dt.p1Name.substring(0, Math.min(dt.p1Name.length(), 10)), leftX, 240, dt.arcadeOrange);
   renderStringRow("2UP", rightX, 160, dt.arcadeCyan);
   renderStringRow(padZeros(dt.p2Score, 7), rightX, 200, dt.arcadeWhite);
-  renderStringRow(dt.p2Name.substring(0, Math.min(dt.p2Name.length(), 8)), rightX, 240, dt.arcadeOrange);
+  renderStringRow(dt.p2Name.substring(0, Math.min(dt.p2Name.length(), 10)), rightX, 240, dt.arcadeOrange);
 }
 
 // this method will output attempt to estimate what would it look like on the actual display

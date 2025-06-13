@@ -1,6 +1,6 @@
 {% for record in records %}
-  {% if loop.index < size %}
-    {% if loop.index < size - 1 %}
+  {% if loop.index < size + 1 %}
+    {% if loop.index < size %}
       <tr class="border-b border-[#713481]">
         {% else %}
       <tr hx-get='/badges?page={{ page + 1 }}&size=
@@ -8,7 +8,7 @@
           hx-trigger="revealed"
           hx-swap="afterend">
     {% endif %}
-  <td class="px-4 py-2">{{ record.pkey }}</td>
+
   <td class="px-4 py-2">
     {% if record.img_src %}
       <img
@@ -17,6 +17,7 @@
           alt="player badge image">
     {% endif %}
   </td>
+  <td class="px-4 py-2">{{ record.pkey }}</td>
   <td class="px-4 py-2">{{ record.name }}</td>
   <td class="px-4 py-2">{{ record.code }}</td>
   <td class="px-4 py-2"><span class="text-xs text-[#91A1FF]">{{ record.created_at }}</span></td>

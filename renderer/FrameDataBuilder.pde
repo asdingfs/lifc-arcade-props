@@ -47,7 +47,7 @@ class FrameDataBuilder {
   }
 
   String formatArcadeStr(String name) {
-    int maxLength = 8;
+    int maxLength = 10;
     return name.trim().toUpperCase().substring(0, Math.min(name.length(), maxLength));
   }
 
