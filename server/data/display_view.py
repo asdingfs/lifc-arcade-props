@@ -42,11 +42,11 @@ class DisplayView:
   # this is to construct arguments located in /scripts/bg_draw_update.sh
   def to_cli_args(self):
     return [
-      f"--p1Name={self.p1_name}",
-      f"--p1ImgSrc={self.p1_img_path}",
+      f"--p1Name={self.p1_name.strip()}",
+      f"--p1ImgSrc={self.p1_img_path.strip()}",
       f"--p1Score={self.p1_score}",
-      f"--p2Name={self.p2_name}",
-      f"--p2ImgSrc={self.p2_img_path}",
+      f"--p2Name={self.p2_name.strip()}",
+      f"--p2ImgSrc={self.p2_img_path.strip()}",
       f"--p2Score={self.p2_score}",
       f"--topScore={self.top_score}"
     ]
