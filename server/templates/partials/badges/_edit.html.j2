@@ -42,6 +42,7 @@
       >
     </label>
     <div id="media_id" class="mt-4">
+      {% if badge.media_id %}
       <div
           hx-get='{{ url_for(
               "media.show",
@@ -53,6 +54,7 @@
           hx-swap="innerHTML"
       ></div>
     </div>
+    {% endif %}
   </div>
   <div class="flex gap-4 mt-8">
     <button
