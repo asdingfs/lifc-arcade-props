@@ -64,10 +64,10 @@ def on_detect(_):
 # define on_read function
 def on_read(uid):
   if register_p1(uid, logger):
-    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=1, down=0.1, times=1))
+    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.05, times=2))
     return True
   else:
-    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=0.1, down=0.1, times=3))
+    asyncio.run(buzz(BUZZER_RIGHT_PIN_OUT, up=1, down=0.1, times=1))
     return False
 
 
