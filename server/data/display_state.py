@@ -161,7 +161,7 @@ class DisplayState:
         changed = True
         state["p1_id"] = None
       if p2_scan_record and (p2_scan_record.is_inactive() or force):
-        p1_scan_record.is_inactive() and self.log_with_pid(
+        p2_scan_record.is_inactive() and self.log_with_pid(
             "p2_scan_record is inactive, nullify state..."
         )
         changed = True
